@@ -1,0 +1,25 @@
+@import '../../styles/variables'
+
+.main_container
+  padding: 0
+  margin: 0
+  display: flex
+  flex-direction: row
+
+  .item
+    margin: 0 2.5px
+    padding: 0
+    width: fit-content
+    text-decoration: none
+    color: $breadcrumb-item-color
+
+    &.root
+      color: $breadcrumb-root-item-color
+      font-weight: bold
+
+    &:last-child
+      text-decoration: underline
+      font-style: italic
+
+  .separator 
+    white-space: pre-wrap
