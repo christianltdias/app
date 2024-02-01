@@ -1,8 +1,9 @@
-import { ReactNode, useEffect, useRef, useState } from "react";
-import DragItem, { DragItemProps } from "./item/dragitem";
+import { ReactNode, useEffect, useRef } from "react";
+import DragItem from "./item/dragitem";
 import styles from "./dragcontainer.module.sass";
 import { concatStyles } from "../../../utils/styles.utils";
-import { convertToMatrix } from "./drag.utils";
+import { useAppDispatch, useAppSelector } from "../../../states/hooks";
+import { setActiveCell, setItems } from "../../../states/slices/components/drag/drag.slice";
 
 type DragContainerProps = {
   items: ReactNode[];
@@ -11,31 +12,20 @@ type DragContainerProps = {
 
 export default function DragContainer({ items, count }: DragContainerProps) {
   const matrixRef = useRef(null);
-  const maxcount = count ? count : items.length;
-  const matrix = convertToMatrix<ReactNode>(items, maxcount);
   
-  const [containeritems, setItems] = useState<Array<Array<DragItemProps>>>(matrix);
-  const [draggingItem, setDraggingItem] = useState("");
-  const [hoveredCell, setHoveredCell] = useState("");
+  const dispatch = useAppDispatch();
+  const hoveredCell = useAppSelector(state => state.drag.activeCell)
+  const dragging = useAppSelector(state => state.drag.dragging)
+
+  var containeritems =  useAppSelector(state => state.drag.items)
+  
+  useEffect(() => {
+    dispatch(setItems({items, count}))
+  }, [items, count])
 
   const handleCellHover = (row: number, column: number) => {
-    if(draggingItem !== '' && (hoveredCell !== `${row}-${column}`)) {
-      setHoveredCell(`${row}-${column}`)
-      sessionStorage.setItem("hoverkey", `${row}-${column}`);
-    }
-  }
-
-  const handleButtonDown = (row: number, column: number) => {
-    var value = sessionStorage.getItem("hoverkey")
-    if(value !== `${row}-${column}`) {
-      const indexes = value.split('-');
-      if(indexes.length === 2){
-        const temp = containeritems[indexes[0]][indexes[1]]
-        containeritems[indexes[0]][indexes[1]] = containeritems[row][column]
-        containeritems[row][column] = temp
-        setItems(containeritems)
-        setHoveredCell('');
-      }
+    if(dragging && (hoveredCell.row !== row || hoveredCell.column !== column)) {
+      dispatch(setActiveCell({row, column}))
     }
   }
 
@@ -47,15 +37,15 @@ export default function DragContainer({ items, count }: DragContainerProps) {
             {row.map((column, j) => {
               return (
                 <div
-                  className={concatStyles(styles["container-column"], hoveredCell === `${i}-${j}` ? styles['hovered'] : '')}
+                  className={concatStyles(
+                    styles["container-column"],
+                    hoveredCell && (hoveredCell.row ===  i && hoveredCell.column === j) ? styles['hovered'] : '')}
                   key={`drag-row-${i}-col-${j}`}
                   onMouseMove={() => handleCellHover(i, j)}
                 >
                   <DragItem
                     row={i}
                     column={j}
-                    setItemId={setDraggingItem}
-                    onApply={handleButtonDown}
                     ref={matrixRef}
                   >
                     {column.children}

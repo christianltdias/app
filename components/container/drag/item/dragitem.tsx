@@ -1,14 +1,14 @@
-import { Dispatch, MutableRefObject, ReactNode, SetStateAction, forwardRef, useEffect, useRef, useState } from "react";
+import { MutableRefObject, ReactNode, forwardRef, useEffect, useRef, useState } from "react";
 import styles from "./dragitem.module.sass";
 import { concatStyles } from "../../../../utils/styles.utils";
 import { calculateInitialPosition, calculatePosition } from "../drag.utils";
+import { useAppDispatch, useAppSelector } from "../../../../states/hooks";
+import { applyMovement, setActiveItem } from "../../../../states/slices/components/drag/drag.slice";
 
 export type DragItemProps = {
   children: ReactNode;
   row: number;
   column: number;
-  setItemId: Dispatch<SetStateAction<string>>;
-  onApply: (row: number, column: number) => void;
 };
 
 export type Position = {
@@ -19,41 +19,37 @@ export type Position = {
 const DragItem = forwardRef(({
   children,
   row,
-  column,
-  setItemId,
-  onApply
+  column
 }: DragItemProps, parentRef: MutableRefObject<any>) => {
   const itemRef = useRef(null);
-
   
   useEffect(() => {
     const initialPos = calculateInitialPosition(itemRef, parentRef)
     setInitialPosition(initialPos);
     setPosition(initialPos);
   }, [itemRef.current, parentRef.current]);
+
   
-  const [dragging, setDragging] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
+  const activeItem = useAppSelector(state => state.drag.activeItem)
+  
   const [position, setPosition] = useState<Position>({left: 0, top: 0});
   const [initialPosition, setInitialPosition] = useState<Position>({left: 0, top: 0});
 
   const handleMove = (e: React.MouseEvent<HTMLDivElement>  | MouseEvent) => {
-    if(!dragging){
-      setDragging(true)
-    }
     setPosition(calculatePosition(e, itemRef, parentRef));
   };
 
   const handleEnd = () => {
-    setItemId("");
-    onApply(row, column)
-    setDragging(false)
+    dispatch(applyMovement())
     setPosition(initialPosition)
   };
 
   const mousedown = () => {
-    setItemId(`${row}-${column}`)
+    dispatch(setActiveItem({row, column}))
 
     document.addEventListener('mousemove', handleMove, true);
+
     document.addEventListener('mouseup', function () {
       document.removeEventListener('mousemove', handleMove, true);
       handleEnd();
@@ -69,7 +65,7 @@ const DragItem = forwardRef(({
       >
         {children}
       </div>
-      {dragging && 
+      {(activeItem && activeItem.row === row && activeItem.column === column) && 
         <div
           className={concatStyles(styles.container, styles.dragging)}
           style={{ top: position.top, left: position.left }}

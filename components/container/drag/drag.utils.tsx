@@ -69,21 +69,21 @@ export function calculatePosition(
 
 function fixBoundary(position: Position, item: {width: number, height: number}, parent: {width: number, height: number}){
   const fixedPosition = position;
-  if(position.left < 0) {
-    fixedPosition.left = 0;  
-  }
+  // if(position.left < 0) {
+  //   fixedPosition.left = 0;  
+  // }
 
-  if(position.top < 0) {
-    fixedPosition.top = 0;  
-  }
+  // if(position.top < 0) {
+  //   fixedPosition.top = 0;  
+  // }
 
-  if(position.left > parent.width - item.width){
-    fixedPosition.left = parent.width - item.width;
-  }
+  // if(position.left > parent.width - item.width){
+  //   fixedPosition.left = parent.width - item.width;
+  // }
 
-  if(position.top > parent.height - item.height){
-    fixedPosition.top = parent.height - item.height;
-  }
+  // if(position.top > parent.height - item.height){
+  //   fixedPosition.top = parent.height - item.height;
+  // }
 
   return fixedPosition;
 }
