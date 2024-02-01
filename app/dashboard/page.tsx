@@ -5,7 +5,7 @@ import Button from "../../components/buttons/common/button";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import Modal from "../../components/modal/modal";
-import {useState} from "react";
+import { useState } from "react";
 
 export default function Page() {
   const pathName = usePathname();
@@ -74,11 +74,41 @@ export default function Page() {
       ]}
     >
       <p>Hello, Dashboard Page!</p>
-      {showModal &&
-            <Modal title="Modal" onClose={() => setShowModal(false)}>
-                Hello from the modal!
-            </Modal>
-      }
+      {showModal && (
+        <Modal
+          title="Error"
+          onClose={() => setShowModal(false)}
+          type='error'
+          buttons={[
+            {
+              children: (
+                <Button
+                  color="error"
+                  type="filled"
+                  onClick={() => setShowModal(false)}
+                >
+                  Cancel
+                </Button>
+              ),
+            },
+            {
+              children: (
+                <Button
+                  color="primary"
+                  type="filled"
+                  onClick={() => setShowModal(false)}
+                >
+                  Acknowledge
+                </Button>
+              ),
+            }
+          ]}
+          >
+          <div>
+            <h1>An error happened</h1>
+          </div>
+        </Modal>
+      )}
     </PageComponent>
   );
 }

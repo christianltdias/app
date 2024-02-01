@@ -1,32 +1,57 @@
 //global colors
-$primary-color: #60def7
-$secondary-color: #60a4f7
-$tertiary-color: #91ff8b
+$primary-color: #4c74d9
+$secondary-color: #5ac6ed
+$success-color: #74ea6e
+$warning-color: #fabb3c
+$error-color: #fc5252
 $main-background-color: #f2f9fa
 $text-color: #1a1a1a
-$header-color: $primary-color
+$text-color: #1a1a1a
 
 //buttons
-$button-primary: #60def7
-$button-primary-hover: #47bad1
-$button-primary-active: #a6effd
+$button-primary: $primary-color
+$button-primary-hover: darken($primary-color, 30%)
+$button-primary-active: lighten($primary-color, 20%)
 
-$button-secondary: #3cfa65
-$button-secondary-hover: #30b84d
-$button-secondary-active: #93f8a9
+$button-secondary: $secondary-color
+$button-secondary-hover: darken($secondary-color, 30%)
+$button-secondary-active: lighten($secondary-color, 20%)
 
-$button-tertiary: #fabb3c
-$button-tertiary-hover: #ca9832
-$button-tertiary-active: #fad792
+$button-tertiary: $warning-color
+$button-tertiary-hover: darken($warning-color, 30%)
+$button-tertiary-active: lighten($warning-color, 20%)
 
 $button-quartenary: #9963f7
-$button-quartenary-hover: #6746a1
-$button-quartenary-active: #caaefa
+$button-quartenary-hover: darken($button-quartenary, 30%)
+$button-quartenary-active: lighten($button-quartenary, 20%)
 
-$button-error: #ff5454
-$button-error-hover: #db3131
-$button-error-active: #ffa0a0
+$button-error: $error-color
+$button-error-hover: darken($error-color, 30%)
+$button-error-active: lighten($error-color, 20%)
+  
+$button-white: $main-background-color
+$button-white-hover: darken($button-white, 30%)
+$button-white-active: lighten($button-white, 20%)
+
 
 //breadcrumb
 $breadcrumb-root-item-color: $secondary-color
 $breadcrumb-item-color: $secondary-color
+
+//modal
+$modal-header-info-color: $secondary-color
+$modal-header-default-color: darken($main-background-color, 50%)
+$modal-header-alert-color: $warning-color
+$modal-header-error-color: $error-color
+$modal-header-success-color: $success-color
+$modal-header-text-color: $main-background-color
+
+//input
+$input-border-color: rgba(42, 186, 196, 0.156)
+$input-text-color: rgb(19, 72, 81)
+$input-error-color: $button-error
+$input-error-border-color: rgb(255, 84, 84, 0.156)
+
+//tooltip
+$tooltip-text-color: white
+$tooltip-background-color: rgba(0,0,0,.8)

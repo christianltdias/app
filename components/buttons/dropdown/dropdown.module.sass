@@ -1,0 +1,99 @@
+@use 'sass:color'
+@import '../../../styles/variables'
+
+.dropdown 
+  position: relative
+  min-width: 200px
+  filter: url(#goo)
+
+  &__face,
+  &__items
+    padding: 10px 20px
+    border-radius: 10px
+    cursor: pointer
+
+    
+  &__face.default,
+  &__items.default 
+    background-color: #fff
+    
+  &__face.dark,
+  &__items.dark 
+    background-color: rgba(41, 58, 78,1)
+    color: white  
+
+  &__face 
+    display: block
+    position: relative
+  
+
+  &__items 
+    margin: 0
+    position: absolute
+    right: 0
+    top: 50%
+    width: 100%
+    list-style: none
+    list-style-type: none
+    display: flex
+    flex-direction: column
+    justify-content: space-between
+    visibility: hidden
+    z-index: -1
+    opacity: 0
+    transition: all 0.4s cubic-bezier(0.93, 0.88, 0.1, 0.8)
+
+    li
+      margin: 0
+      padding: 10px
+      border-bottom: 1px solid #1c1c1c42
+
+      &:last-child
+        border: none
+
+    &::before 
+      content: ""
+      position: absolute
+      bottom: 100%
+      right: 20%
+      height: 40px
+      width: 20px
+
+    &.default::before
+      background-color: #fff
+
+    &.dark::before
+      background-color: rgba(41, 58, 78,1)
+  
+  
+  &__items.default
+    li:hover
+      background-color: mix(black, white, 10%)
+  
+  &__items.dark
+    li:hover
+      background-color: mix(white, rgba(41, 58, 78,1), 10%)
+
+  &__arrow 
+    border-bottom: 2px solid #000
+    border-right: 2px solid #000
+    position: absolute
+    top: 50%
+    right: 30px
+    width: 10px
+    height: 10px
+    transform: rotate(45deg) translateY(-50%)
+    transform-origin: right
+  
+
+  input 
+    display: none
+
+    &:checked ~ .dropdown__items 
+      top: calc(100% + 25px)
+      visibility: visible
+      opacity: 1
+    
+.dropdown_svg 
+  display: none
+

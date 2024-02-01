@@ -1,15 +1,15 @@
+@import '../../styles/variables'
+
 .modal-wrapper
   width: 500px
-  height: 600px
 
-
-.modal 
+.modal
+  display: flex
+  flex-direction: column
   background: white
   height:100%
   width:100%
   border-radius: 15px
-  padding: 15px
-
 
 .modal-overlay 
   position: absolute
@@ -22,12 +22,59 @@
   align-items: center
   background-color: rgba(0, 0, 0, 0.5)
 
+.modal-body
+  flex: 1
+  padding: 10px
 
-.modal-body 
-  padding-top: 10px
-
-
-.modal-header 
+.modal-header
+  height: 45px
+  padding: 15px
+  border-radius: 15px 15px 0 0
   display: flex
   justify-content: flex-end
-  font-size: 25px
+  color: $modal-header-text-color
+  font-size: 10pt
+  display: flex
+  flex-direction: row
+  justify-content: space-between
+  align-content: center
+
+  &.default
+    background-color: $modal-header-default-color
+
+  &.info
+    background-color: $modal-header-info-color
+
+  &.alert
+    background-color: $modal-header-alert-color
+
+  &.success
+    background-color: $modal-header-success-color
+
+  &.error
+    background-color: $modal-header-error-color
+
+  h1
+    align-self: center
+    margin: 0
+    padding: 0
+
+  a
+    align-self: center
+
+.modal-footer
+  height: 4.5rem
+  border-radius: 0 0 15px 15px
+  padding: 0 10px
+  
+  hr
+    opacity: .3
+
+  .modal-buttons
+    align-items: center
+    padding: 0 1rem
+    display: flex
+    flex-direction: row
+    justify-content: flex-end
+    gap: 1.5rem
+  

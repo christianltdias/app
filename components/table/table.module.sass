@@ -1,0 +1,153 @@
+@import '../../styles/variables'
+
+.table-container
+  display: flex
+  flex-direction: column
+  height: 100%
+  width: 100%
+
+  .table-wrapper
+    overflow: auto
+
+    .table-main
+      position: relative
+      width: 100%
+      text-align: center
+      border-spacing: 0px
+      color: white
+      
+      &.info
+        border-bottom: 2px solid $primary-color
+
+      &.warning
+        border-bottom: 1px solid $warning-color
+
+      &.success
+        border-bottom: 1px solid $success-color
+
+      &.error
+        border-bottom: 1px solid $error-color
+
+      tbody
+        overflow: auto
+        color: $text-color
+
+        tr
+          cursor: pointer
+
+          td
+            padding: 5px 15px
+
+          &.info
+            &:nth-child(even)
+              background-color: lighten($primary-color, 30%)
+              
+            &:hover
+              background-color: lighten($primary-color, 20%)            
+
+              .sticky-coll
+                background-color: lighten($primary-color, 20%)
+        
+          &.warning
+            &:nth-child(even)
+              background-color: lighten($warning-color, 30%)
+
+            &:hover
+              background-color: lighten($warning-color, 20%)            
+
+              .sticky-coll
+                background-color: lighten($warning-color, 20%)
+
+          &.error
+            &:nth-child(even)
+              background-color: lighten($error-color, 30%)
+
+            &:hover
+              background-color: lighten($error-color, 20%)           
+
+              .sticky-coll
+                background-color: lighten($error-color, 20%) 
+
+          &.success
+            &:nth-child(even)
+              background-color: lighten($success-color, 20%)
+
+            &:hover
+              background-color: lighten($success-color, 5%)           
+
+              .sticky-coll
+                background-color: lighten($success-color, 5%) 
+
+      thead
+        .theader
+          background-color: $primary-color
+          user-select: none
+          padding: 5px 10px
+          min-width: 100px
+
+          .theader-content
+            display: flex
+            align-items: center
+            
+            span
+              flex: .8
+
+            img
+              flex: .2
+
+          &.info
+            background-color: $primary-color
+
+          &.warning
+            background-color: $warning-color
+
+          &.success
+            background-color: $success-color
+
+          &.error
+            background-color: $error-color
+
+          .sortable
+            cursor: pointer
+
+  .table-info
+    margin-top: 5px
+    display: flex
+    flex-direction: row
+    justify-content: space-between
+    color: $text-color
+    font-size: 11pt
+
+.sticky
+  position: sticky
+  top: 0
+  z-index: 10
+  box-shadow: 0 4px 5px -2px rgba(0, 0, 0, 0.2)
+
+.sticky-coll
+  position: sticky
+  left: 0
+  z-index: 1
+  box-shadow: 4px 0 5px -2px rgba(0, 0, 0, 0.2)
+  background-color: white
+
+  &.info
+    &.even
+      background-color: lighten($primary-color, 30%)
+
+  &.warning
+    &.even
+      background-color: lighten($warning-color, 30%)
+
+  &.error
+    &.even
+      background-color: lighten($error-color, 30%)
+
+  &.success
+    &.even
+      background-color: lighten($success-color, 20%)
+
+
+
+    
+  

@@ -15,6 +15,15 @@
     font-weight: bold
     font-size: 12pt
     border: none
+
+  
+  .text.white.filled
+    margin: auto
+    opacity: 1
+    color: $button-primary
+    font-weight: bold
+    font-size: 12pt
+    border: none
   
   .text.primary.border
     margin: auto
@@ -81,6 +90,19 @@
     font-size: 12pt
     border: none
 
+  &.white.filled
+    background-color: $button-white
+
+  &.white.border
+    border: 1px solid  $button-white
+
+  .text.white.border
+    margin: auto
+    color:  $button-white
+    font-weight: bold
+    font-size: 12pt
+    border: none
+
   &:hover
     .text.primary.border
       color: $button-primary-hover
@@ -130,6 +152,16 @@
 
     .text.error.border
       color: $button-error-hover
+      border: none
+
+    &.white.filled
+      background-color: $button-white-hover
+  
+    &.white.border
+      border: 1px solid $button-white-hover
+
+    .text.white.border
+      color: $button-white-hover
       border: none
     
   &:active
@@ -181,6 +213,16 @@
 
     .text.error.border
       color: $button-error-active
+      border: none
+      
+    &.white.filled
+      background-color: $button-white-active
+
+    &.white.border
+      border: 1px solid $button-white-active
+
+    .text.white.border
+      color: $button-white-active
       border: none
 
   

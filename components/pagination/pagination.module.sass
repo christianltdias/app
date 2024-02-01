@@ -1,0 +1,48 @@
+@import '../../styles/variables'
+  
+.pagination-container
+  display: flex
+  flex-direction: row
+
+  .selected
+    font-weight: bold
+
+    &.info
+      color: $primary-color
+  
+    &.warning
+      color: $warning-color
+
+    &.success
+      color: $success-color
+
+    &.error
+      color: $error-color
+
+  .page-number
+    display: flex
+    justify-content: center
+    align-items: center
+    margin: 0 5px
+    border-radius: 10px
+    width: 20px
+    height: 20px
+    cursor: pointer
+    user-select: none
+
+    &.selected,
+    &:hover
+      font-weight: bold
+      color: white
+
+      &.info
+        background-color: $primary-color
+    
+      &.warning
+        background-color: $warning-color
+
+      &.success
+        background-color: $success-color
+
+      &.error
+        background-color: $error-color

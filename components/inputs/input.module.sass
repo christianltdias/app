@@ -1,0 +1,60 @@
+@import '../../styles/variables'
+
+$size-bezel: .5rem
+$color-background: red
+
+.input_container
+  margin: .5azsrem 0
+  .input
+    margin: 0
+    position: relative
+    
+    .input_label 
+      position: absolute
+      left: 0
+      top: 0
+      padding: calc($size-bezel * 0.75) calc($size-bezel * .5)
+      margin: calc($size-bezel * 0.75 + 3px) calc($size-bezel * .5)
+      white-space: nowrap
+      transform: translate(0, 0)
+      transform-origin: 0 0
+      transition: transform 120ms ease-in
+      line-height: 1.2
+      font-size: 10pt
+      opacity: .6
+
+      &.error
+        color: $input-error-color 
+    
+    .input_field 
+      box-sizing: border-box
+      display: block
+      width: 100%
+      border: none
+      border-bottom: 2px solid $input-border-color
+      padding: calc($size-bezel * 1.5) $size-bezel
+      color: $input-text-color
+      background: transparent
+      
+      &.error
+        border-bottom: 2px solid $input-error-border-color
+
+      &:focus-visible
+        outline: none
+
+      &:focus,
+      &:not(:placeholder-shown) 
+        & + .input_label 
+          transform: translate(.2rem, -70%) scale(.9)
+          color: $primary-color
+          opacity: 1
+
+          &.error
+            color: $input-error-color 
+          
+  .input_error
+    color: $input-error-color
+    font-size: 8pt
+      
+    
+  

@@ -25,6 +25,7 @@ export default function RootLayout({
         <Header isLogged/>
         {children}
         <div id="modal-root"></div>
+        <div id="popup-root"></div>
       </body>
     </html>
   );
