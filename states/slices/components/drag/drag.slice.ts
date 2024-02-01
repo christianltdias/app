@@ -29,6 +29,11 @@ export const dragSlice = createSlice({
       state.items = convertToMatrix<ReactNode>(action.payload.items, maxcount);
     },
     setActiveItem: (state, action: PayloadAction<DragStartAction>) => {
+      if(state.activeItem && 
+        (state.dragging || state.activeItem.row === action.payload.row || state.activeItem.column === action.payload.column)){
+        return;
+      }
+
       state.dragging = true;
       state.activeItem = {row: action.payload.row, column: action.payload.column}
       state.activeCell = {row: action.payload.row, column: action.payload.column}
@@ -38,7 +43,7 @@ export const dragSlice = createSlice({
       const activeCell = state.activeCell;
       const containeritems = state.items;
 
-      if(activeItem.row !== activeCell.row || activeItem.column !== activeCell.column) {
+      if(activeItem && (activeItem.row !== activeCell.row || activeItem.column !== activeCell.column)) {
         const temp = containeritems[activeCell.row][activeCell.column]
         if(!temp.pinned) {
           containeritems[activeCell.row][activeCell.column] = containeritems[activeItem.row][activeItem.column]
@@ -55,12 +60,9 @@ export const dragSlice = createSlice({
       state.activeCell = {row: action.payload.row, column: action.payload.column}
     },
     pinItem: (state, action: PayloadAction<DragPinItemAction>) => {
-      console.log("redux start")
       const containeritems = state.items
       containeritems[action.payload.row][action.payload.column].pinned = !containeritems[action.payload.row][action.payload.column].pinned
       state.items = containeritems;
-      
-      console.log("pinning : " + containeritems[action.payload.row][action.payload.column].pinned)
     }
   },
 });

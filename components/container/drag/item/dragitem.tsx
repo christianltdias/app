@@ -1,7 +1,7 @@
 import { MutableRefObject, ReactNode, forwardRef, useEffect, useRef, useState } from "react";
 import styles from "./dragitem.module.sass";
 import { concatStyles } from "../../../../utils/styles.utils";
-import { calculateInitialPosition, calculatePosition } from "../drag.utils";
+import { calculatePosition } from "../drag.utils";
 import { useAppDispatch, useAppSelector } from "../../../../states/hooks";
 import { applyMovement, pinItem, setActiveItem } from "../../../../states/slices/components/drag/drag.slice";
 
@@ -24,39 +24,40 @@ const DragItem = forwardRef(({
   pinned = false,
 }: DragItemProps, parentRef: MutableRefObject<any>) => {
   const itemRef = useRef(null);
-  
-  useEffect(() => {
-    const initialPos = calculateInitialPosition(itemRef, parentRef)
-    setInitialPosition(initialPos);
-    setPosition(initialPos);
-  }, [itemRef.current, parentRef.current]);
-
-  
   const dispatch = useAppDispatch();
   const activeItem = useAppSelector(state => state.drag.activeItem)
   const dragging = useAppSelector(state => state.drag.dragging)
   
-  const [position, setPosition] = useState<Position>({left: 0, top: 0});
-  const [initialPosition, setInitialPosition] = useState<Position>({left: 0, top: 0});
+  const [position, setPosition] = useState<Position | null>(null);
 
   const handleMove = (e: React.MouseEvent<HTMLDivElement>  | MouseEvent) => {
+    if (!pinned && calculateDistance(e, calculatePosition(e.currentTarget.clickedPosition, itemRef, parentRef)) >= 1000) {
+      dispatch(setActiveItem({row, column}))
+    }
+
     setPosition(calculatePosition(e, itemRef, parentRef));
   };
 
   const handleEnd = () => {
     dispatch(applyMovement())
-    setPosition(initialPosition)
+    setPosition(null)
   };
 
-  const mousedown = () => {
+  const calculateDistance = (e: React.MouseEvent<HTMLDivElement>  | MouseEvent, init: {left: number, top: number}) => {
+    const newpos = calculatePosition(e, itemRef, parentRef)
+    const deltax = Math.pow((newpos.left - init.left), 2)
+    const deltay = Math.pow(newpos.top - init.top, 2)
+
+    return deltax + deltay;
+  } 
+
+  const mousedown = (e: React.MouseEvent<HTMLDivElement>  | MouseEvent) => {
     if(pinned) {
       return;
     }
-    
-    dispatch(setActiveItem({row, column}))
 
+    document.clickedPosition = e
     document.addEventListener('mousemove', handleMove, true);
-
     document.addEventListener('mouseup', function () {
       document.removeEventListener('mousemove', handleMove, true);
       handleEnd();
@@ -76,10 +77,7 @@ const DragItem = forwardRef(({
         className={concatStyles(styles.container, pinned ? styles.pinned : "")}
         style={{userSelect: dragging ? "none" : "auto"}}
         onMouseDown={mousedown}
-        onDoubleClick={() => {
-          console.log("testing")
-          dispatch(pinItem({row, column}))
-        }}
+        onDoubleClick={() => dispatch(pinItem({row, column}))}
         ref={itemRef}
       >
         {children}

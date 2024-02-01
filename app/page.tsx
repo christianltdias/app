@@ -95,7 +95,7 @@ export default function Page() {
       <Button onClick={() => router.push('/dashboard')}>Dashboard</Button>
       {/* <Button ref={ref} onClick={() => setPopUpOpen(!isPopUpOpen)}>Open Pop Up</Button>
       {isPopUpOpen && <PopUp onClose={()=> setPopUpOpen(false)} ref={ref}><div><h1>PopUp</h1><p>I'm a popup</p></div></PopUp> } */}
-      <DragContainer items={dragitems} count={3} />
+      <DragContainer items={dragitems}  count={3} />
     </PageComponent>
   );
 }
