@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { DragInitItemsAction, DragMoveAction, DragStartAction } from "./drag.actions";
+import { DragInitItemsAction, DragMoveAction, DragPinItemAction, DragStartAction } from "./drag.actions";
 import { DragItemProps } from "../../../../components/container/drag/item/dragitem";
 import { convertToMatrix } from "../../../../components/container/drag/drag.utils";
 import { ReactNode } from "react";
@@ -40,20 +40,30 @@ export const dragSlice = createSlice({
 
       if(activeItem.row !== activeCell.row || activeItem.column !== activeCell.column) {
         const temp = containeritems[activeCell.row][activeCell.column]
-        containeritems[activeCell.row][activeCell.column] = containeritems[activeItem.row][activeItem.column]
-        containeritems[activeItem.row][activeItem.column] = temp
+        if(!temp.pinned) {
+          containeritems[activeCell.row][activeCell.column] = containeritems[activeItem.row][activeItem.column]
+          containeritems[activeItem.row][activeItem.column] = temp
+          state.items = containeritems;
+        }
       }
 
       state.dragging = false;
       state.activeItem = null;
       state.activeCell = null;
-      state.items = containeritems;
     },
     setActiveCell: (state, action: PayloadAction<DragMoveAction>) => {
       state.activeCell = {row: action.payload.row, column: action.payload.column}
+    },
+    pinItem: (state, action: PayloadAction<DragPinItemAction>) => {
+      console.log("redux start")
+      const containeritems = state.items
+      containeritems[action.payload.row][action.payload.column].pinned = !containeritems[action.payload.row][action.payload.column].pinned
+      state.items = containeritems;
+      
+      console.log("pinning : " + containeritems[action.payload.row][action.payload.column].pinned)
     }
   },
 });
 
-export const { setItems, setActiveItem, applyMovement, setActiveCell } = dragSlice.actions;
+export const { setItems, setActiveItem, applyMovement, setActiveCell, pinItem } = dragSlice.actions;
 export const dragReducer = dragSlice.reducer;

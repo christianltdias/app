@@ -39,7 +39,7 @@ export default function DragContainer({ items, count }: DragContainerProps) {
                 <div
                   className={concatStyles(
                     styles["container-column"],
-                    hoveredCell && (hoveredCell.row ===  i && hoveredCell.column === j) ? styles['hovered'] : '')}
+                    hoveredCell && !column.pinned && (hoveredCell.row ===  i && hoveredCell.column === j) ? styles['hovered'] : '')}
                   key={`drag-row-${i}-col-${j}`}
                   onMouseMove={() => handleCellHover(i, j)}
                 >
@@ -47,6 +47,7 @@ export default function DragContainer({ items, count }: DragContainerProps) {
                     row={i}
                     column={j}
                     ref={matrixRef}
+                    pinned={column.pinned}
                   >
                     {column.children}
                   </DragItem>

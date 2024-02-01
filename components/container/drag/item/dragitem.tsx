@@ -3,12 +3,13 @@ import styles from "./dragitem.module.sass";
 import { concatStyles } from "../../../../utils/styles.utils";
 import { calculateInitialPosition, calculatePosition } from "../drag.utils";
 import { useAppDispatch, useAppSelector } from "../../../../states/hooks";
-import { applyMovement, setActiveItem } from "../../../../states/slices/components/drag/drag.slice";
+import { applyMovement, pinItem, setActiveItem } from "../../../../states/slices/components/drag/drag.slice";
 
 export type DragItemProps = {
   children: ReactNode;
   row: number;
   column: number;
+  pinned?: boolean;
 };
 
 export type Position = {
@@ -19,7 +20,8 @@ export type Position = {
 const DragItem = forwardRef(({
   children,
   row,
-  column
+  column,
+  pinned = false,
 }: DragItemProps, parentRef: MutableRefObject<any>) => {
   const itemRef = useRef(null);
   
@@ -32,6 +34,7 @@ const DragItem = forwardRef(({
   
   const dispatch = useAppDispatch();
   const activeItem = useAppSelector(state => state.drag.activeItem)
+  const dragging = useAppSelector(state => state.drag.dragging)
   
   const [position, setPosition] = useState<Position>({left: 0, top: 0});
   const [initialPosition, setInitialPosition] = useState<Position>({left: 0, top: 0});
@@ -46,6 +49,10 @@ const DragItem = forwardRef(({
   };
 
   const mousedown = () => {
+    if(pinned) {
+      return;
+    }
+    
     dispatch(setActiveItem({row, column}))
 
     document.addEventListener('mousemove', handleMove, true);
@@ -56,16 +63,28 @@ const DragItem = forwardRef(({
     }, {once: true});
   }
 
+  const isMoving = () => {
+    return !pinned &&
+      dragging && 
+      activeItem && 
+      (activeItem.row === row && activeItem.column === column);
+  }
+
   return (
     <>
       <div
-        className={styles.container}
+        className={concatStyles(styles.container, pinned ? styles.pinned : "")}
+        style={{userSelect: dragging ? "none" : "auto"}}
         onMouseDown={mousedown}
+        onDoubleClick={() => {
+          console.log("testing")
+          dispatch(pinItem({row, column}))
+        }}
         ref={itemRef}
       >
         {children}
       </div>
-      {(activeItem && activeItem.row === row && activeItem.column === column) && 
+      {isMoving() && 
         <div
           className={concatStyles(styles.container, styles.dragging)}
           style={{ top: position.top, left: position.left }}
