@@ -1,0 +1,27 @@
+@import '../../../styles/variables'
+
+.container
+  display: flex
+  border-radius: 10px
+  width: fit-content
+  // border: 2px solid rgb(238, 242, 245)
+  border: 2px solid rgb(219, 223, 226)
+
+  &.invalid
+    border: 1px solid red
+
+  .date-input
+    text-align: center
+    color: $text-color
+    border: none
+    background-color: transparent
+    padding: 0 10px
+
+    &:focus-visible
+      outline: none
+
+  .container-img
+    padding: 7.5px 15px
+    background-color: rgb(219, 223, 226)
+    border-radius: 10px 0 0 10px
+  
