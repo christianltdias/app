@@ -18,8 +18,7 @@ export function convertToMatrix<T>(
     }
 
     while(arr.length !== count){
-      arr.push(<span></span>)
-
+      arr.push(null)
     }
 
     matrix[i] = arr.map((item, index) => {

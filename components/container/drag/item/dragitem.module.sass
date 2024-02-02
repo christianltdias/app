@@ -1,11 +1,23 @@
 .container
-  cursor: -webkit-grabbing
   display: flex
   justify-content: center
   margin: auto
+  position: relative
 
-  &.pinned
-    border: 1px solid red
+  .pinned
+    position: absolute
+    top: 0
+    right: 0
+    user-select: none
+
+    
+  .move
+    cursor: -webkit-grabbing
+    position: absolute
+    top: 0
+    right: 0
+    user-select: none
+
 
 .dragging
   position: absolute
