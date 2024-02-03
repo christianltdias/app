@@ -1,10 +1,20 @@
 @import '../../../styles/variables'
 
-
 .month-controller
   display: flex
-  justify-content: space-around
+  justify-content: space-between
   align-items: center  
+
+  .button-wrapper
+    display: flex
+    justify-content: center
+    align-items: center  
+    width: 40px
+    height: 40px
+
+    img 
+      cursor: pointer
+
 
 .days-wrapper
   display: grid
@@ -16,8 +26,12 @@
 
     &:hover:not(.day-cell-selected-edge-left):not(.day-cell-selected-edge-right):not(.day-cell-selected-range)
       border-radius: 50px
-      background-color: #424242
+      background-color: $primary-color
       color: white
+
+      .today      
+        background-color: $primary-color
+        color: white
       
   .day-cell-preview
     @extend .cell
@@ -47,6 +61,8 @@
       @extend .hover-selected-cell
       width: 100%
 
+    &-none.today
+      border-radius: 50px
 
   .day-cell-week
     display: flex
@@ -55,20 +71,27 @@
     font-weight: bold
 
   .today
+    @extend .cell
+    width: 100%
     font-weight: bold
-    color: $primary-color !important
-
+    background-color: $secondary-color
+    color: white
+  
     &.day-cell-selected-edge-left,
     &.day-cell-selected-edge-right,
     &.day-cell-selected-edge-both,
     &.day-cell-selected-rage
-      color: $secondary-color !important
+      background-color: $primary-color
+      color: $secondary-color
+
+  .weekend
+    color: $error-color
 
 .hover-selected-cell
   display: flex
   justify-content: center
   align-items: center
-  background-color: #424242
+  background-color: $primary-color
   color: white
   cursor: pointer
 
