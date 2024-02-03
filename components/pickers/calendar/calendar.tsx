@@ -1,8 +1,10 @@
 import { useState } from "react";
-import { DayOfMonth, DayOfWeek } from "../../../types/dates";
+import { DayOfMonth, DayOfWeek, Month } from "../../../types/dates";
 import { createDate, createMonthArray } from "../../../utils/date.utils";
 import { concatStyles } from "../../../utils/styles.utils";
 import styles from "./calendar.module.sass";
+import Button from "../../buttons/common/button";
+import { getEnumByIndex } from "../../../utils/enum.utils";
 
 type CalendarProps = {
   allowMultipleSelect?: boolean;
@@ -10,15 +12,14 @@ type CalendarProps = {
 };
 
 export default function Calendar({ allowMultipleSelect = false, allowPastSelect = true}: CalendarProps) {
-  const [currentDate, setCurrentDate] = useState<Date>(new Date());
+  const today = new Date();
+  today.setHours(0,0,0,0);
+
+  const [currentDate, setCurrentDate] = useState<{month: number, year: number}>({month: today.getMonth(), year: today.getFullYear()});
   const [firstDate, setFirstDate] = useState<DayOfMonth>(null);
   const [secondDate, setSecondDate] = useState<DayOfMonth>(null);
 
-  const day = currentDate.getDate();
-  const month = currentDate.getMonth();
-  const year = currentDate.getFullYear();
-
-  var monthMatrix = createMonthArray(month, year);
+  var monthMatrix = createMonthArray(currentDate.month, currentDate.year);
   var daysOfWeekSequence = Object.values(DayOfWeek);
 
   const checkIfInRange = (
@@ -55,10 +56,8 @@ export default function Calendar({ allowMultipleSelect = false, allowPastSelect 
 
   const handleSelection = (dayOfMonth: DayOfMonth): void => {
     const date = createDate(dayOfMonth.day, dayOfMonth.month, dayOfMonth.year).getTime();
-    const dateNow = new Date();
-    dateNow.setHours(0,0,0,0);
 
-    if(!allowPastSelect && date < dateNow.getTime()) {
+    if(!allowPastSelect && date < today.getTime()) {
       return;
     }
 
@@ -100,8 +99,28 @@ export default function Calendar({ allowMultipleSelect = false, allowPastSelect 
     }
   };
 
+  const updateMonth = (increment: 1 | -1) => {
+    var month = currentDate.month + increment;
+    var year = currentDate.year;
+
+    if(month > 11){
+      month = 0;
+      year++;
+    } else if(month < 0){
+      month = 11;
+      year--;
+    }
+
+    setCurrentDate({month, year});
+  }
+
   return (
     <div className={styles["calendar-container"]}>
+      <div className={styles["month-controller"]}>
+        <Button onClick={()=> updateMonth(-1)}>Previous</Button>
+        <span>{currentDate.year} - {Month[getEnumByIndex<string>(Month, currentDate.month)]}</span>
+        <Button onClick={()=> updateMonth(1)}>Next</Button>
+      </div>
       <div className={styles["days-wrapper"]}>
         {daysOfWeekSequence.map((dayOfWeek) => (
           <div key={`day-week-${dayOfWeek}`} className={styles["day-cell-week"]}>{dayOfWeek}</div>
@@ -109,7 +128,7 @@ export default function Calendar({ allowMultipleSelect = false, allowPastSelect 
         {monthMatrix.map((dayOfMonth) => (
             <div
               key={`day-month-${dayOfMonth.month}-${dayOfMonth.day}`}
-              className={dayOfMonth.month !== month ? styles["day-cell-preview"] : styles["day-cell"]}
+              className={dayOfMonth.month !== currentDate.month ? styles["day-cell-preview"] : styles["day-cell"]}
               onClick={() => handleSelection(dayOfMonth)}
               onContextMenu={(e) => {
                 e.preventDefault();
@@ -121,7 +140,7 @@ export default function Calendar({ allowMultipleSelect = false, allowPastSelect 
             >
               <div className={concatStyles(
                 styles[`day-cell-selected-${checkIfInRange(dayOfMonth)}`],
-                day === dayOfMonth.day && month === dayOfMonth.month && year === dayOfMonth.year ? styles['today'] : '')}>
+                today.getDate() === dayOfMonth.day && currentDate.month === dayOfMonth.month && currentDate.year === dayOfMonth.year ? styles['today'] : '')}>
                 {dayOfMonth.day}
               </div>
             </div>
