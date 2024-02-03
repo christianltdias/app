@@ -69,7 +69,7 @@ export default function DatePicker({
               <p>Start date:</p>
               <p>{dateStr}</p>
               <div className={styles['date-picker-calendar']}>
-                <Calendar/>
+                <Calendar allowPastSelect={true} allowMultipleSelect />
               </div>
               <Button onClick={() => console.log('applying')}>Apply</Button>
             </div>

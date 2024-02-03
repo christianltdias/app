@@ -5,11 +5,11 @@ import { concatStyles } from "../../../utils/styles.utils";
 import styles from "./calendar.module.sass";
 
 type CalendarProps = {
-  multipleSelect?: boolean;
+  allowMultipleSelect?: boolean;
   allowPastSelect?: boolean;
 };
 
-export default function Calendar({ multipleSelect = false, allowPastSelect = true}: CalendarProps) {
+export default function Calendar({ allowMultipleSelect = false, allowPastSelect = true}: CalendarProps) {
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
   const [firstDate, setFirstDate] = useState<DayOfMonth>(null);
   const [secondDate, setSecondDate] = useState<DayOfMonth>(null);
@@ -54,12 +54,22 @@ export default function Calendar({ multipleSelect = false, allowPastSelect = tru
   };
 
   const handleSelection = (dayOfMonth: DayOfMonth): void => {
-    if (!firstDate) {
-      setFirstDate(dayOfMonth);
+    const date = createDate(dayOfMonth.day, dayOfMonth.month, dayOfMonth.year).getTime();
+    const dateNow = new Date();
+    dateNow.setHours(0,0,0,0);
+
+    if(!allowPastSelect && date < dateNow.getTime()) {
       return;
     }
+
+    if (!firstDate || !allowMultipleSelect) {
+      if(!firstDate || createDate(firstDate.day, firstDate.month, firstDate.year).getTime() !== date){
+        setFirstDate(dayOfMonth);
+      }
+      return;
+    }
+
     const initialDate = createDate(firstDate.day, firstDate.month, firstDate.year).getTime();
-    const date = createDate(dayOfMonth.day, dayOfMonth.month, dayOfMonth.year).getTime();
 
     if (!secondDate) {
       if (date < initialDate) {
