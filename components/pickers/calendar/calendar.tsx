@@ -9,21 +9,31 @@ import styles from "./calendar.module.sass";
 type CalendarProps = {
   allowMultipleSelect?: boolean;
   allowPastSelect?: boolean;
+  firstDate: Date;
+  setFirstDate: (date: Date) => void;
+  secondDate?: Date;
+  setSecondDate?: (date: Date) => void;
 };
 
 export default function Calendar({
   allowMultipleSelect = false,
   allowPastSelect = true,
+  firstDate,
+  setFirstDate,
+  secondDate,
+  setSecondDate,
 }: CalendarProps) {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
+
+  if(!setSecondDate && allowMultipleSelect){
+    throw new Error('Set final date logic is required when multiple select is allowed');
+  }
 
   const [currentDate, setCurrentDate] = useState<{
     month: number;
     year: number;
   }>({ month: today.getMonth(), year: today.getFullYear() });
-  const [firstDate, setFirstDate] = useState<DayOfMonth>(null);
-  const [secondDate, setSecondDate] = useState<DayOfMonth>(null);
 
   var monthMatrix = createMonthArray(currentDate.month, currentDate.year);
   var daysOfWeekSequence = Object.values(DayOfWeek);
@@ -31,12 +41,9 @@ export default function Calendar({
   const checkIfInRange = (
     dayOfMonth: DayOfMonth
   ): "edge-left" | "edge-right" | "edge-both" | "range" | "none" => {
-    const initialDate = firstDate
-      ? createDate(firstDate.day, firstDate.month, firstDate.year).getTime()
-      : null;
-    const finalDate = secondDate
-      ? createDate(secondDate.day, secondDate.month, secondDate.year).getTime()
-      : null;
+    const initialDate = firstDate ? firstDate.getTime() : null;
+    const finalDate = secondDate ? secondDate.getTime() : null;
+
     const date = createDate(
       dayOfMonth.day,
       dayOfMonth.month,
@@ -68,63 +75,53 @@ export default function Calendar({
   };
 
   const handleSelection = (dayOfMonth: DayOfMonth): void => {
+    
     const date = createDate(
       dayOfMonth.day,
       dayOfMonth.month,
       dayOfMonth.year
-    ).getTime();
+    );
+    const dateTime = date.getTime();
 
-    if (!allowPastSelect && date < today.getTime()) {
+    if (!allowPastSelect && dateTime < today.getTime()) {
       return;
     }
 
     if (!firstDate || !allowMultipleSelect) {
-      if (
-        !firstDate ||
-        createDate(firstDate.day, firstDate.month, firstDate.year).getTime() !==
-          date
-      ) {
-        setFirstDate(dayOfMonth);
+      if (!firstDate || firstDate.getTime() !== dateTime) {
+        setFirstDate(date);
       }
       return;
     }
 
-    const initialDate = createDate(
-      firstDate.day,
-      firstDate.month,
-      firstDate.year
-    ).getTime();
+    const initialDate = firstDate.getTime();
 
     if (!secondDate) {
-      if (date < initialDate) {
-        setFirstDate(dayOfMonth);
+      if (dateTime < initialDate) {
+        setFirstDate(date);
         setSecondDate(firstDate);
       } else {
         setSecondDate;
-        setSecondDate(dayOfMonth);
+        setSecondDate(date);
       }
       return;
     }
 
-    const finalDate = createDate(
-      secondDate.day,
-      secondDate.month,
-      secondDate.year
-    ).getTime();
+    const finalDate = secondDate.getTime();
 
-    if (date === initialDate && date === finalDate) {
+    if (dateTime === initialDate && dateTime === finalDate) {
       return;
-    } else if (date < initialDate || date === finalDate) {
-      setFirstDate(dayOfMonth);
-    } else if (date > finalDate || date === initialDate) {
-      setSecondDate(dayOfMonth);
+    } else if (dateTime < initialDate || dateTime === finalDate) {
+      setFirstDate(date);
+    } else if (dateTime > finalDate || dateTime === initialDate) {
+      setSecondDate(date);
     } else {
-      var initialOffset = (date - initialDate) / (1000 * 3600 * 24) + 1;
-      var finalOffset = (finalDate - date) / (1000 * 3600 * 24) + 1;
+      var initialOffset = (dateTime - initialDate) / (1000 * 3600 * 24) + 1;
+      var finalOffset = (finalDate - dateTime) / (1000 * 3600 * 24) + 1;
       if (initialOffset <= finalOffset) {
-        setFirstDate(dayOfMonth);
+        setFirstDate(date);
       } else {
-        setSecondDate(dayOfMonth);
+        setSecondDate(date);
       }
     }
   };
