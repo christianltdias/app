@@ -1,0 +1,62 @@
+@import '../../../styles/variables'
+
+.days-wrapper
+  display: grid
+  grid-template-columns: repeat(7, 40px)
+  grid-template-rows: repeat(7, 40px)
+
+  .day-cell
+    @extend .cell
+
+    &:hover:not(.day-cell-selected-edge-left):not(.day-cell-selected-edge-right):not(.day-cell-selected-range)
+      border-radius: 50px
+      background-color: #424242
+      color: white
+      
+  .day-cell-preview
+    @extend .cell
+    color: #bbbbbb
+
+    &:hover:not(.day-cell-selected-edge-left):not(.day-cell-selected-edge-right):not(.day-cell-selected-range)
+      @extend .hover-selected-cell
+      border-radius: 50px
+    
+  .day-cell-selected
+    &-edge-left
+      @extend .hover-selected-cell
+      border-radius: 50px 0 0 50px
+      
+      &:hover
+        background-color: #757575
+
+    &-edge-right
+      @extend .hover-selected-cell
+      border-radius: 0 50px 50px 0
+      
+      &:hover
+        background-color: #757575
+
+    &-range
+      @extend .hover-selected-cell
+
+      &:hover
+        background-color: #757575
+
+      
+  .day-cell-week
+    display: flex
+    justify-content: center
+    align-items: center
+    font-weight: bold
+
+.hover-selected-cell
+  background-color: #424242
+  color: white
+  cursor: pointer
+
+.cell
+  display: flex
+  justify-content: center
+  align-items: center
+  cursor: pointer
+
