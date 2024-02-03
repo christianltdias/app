@@ -2,7 +2,7 @@ import { MutableRefObject, ReactNode, forwardRef, useEffect, useRef, useState } 
 import ReactDOM from "react-dom";
 import styles from './popup.module.sass';
 
-interface PositionOffset {
+export interface PositionOffset {
   x: number;
   y: number
 }
@@ -13,7 +13,7 @@ type PopUpProps = {
   onClose: (e: React.MouseEvent<HTMLElement>) => void;
 }
 
-const popUp = forwardRef(({children, offset = {x: 0, y: 0}, onClose}: PopUpProps, ref: MutableRefObject<any>) => {
+const PopUp = forwardRef(({children, offset = {x: 0, y: 0}, onClose}: PopUpProps, ref: MutableRefObject<any>) => {
   const thisref = useRef(null)
 
   var x = 0;
@@ -56,4 +56,4 @@ const popUp = forwardRef(({children, offset = {x: 0, y: 0}, onClose}: PopUpProps
   );
 })
 
-export default popUp;
+export default PopUp;

@@ -4,7 +4,6 @@
   display: flex
   border-radius: 10px
   width: fit-content
-  // border: 2px solid rgb(238, 242, 245)
   border: 2px solid rgb(219, 223, 226)
 
   &.invalid
@@ -21,7 +20,28 @@
       outline: none
 
   .container-img
+    cursor: pointer
     padding: 7.5px 15px
     background-color: rgb(219, 223, 226)
     border-radius: 10px 0 0 10px
   
+.date-picker-container
+  margin: 0
+  // padding: 10px
+  display: flex
+  flex-direction: row
+  
+  p
+    margin: 0
+
+  .date-picker
+    padding: 10px 20px
+    border: 1px solid black
+    display: flex
+    flex-direction: column
+    width: 400px
+  
+    .date-picker-calendar
+      padding: 20px
+      display: flex
+      justify-content: center
