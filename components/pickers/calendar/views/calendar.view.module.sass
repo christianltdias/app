@@ -4,16 +4,16 @@
   display: flex
   justify-content: space-between
   align-items: center
+  height: 40px
 
   img, span
     cursor: pointer
+    padding: 0 10px
 
   .button-wrapper
     display: flex
     justify-content: center
-    align-items: center  
-    width: 40px
-    height: 40px
+    align-items: center
 
 .days-wrapper
   display: grid
@@ -30,7 +30,8 @@
 
       .today      
         background-color: $primary-color
-        color: wh 
+        color: white
+
   .day-cell-preview
     @extend .cell
     color: #bbbbbb
@@ -106,7 +107,14 @@
 
   .month-cell
     @extend .cell
-    background-color: pink
+
+    &.month-preview
+      color: #bbbbbb
+    
+    &:hover
+      border-radius: 50px
+      background-color: $primary-color
+      color: white
 
 .year-wrapper
   display: grid
@@ -115,4 +123,11 @@
 
   .year-cell
     @extend .cell
-    background-color: pink
+
+    &.year-preview
+      color: #bbbbbb
+
+    &:hover
+      border-radius: 50px
+      background-color: $primary-color
+      color: white

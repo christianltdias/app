@@ -2,30 +2,42 @@ import { DayOfMonth, DayOfWeek } from "../types/dates";
 import { convertArrayToMatrix } from "./array.utils";
 import { getEnumByIndex } from "./enum.utils";
 
-export const maskDate = (value: string): string => {
-  const allowedType = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
-  const key = value[value.length - 1];
-  const previous = value.slice(0, -1);
+export const maskDate = (previous: string, value: string): string => {
+  var key: string = value.slice(-1);
+  var index: number;
 
-  if (!allowedType.includes(key)) {
-    return previous;
+  if (value.length < previous.length) {
+    return value;
   }
 
-  var len = value.length;
-
-  if (len === 2) {
-    value += '/';
+  for (index = 0; index < previous.length; index++) {
+    if (value[index] !== previous[index]) {
+      key = value[index]
+      break;
+    }
   }
 
-  if (len === 5) {
-    value += '/';
+  var correctValue = value.replaceAll('/', '');
+  var len = correctValue.length;
+
+
+  if (correctValue.length > 8) {
+    return correctValue.slice(0, -1);
   }
 
-  if (len === 11) {
-    return previous;
+  var result = correctValue;
+
+  if (key === '/') {
+    if (len === 1) {
+      result = `0${correctValue.slice(-1)}`
+    } else if (len === 3) {
+      result = `${correctValue.slice(0, -1)}0${correctValue.slice(-1)}`
+    }
+
+    return result;
   }
 
-  return value;
+  return result;
 }
 
 export const getDate = (dateStr: string): Date => {

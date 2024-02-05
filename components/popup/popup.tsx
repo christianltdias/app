@@ -36,7 +36,19 @@ const PopUp = forwardRef(({children, offset = {x: 0, y: 0}, onClose}: PopUpProps
 
   const handleCloseClick = (e) => {
     e.preventDefault();
-    if (!thisref.current.contains(e.target)) onClose(e);
+    const values = thisref.current.getBoundingClientRect();
+
+    const x1 = values.x
+    const x2 = values.x + values.width
+    const y1 = values.y
+    const y2 = values.y + values.height
+    const mousex = e.clientX
+    const mousey = e.clientY
+    
+    if((mousex >= x1 && mousex <= x2) && (mousey >= y1 && mousey <= y2)){
+      return;
+    }
+    onClose(e);
   };
 
 
