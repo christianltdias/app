@@ -11,7 +11,7 @@ export default function Page() {
   return (
     <PageComponent title="Home">
       <Button onClick={() => router.push('/dashboard')}>Dashboard</Button>
-      <DatePicker allowPastSelect={false} isDateRange/>
+      <DatePicker allowPastSelect={true} isDateRange/>
     </PageComponent>
   );
 }
