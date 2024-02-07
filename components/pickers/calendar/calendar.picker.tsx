@@ -1,8 +1,8 @@
 import { useState } from "react";
-import styles from "./calendar.module.sass";
-import CalendarDayView from "./views/calendar.view.day";
-import CalendarYearView from "./views/calendar.view.year";
-import CalendarMonthView from "./views/calendar.view.month";
+import styles from "./calendar.picker.module.sass";
+import CalendarDayView from "./views/calendar.picker.view.day";
+import CalendarYearView from "./views/calendar.picker.view.year";
+import CalendarMonthView from "./views/calendar.picker.view.month";
 
 type CalendarProps = {
   allowMultipleSelect?: boolean;
@@ -24,7 +24,7 @@ export enum CalendarView {
   Year
 }
 
-export default function Calendar({
+export default function CalendarPicker({
   allowMultipleSelect = false,
   allowPastSelect = true,
   firstDate,

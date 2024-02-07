@@ -1,6 +1,6 @@
-import { CalendarTab, CalendarView } from "../calendar";
+import { CalendarTab, CalendarView } from "../calendar.picker";
 import Image from "next/image";
-import styles from "./calendar.view.module.sass";
+import styles from "./calendar.picker.view.module.sass";
 import { concatStyles } from "../../../../utils/styles.utils";
 
 type CalendaMonthProps = {

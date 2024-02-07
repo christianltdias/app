@@ -4,7 +4,7 @@ import { BoundaryReference } from "../../../types/references";
 import { isDateValid, maskDate } from "../../../utils/date.utils";
 import { concatStyles } from "../../../utils/styles.utils";
 import PopUp, { PositionOffset } from "../../popup/popup";
-import Calendar from "../calendar/calendar";
+import Calendar from "../calendar/calendar.picker";
 import styles from "./datepicker.module.sass";
 
 type DatePickerProps = {

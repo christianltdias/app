@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 import Button from "../components/buttons/common/button";
 import PageComponent from "../components/page/page";
-import DatePicker from '../components/pickers/date/datepicker';
+import Calendar from '../components/calendar/calendar';
 
 export default function Page() {
   const router = useRouter()
@@ -11,7 +11,7 @@ export default function Page() {
   return (
     <PageComponent title="Home">
       <Button onClick={() => router.push('/dashboard')}>Dashboard</Button>
-      <DatePicker allowPastSelect={true} isDateRange/>
+      <Calendar />
     </PageComponent>
   );
 }

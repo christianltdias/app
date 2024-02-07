@@ -1,6 +1,6 @@
 import Image from "next/image";
-import { CalendarTab, CalendarView } from "../calendar";
-import styles from "./calendar.view.module.sass";
+import { CalendarTab, CalendarView } from "../calendar.picker";
+import styles from "./calendar.picker.view.module.sass";
 import { concatStyles } from "../../../../utils/styles.utils";
 import { useState } from "react";
 

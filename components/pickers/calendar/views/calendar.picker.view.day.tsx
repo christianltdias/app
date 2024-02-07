@@ -1,9 +1,9 @@
-import styles from "./calendar.view.module.sass";
+import styles from "./calendar.picker.view.module.sass";
 import { getEnumByIndex } from "../../../../utils/enum.utils";
 import { concatStyles } from "../../../../utils/styles.utils";
 import Image from "next/image";
 import { DayOfMonth, DayOfWeek, Month } from "../../../../types/dates";
-import { CalendarTab, CalendarView } from "../calendar";
+import { CalendarTab, CalendarView } from "../calendar.picker";
 import { createDate, createMonthArray } from "../../../../utils/date.utils";
 
 type CalendaDayProps = {
