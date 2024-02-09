@@ -1,4 +1,4 @@
-import { ReactNode, useState } from "react";
+import { ReactNode, useRef, useState } from "react";
 import { concatStyles } from "../../../utils/styles.utils";
 import { CurrentTab } from "../calendar";
 import styles from "./calendar.view.module.sass";
@@ -63,21 +63,6 @@ export default function CalendarDayView({ currentDay, events }: CalendarDayViewP
     return `${hour < 10 ? `0${hour}` : hour}:${minutes < 10 ? `0${minutes}` : minutes}`
   };
 
-  const getEvent = (index: number): ReactNode => {
-    const residual = index % factor;
-    const hour = factor === 1 ? index : Math.floor(index / factor);
-
-    const eventsHere = events.filter((event) => event.startDate.getHours() === hour && event.startDate.getMinutes() === residual * 60 / factor)
-
-    return <Event border={2} events={eventsHere} factor={factor} height={40} margin={5}/>
-  }
-
-  const isEventPresent = (index: number) => {
-    const residual = index % factor;
-    const hour = factor === 1 ? index : Math.floor(index / factor);
-    return events.some((event) => event.startDate.getHours() === hour && event.startDate.getMinutes() === residual * 60 / factor)
-  } 
-
   return (
     <div className={styles["calendar-day-container"]}>
       <div className={styles["calendar-day-wrapper"]}>
@@ -103,15 +88,14 @@ export default function CalendarDayView({ currentDay, events }: CalendarDayViewP
                     styles[getCellStyle(hour)]
                   )}
                 >
-                  {getTimeTag(hour, false)}
-                  {isEventPresent(hour) && 
-                      getEvent(hour)
-                  }
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
+        <div className={styles["calendar-events"]}>
+          <Event border={2} events={events} factor={factor} height={40} margin={5}/>
+        </div>
       </div>
     </div>
   );

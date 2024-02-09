@@ -37,29 +37,29 @@ export default function Calendar({view = CalendarView.Day}: CalendarProps) {
         },
         {
           startDate: new Date(2024, 1, 7, 3, 30 ,0),
-          endDate: new Date(2024, 1, 7, 5, 30 ,0),
-          title: "2 h"
+          endDate: new Date(2024, 1, 7, 8, 30 ,0),
+          title: "5 h"
         },
         {
           startDate: new Date(2024, 1, 7, 2, 30 ,0),
-          endDate: new Date(2024, 1, 7, 3, 45 ,0),
+          endDate: new Date(2024, 1, 7, 3, 0 ,0),
           title: "1h 45 min"
         },
-        {
-          startDate: new Date(2024, 1, 7, 3, 0 ,0),
-          endDate: new Date(2024, 1, 7, 4, 45 ,0),
-          title: "1 h 45 min"
-        },
-        {
-          startDate: new Date(2024, 1, 7, 3, 30 ,0),
-          endDate: new Date(2024, 1, 7, 4, 30 ,0),
-          title: "1 h"
-        },
-        {
-          startDate: new Date(2024, 1, 7, 3, 0 ,0),
-          endDate: new Date(2024, 1, 7, 5, 0 ,0),
-          title: "2 h"
-        },
+        // {
+        //   startDate: new Date(2024, 1, 7, 3, 0 ,0),
+        //   endDate: new Date(2024, 1, 7, 4, 45 ,0),
+        //   title: "1 h 45 min"
+        // },
+        // {
+        //   startDate: new Date(2024, 1, 7, 3, 30 ,0),
+        //   endDate: new Date(2024, 1, 7, 4, 30 ,0),
+        //   title: "1 h"
+        // },
+        // {
+        //   startDate: new Date(2024, 1, 7, 3, 0 ,0),
+        //   endDate: new Date(2024, 1, 7, 5, 0 ,0),
+        //   title: "2 h"
+        // },
       ]}/>
     </div>
   );

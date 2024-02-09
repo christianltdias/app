@@ -7,6 +7,15 @@
   
   .calendar-day-wrapper
     overflow: auto
+    position: relative
+
+    .calendar-events
+      width: calc(100% - 50px)
+      border-spacing: 0
+      position: absolute
+      top: 50px
+      left: 50px
+      z-index: 5
     
     .calendar-day-table
       width: 100%
@@ -15,6 +24,7 @@
       .calendar-day-header
         background-color: white
         position: sticky
+        height: 50px
         top: 0
         z-index: 10
 
@@ -31,20 +41,19 @@
 
       .calendar-hour
         height: 40px
-        position: relative
 
       .calendar-hour-both
-        border: 1px solid rgba(0,0,0,.3)
+        border: 1px solid rgba(0,0,0,.1)
 
       .calendar-hour-top
-        border: 1px solid rgba(0,0,0,.3)
-        border-top: 1px dashed rgba(0,0,0,.3)
+        border: 1px solid rgba(0,0,0,.1)
+        border-top: 1px dashed rgba(0,0,0,.1)
 
       .calendar-hour-middle
-        border: 1px solid rgba(0,0,0,.3)
-        border-top: 1px dashed rgba(0,0,0,.3)
-        border-bottom: 1px dashed rgba(0,0,0,.3)
+        border: 1px solid rgba(0,0,0,.1)
+        border-top: 1px dashed rgba(0,0,0,.1)
+        border-bottom: 1px dashed rgba(0,0,0,.1)
 
       .calendar-hour-bottom
-        border: 1px solid rgba(0,0,0,.3)
-        border-bottom: 1px dashed rgba(0,0,0,.3)
+        border: 1px solid rgba(0,0,0,.1)
+        border-bottom: 1px dashed rgba(0,0,0,.1)
