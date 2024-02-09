@@ -1,28 +1,28 @@
-.calendar-day-wrapper
+.calendar-day-container
   width: 100%
   display: flex
   flex-direction: column
   justify-content: start
-  max-height: 300px
+  max-height: 600px
+  
+  .calendar-day-wrapper
+    overflow: auto
+    
+    .calendar-day-table
+      width: 100%
+      border-spacing: 0
 
+      .calendar-day-header
+        background-color: white
+        position: sticky
+        top: 0
+        z-index: 10
 
-  .calendar-day-column
-    display: flex
-    flex-direction: column
-    width: 100%
-    // max-height: 300px
-    position: relative
+      .calendar-day-body
+        background-color: #f7f7f7
 
-    .calendar-day-title
-      margin: 0
-      padding: 10px 50px
-      background-color: white
-      position: sticky
-      top: 0
-      z-index: 10
-
-    .calendar-day-row
-      display: flex
+      .calendar-day-title
+        padding: 10px
 
       .calendar-day-tag
         text-align: center
@@ -30,15 +30,21 @@
         font-size: 10pt
 
       .calendar-hour
-        position: relative
-        width: 100%
         height: 40px
+        position: relative
 
-      .calendar-hour-odd
-        @extend .calendar-hour
-        border: 1px solid black
+      .calendar-hour-both
+        border: 1px solid rgba(0,0,0,.3)
 
-      .calendar-hour-even
-        @extend .calendar-hour
-        border: 1px solid black
-        border-bottom: 1px dashed black
+      .calendar-hour-top
+        border: 1px solid rgba(0,0,0,.3)
+        border-top: 1px dashed rgba(0,0,0,.3)
+
+      .calendar-hour-middle
+        border: 1px solid rgba(0,0,0,.3)
+        border-top: 1px dashed rgba(0,0,0,.3)
+        border-bottom: 1px dashed rgba(0,0,0,.3)
+
+      .calendar-hour-bottom
+        border: 1px solid rgba(0,0,0,.3)
+        border-bottom: 1px dashed rgba(0,0,0,.3)
