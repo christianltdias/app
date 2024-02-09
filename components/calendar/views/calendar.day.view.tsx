@@ -1,17 +1,16 @@
-import { ReactNode, useRef, useState } from "react";
-import { concatStyles } from "../../../utils/styles.utils";
+import { useState } from "react";
 import { CurrentTab } from "../calendar";
+import Event, { EventType } from "../event/calendar.event";
 import styles from "./calendar.view.module.sass";
-import { EventType } from "../event/calendar.event";
-import Event from "../event/calendar.event";
 
 type CalendarDayViewProps = {
-  currentDay: CurrentTab;
+  currentDay: CurrentTab,
   events: Array<EventType>,
+  cellHeight?: number, 
 };
 
-export default function CalendarDayView({ currentDay, events }: CalendarDayViewProps) {
-  const [factor, setFactor] = useState<1 | 2 | 4> (4);
+export default function CalendarDayView({ currentDay, events, cellHeight = 80 }: CalendarDayViewProps) {
+  const [factor, setFactor] = useState<1 | 2 | 4> (1);
   const [hours, setHours] = useState<Array<number>> (Array.from(Array(24 * factor).keys()));
   
   const getMinutes = (hour: number): number => {
@@ -83,10 +82,8 @@ export default function CalendarDayView({ currentDay, events }: CalendarDayViewP
                 </td>
                 <td
                   align="center"
-                  className={concatStyles(
-                    styles["calendar-hour"],
-                    styles[getCellStyle(hour)]
-                  )}
+                  style={{height: cellHeight}}
+                  className={styles[getCellStyle(hour)]}
                 >
                 </td>
               </tr>
@@ -94,7 +91,7 @@ export default function CalendarDayView({ currentDay, events }: CalendarDayViewP
           </tbody>
         </table>
         <div className={styles["calendar-events"]}>
-          <Event border={2} events={events} factor={factor} height={40} margin={5}/>
+          <Event border={2} events={events} factor={factor} height={cellHeight} margin={5}/>
         </div>
       </div>
     </div>

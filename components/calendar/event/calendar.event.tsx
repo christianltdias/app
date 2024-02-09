@@ -1,9 +1,11 @@
+import { concatStyles } from "../../../utils/styles.utils";
 import styles from "./calendar.event.module.sass";
 
 export type EventType = {
   startDate: Date;
   endDate: Date;
   title: string;
+  type: "low" | "medium" | "important" | "default"
 };
 
 export type EventProps = {
@@ -33,7 +35,7 @@ export default function Event({
   const getHeight = (event: EventType) => {
     const minutes = getMinutes(event.startDate, event.endDate);
     var eventSize = ((height + 2 * border) * factor) * (minutes / 60) - 2 * margin;
-    return `max(${eventSize}px, 10px)`
+    return `max(${eventSize}px, ${height}px)`
   };
 
   const getTop = (event: EventType) => {
@@ -50,13 +52,14 @@ export default function Event({
       {events.map((event, index) => {
         return (
           <div
+            key={`event-${event.title}-${index}`}
             style={{
               left: getOffset(index),
               width: width,
               height: getHeight(event),
               top: getTop(event),
             }}
-            className={styles["calendar-event"]}
+            className={concatStyles(styles["calendar-event"], styles[event.type])}
           >
             {event.startDate.getHours()}:{event.startDate.getMinutes()} - {event.title}
           </div>

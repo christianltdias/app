@@ -2,8 +2,8 @@
  
 import { useRouter } from 'next/navigation';
 import Button from "../components/buttons/common/button";
-import PageComponent from "../components/page/page";
 import Calendar from '../components/calendar/calendar';
+import PageComponent from "../components/page/page";
 
 export default function Page() {
   const router = useRouter()
@@ -15,6 +15,7 @@ export default function Page() {
       <div>
         <Calendar />
       </div>
+      {/* <DatePicker isDateRange/> */}
     </PageComponent>
   );
 }

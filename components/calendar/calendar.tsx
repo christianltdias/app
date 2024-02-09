@@ -33,23 +33,27 @@ export default function Calendar({view = CalendarView.Day}: CalendarProps) {
         {
           startDate: new Date(2024, 1, 7, 3, 30 ,0),
           endDate: new Date(2024, 1, 7, 4, 0 ,0),
-          title: "30 min"
+          title: "30 min",
+          type: "default",
         },
         {
           startDate: new Date(2024, 1, 7, 3, 30 ,0),
           endDate: new Date(2024, 1, 7, 8, 30 ,0),
-          title: "5 h"
+          title: "5 h",
+          type: "low",
         },
         {
           startDate: new Date(2024, 1, 7, 2, 30 ,0),
-          endDate: new Date(2024, 1, 7, 3, 0 ,0),
-          title: "1h 45 min"
+          endDate: new Date(2024, 1, 7, 3, 15,0),
+          title: "1h 45 min",
+          type: "important",
         },
-        // {
-        //   startDate: new Date(2024, 1, 7, 3, 0 ,0),
-        //   endDate: new Date(2024, 1, 7, 4, 45 ,0),
-        //   title: "1 h 45 min"
-        // },
+        {
+          startDate: new Date(2024, 1, 7, 3, 0 ,0),
+          endDate: new Date(2024, 1, 7, 4, 45 ,0),
+          title: "1 h 45 min",
+          type: "medium",
+        },
         // {
         //   startDate: new Date(2024, 1, 7, 3, 30 ,0),
         //   endDate: new Date(2024, 1, 7, 4, 30 ,0),
