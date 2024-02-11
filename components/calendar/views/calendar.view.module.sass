@@ -2,7 +2,7 @@
   width: 100%
   display: flex
   flex-direction: column
-  justify-content: start
+  justify-content: flex-start
   max-height: 600px
   
   .calendar-day-wrapper
@@ -31,12 +31,19 @@
       .calendar-day-body
         background-color: #f7f7f7
 
+      .calendar-day-time-title
+        border-bottom: 1px solid #9c9c9cc9
+
       .calendar-day-title
         padding: 10px
+        border-bottom: 1px solid #9c9c9cc9
 
       .calendar-day-tag
+        background-color: white
         text-align: center
         width: 50px
+        font-weight: bold
+        color: #4b4b4bc7
         font-size: 10pt
 
       .calendar-hour-both

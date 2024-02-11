@@ -12,14 +12,12 @@ export type EventProps = {
   events: Array<EventType>;
   factor: 1 | 2 | 4;
   height: number;
-  border: number;
   margin: number;
 };
 
 export default function Event({
   events,
   height,
-  border,
   margin,
   factor,
 }: EventProps) {
@@ -34,19 +32,24 @@ export default function Event({
 
   const getHeight = (event: EventType) => {
     const minutes = getMinutes(event.startDate, event.endDate);
-    var eventSize = ((height + 2 * border) * factor) * (minutes / 60) - 2 * margin;
-    return `max(${eventSize}px, ${height}px)`
+    var eventSize = (height * factor) * (minutes / 60) - 2 * margin;
+    return eventSize
   };
 
   const getTop = (event: EventType) => {
     const minutes = getMinutes(new Date(event.startDate.getFullYear(), event.startDate.getMonth(), event.startDate.getDate()), event.startDate);
-    return ((height + 2 * border) * factor) * (minutes / 60) + margin;
+    return (height * factor) * (minutes / 60) + margin;
   };
 
   const getOffset = (index: number) => {
     return `calc(${index} * (${width} + 2 * ${margin}px) + ${margin}px)`
   }
 
+  const test = (initialDate: Date, finalDate: Date) => {
+    const minutes = getMinutes(initialDate, finalDate);
+    const hours = Math.floor(minutes / 60);
+    return `duration: ${hours} hour(s) and ${minutes % 60} minute(s)`
+  }
   return (
     <>
       {events.map((event, index) => {
@@ -61,7 +64,7 @@ export default function Event({
             }}
             className={concatStyles(styles["calendar-event"], styles[event.type])}
           >
-            {event.startDate.getHours()}:{event.startDate.getMinutes()} - {event.title}
+            <p>{event.title}</p>
           </div>
         );
       })}

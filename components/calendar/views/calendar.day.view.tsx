@@ -68,7 +68,7 @@ export default function CalendarDayView({ currentDay, events, cellHeight = 80 }:
         <table className={styles["calendar-day-table"]}>
           <thead>
             <tr className={styles["calendar-day-header"]}>
-              <th style={{backgroundColor: 'white'}}>Time</th>
+              <th className={styles["calendar-day-time-title"]}>Time</th>
               <th align="left" className={styles["calendar-day-title"]}>
                 {currentDay.day} - {currentDay.month} - {currentDay.year}
               </th>
@@ -91,7 +91,8 @@ export default function CalendarDayView({ currentDay, events, cellHeight = 80 }:
           </tbody>
         </table>
         <div className={styles["calendar-events"]}>
-          <Event border={2} events={events} factor={factor} height={cellHeight} margin={5}/>
+          {/* <Event border={2} events={events} factor={factor} height={cellHeight} margin={5}/> */}
+          <Event events={events} factor={factor} height={cellHeight + 4} margin={5}/>
         </div>
       </div>
     </div>

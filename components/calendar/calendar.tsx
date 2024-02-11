@@ -33,37 +33,45 @@ export default function Calendar({view = CalendarView.Day}: CalendarProps) {
         {
           startDate: new Date(2024, 1, 7, 3, 30 ,0),
           endDate: new Date(2024, 1, 7, 4, 0 ,0),
-          title: "30 min",
+          title: "Buy Ace's products",
           type: "default",
         },
         {
           startDate: new Date(2024, 1, 7, 3, 30 ,0),
           endDate: new Date(2024, 1, 7, 8, 30 ,0),
-          title: "5 h",
+          title: "Go to the dentist",
           type: "low",
         },
         {
           startDate: new Date(2024, 1, 7, 2, 30 ,0),
           endDate: new Date(2024, 1, 7, 3, 15,0),
-          title: "1h 45 min",
+          title: "Send documents to boss",
           type: "important",
         },
         {
           startDate: new Date(2024, 1, 7, 3, 0 ,0),
           endDate: new Date(2024, 1, 7, 4, 45 ,0),
-          title: "1 h 45 min",
+          title: "Take kid to school",
           type: "medium",
         },
-        // {
-        //   startDate: new Date(2024, 1, 7, 3, 30 ,0),
-        //   endDate: new Date(2024, 1, 7, 4, 30 ,0),
-        //   title: "1 h"
-        // },
-        // {
-        //   startDate: new Date(2024, 1, 7, 3, 0 ,0),
-        //   endDate: new Date(2024, 1, 7, 5, 0 ,0),
-        //   title: "2 h"
-        // },
+        {
+          startDate: new Date(2024, 1, 7, 0, 0 ,0),
+          endDate: new Date(2024, 1, 7, 1, 0 ,0),
+          title: "Plan trip",
+          type: "medium",
+        },
+        {
+          startDate: new Date(2024, 1, 7, 0, 0 ,0),
+          endDate: new Date(2024, 1, 7, 2, 0 ,0),
+          title: "Do groceries",
+          type: "low",
+        },
+        {
+          startDate: new Date(2024, 1, 7, 1, 0 ,0),
+          endDate: new Date(2024, 1, 7, 2, 0 ,0),
+          title: "Visit grandma",
+          type: "important",
+        },
       ]}/>
     </div>
   );
