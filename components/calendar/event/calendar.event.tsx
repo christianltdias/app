@@ -1,4 +1,5 @@
 import { concatStyles } from "../../../utils/styles.utils";
+import { getHeight, getMinutes, getTop } from "../utils/calendar.utils";
 import styles from "./calendar.event.module.sass";
 
 export type EventType = {
@@ -15,6 +16,16 @@ export type EventProps = {
   margin: number;
 };
 
+type EventComponent = {
+  id: number,
+  top: number,
+  height: number,
+  // left: string,
+  duration: number,
+  event: EventType,
+  conflicts: Array<EventComponent>,
+}
+
 export default function Event({
   events,
   height,
@@ -22,49 +33,67 @@ export default function Event({
   factor,
 }: EventProps) {
 
-  const width = `calc(${100 / events.length}% - ${2 * margin}px)`;
-
-  const getMinutes = (initialDate: Date, finalDate: Date): number => {
-    const initialDateMiliseconds = initialDate.getTime();
-    const finalDateMiliseconds = finalDate.getTime();
-    return (finalDateMiliseconds - initialDateMiliseconds) / (1000 * 60);
-  }
-
-  const getHeight = (event: EventType) => {
-    const minutes = getMinutes(event.startDate, event.endDate);
-    var eventSize = (height * factor) * (minutes / 60) - 2 * margin;
-    return eventSize
+  const width = (event: EventComponent) => {
+    var conflicts = event.conflicts.length === 1 ? 1 : Math.max(...event.conflicts.map(x => x.conflicts.length))
+    return `calc(${100 / (conflicts + 1) }% - ${2 * margin}px)`;
   };
 
-  const getTop = (event: EventType) => {
-    const minutes = getMinutes(new Date(event.startDate.getFullYear(), event.startDate.getMonth(), event.startDate.getDate()), event.startDate);
-    return (height * factor) * (minutes / 60) + margin;
-  };
+  const RemainingWidth = (conflicts: EventComponent) => `calc(100% - ${width(conflicts)})`;
 
-  const getOffset = (index: number) => {
-    return `calc(${index} * (${width} + 2 * ${margin}px) + ${margin}px)`
+  const getEvents = () : Array<EventComponent> => {
+    const components = events
+    .map((event, index) => {
+      return {
+        id: index,
+        event,
+        height: getHeight(event.startDate, event.endDate, height, factor, margin),
+        top: getTop(event.startDate, height, factor, margin),
+        duration: getMinutes(event.startDate, event.endDate),
+        conflicts: [],
+      }
+    });
+    
+    components.forEach(event => {
+      const isOverlapped = (anchor: EventComponent, ref: EventComponent) => {
+        const ancS = anchor.event.startDate;
+        const ancE = anchor.event.endDate;
+        const refS = ref.event.startDate;
+        const refE = ref.event.endDate;
+        return refS < ancS && (refE <= ancE && refE > ancS) ||
+          (refS >= ancS && refS < ancE) && (refE <= ancE && refE > ancS) ||
+          (refS >= ancS && refS < ancE) && refE > ancE  ||
+          refS <= ancS && refE >= ancE;
+      }
+
+      const occurences = components
+        .filter(x => x.id !== event.id && isOverlapped(event, x));
+
+      event.conflicts = occurences; 
+    })
+
+    return components;
   }
 
-  const test = (initialDate: Date, finalDate: Date) => {
-    const minutes = getMinutes(initialDate, finalDate);
-    const hours = Math.floor(minutes / 60);
-    return `duration: ${hours} hour(s) and ${minutes % 60} minute(s)`
+  const getOffset = (event: EventComponent): string => {
+    const index = 0
+    return `calc(${index} * (${RemainingWidth(event)} + 2 * ${margin}px) + ${margin}px)`
   }
+
   return (
     <>
-      {events.map((event, index) => {
+      {getEvents().map((component, index) => {
         return (
           <div
-            key={`event-${event.title}-${index}`}
+            key={`event-${component.event.title}-${index}`}
             style={{
-              left: getOffset(index),
-              width: width,
-              height: getHeight(event),
-              top: getTop(event),
+              left: getOffset(component),
+              width: width(component),
+              height: component.height,
+              top: component.top,
             }}
-            className={concatStyles(styles["calendar-event"], styles[event.type])}
+            className={concatStyles(styles["calendar-event"], styles[component.event.type])}
           >
-            <p>{event.title}</p>
+            <p>{component.event.title}-{component.conflicts.length}-{component.conflicts.map(x => x.event.title).join(', ')}</p>
           </div>
         );
       })}

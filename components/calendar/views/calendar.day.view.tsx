@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CurrentTab } from "../calendar";
 import Event, { EventType } from "../event/calendar.event";
+import { getDayName, getTop } from "../utils/calendar.utils";
 import styles from "./calendar.view.module.sass";
 
 type CalendarDayViewProps = {
@@ -10,9 +11,18 @@ type CalendarDayViewProps = {
 };
 
 export default function CalendarDayView({ currentDay, events, cellHeight = 80 }: CalendarDayViewProps) {
+  const wrapperRef = useRef(null);
+  
   const [factor, setFactor] = useState<1 | 2 | 4> (1);
   const [hours, setHours] = useState<Array<number>> (Array.from(Array(24 * factor).keys()));
   
+  const currentDayDate = new Date()
+  const top = getTop(currentDayDate, cellHeight + 4, factor, 5) + 50
+
+  useEffect(()=> {
+    scrollToCurrent();
+  }, [wrapperRef])
+
   const getMinutes = (hour: number): number => {
     const residual = hour % factor;
 
@@ -29,6 +39,13 @@ export default function CalendarDayView({ currentDay, events, cellHeight = 80 }:
     }
 
     return 0;
+  }
+
+  const scrollToCurrent = () => {
+    wrapperRef.current.scrollTo({
+      behavior: "smooth",
+      top: top,
+    })
   }
 
   const getCellStyle = (hour: number): string => {
@@ -64,13 +81,13 @@ export default function CalendarDayView({ currentDay, events, cellHeight = 80 }:
 
   return (
     <div className={styles["calendar-day-container"]}>
-      <div className={styles["calendar-day-wrapper"]}>
+      <div className={styles["calendar-day-wrapper"]} ref={wrapperRef}>
         <table className={styles["calendar-day-table"]}>
           <thead>
             <tr className={styles["calendar-day-header"]}>
               <th className={styles["calendar-day-time-title"]}>Time</th>
-              <th align="left" className={styles["calendar-day-title"]}>
-                {currentDay.day} - {currentDay.month} - {currentDay.year}
+              <th align="left" className={styles["calendar-day-title"]} onClick={scrollToCurrent}>
+                {getDayName(currentDay)}
               </th>
             </tr>
           </thead>
@@ -91,9 +108,9 @@ export default function CalendarDayView({ currentDay, events, cellHeight = 80 }:
           </tbody>
         </table>
         <div className={styles["calendar-events"]}>
-          {/* <Event border={2} events={events} factor={factor} height={cellHeight} margin={5}/> */}
           <Event events={events} factor={factor} height={cellHeight + 4} margin={5}/>
         </div>
+        <hr className={styles["calendar-hour-line"]} style={{top: top}}/>
       </div>
     </div>
   );

@@ -1,3 +1,5 @@
+@import '../../../styles/variables'
+
 .calendar-day-container
   width: 100%
   display: flex
@@ -16,6 +18,17 @@
       top: 50px
       left: 50px
       z-index: 5
+
+    .calendar-hour-line
+      position: absolute
+      width: calc(100% - 50px)
+      margin: 0
+      box-sizing: border-box
+      height: 1pix
+      border: 1px solid $primary-color
+      left: 50px
+      top: 50px
+      z-index: 1
     
     .calendar-day-table
       width: 100%
@@ -35,6 +48,7 @@
         border-bottom: 1px solid #9c9c9cc9
 
       .calendar-day-title
+        cursor: pointer
         padding: 10px
         border-bottom: 1px solid #9c9c9cc9
 

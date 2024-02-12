@@ -8,3 +8,14 @@ html, body
   overflow-x: hidden
   width: 100vw
 
+::-webkit-scrollbar
+  width: 8px
+  height: 8px
+  border-radius: 4px
+
+  &:hover
+    background-color: $scroll-thumb-background
+
+::-webkit-scrollbar-thumb
+  background-color: $scroll-thumb-color
+  border-radius: 4px
