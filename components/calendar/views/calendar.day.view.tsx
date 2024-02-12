@@ -1,82 +1,79 @@
-import { useEffect, useRef, useState } from "react";
-import { CurrentTab } from "../calendar";
-import Event, { EventType } from "../event/calendar.event";
-import { getDayName, getTop } from "../utils/calendar.utils";
+import { createRef, useEffect, useRef, useState } from "react";
+import Event from "../event/calendar.event";
+import {
+  createCalendarDayCells,
+  getDayName,
+  getTop,
+} from "../utils/calendar.utils";
 import styles from "./calendar.view.module.sass";
+import { CalendarCell, CalendarEvent } from "../types/calendar.types";
 
 type CalendarDayViewProps = {
-  currentDay: CurrentTab,
-  events: Array<EventType>,
-  cellHeight?: number, 
+  currentDay: Date;
+  events: Array<CalendarEvent>;
+  cellHeight?: number;
 };
 
-export default function CalendarDayView({ currentDay, events, cellHeight = 80 }: CalendarDayViewProps) {
+export default function CalendarDayView({
+  currentDay,
+  events,
+  cellHeight = 80,
+}: CalendarDayViewProps) {
   const wrapperRef = useRef(null);
-  
-  const [factor, setFactor] = useState<1 | 2 | 4> (1);
-  const [hours, setHours] = useState<Array<number>> (Array.from(Array(24 * factor).keys()));
-  
-  const currentDayDate = new Date()
-  const top = getTop(currentDayDate, cellHeight + 4, factor, 5) + 50
 
-  useEffect(()=> {
-    scrollToCurrent();
-  }, [wrapperRef])
+  const [factor, setFactor] = useState<1 | 2 | 4>(1);
+  const [hours, setHours] = useState<Array<CalendarCell>>(
+    createCalendarDayCells(currentDay, factor, events)
+  );
 
-  const getMinutes = (hour: number): number => {
-    const residual = hour % factor;
+  const [cellRefs, setCellRefs] = useState([]);
 
-    if (residual === 0){
-      return 0;
-    } else if (factor === 2) {
-      return 30;
-    } else if (residual === 1){
-      return 15;
-    } else if (residual === 2){
-      return 30
-    } else if (residual === 3){
-      return 45
-    }
+  const top = getTop(currentDay, cellHeight + 4, factor, 5) + 50;
 
-    return 0;
-  }
+  useEffect(() => {
+    setCellRefs((elRefs) => hours.map((_, i) => elRefs[i] || createRef()));
+  }, []);
+
+  useEffect(() => {
+    // scrollToCurrent();
+  }, [wrapperRef]);
 
   const scrollToCurrent = () => {
     wrapperRef.current.scrollTo({
       behavior: "smooth",
       top: top,
-    })
-  }
+    });
+  };
 
-  const getCellStyle = (hour: number): string => {
-    if(factor === 1){
-      return 'calendar-hour-both'
-    }
-    else if (factor === 2 ){
-      if(hour % factor){
-        return 'calendar-hour-top'
+  const getCellStyle = (cell: CalendarCell): string => {
+    const minutes = cell.startDate.getMinutes();
+    if (factor === 1) {
+      return "calendar-hour-both";
+    } else if (factor === 2) {
+      if (minutes !== 0) {
+        return "calendar-hour-top";
       }
-      return 'calendar-hour-bottom'
-    }
-    else {
-      if(hour % factor === 1 || hour % factor === 2){
-        return 'calendar-hour-middle'
-      } else if(hour % factor === 3){
-        return 'calendar-hour-top'
+      return "calendar-hour-bottom";
+    } else {
+      if (minutes === 15 || minutes === 30) {
+        return "calendar-hour-middle";
+      } else if (minutes !== 0) {
+        return "calendar-hour-top";
       }
-      return 'calendar-hour-bottom'
+      return "calendar-hour-bottom";
     }
-  }
+  };
 
-  const getTimeTag = (index: number, onlyExactHours: boolean = true): string => {
-    const minutes =  getMinutes(index % factor);
-    
-    if(onlyExactHours&& index % factor){
-      return ''; 
+  const getTimeTag = (date: Date, onlyExactHours: boolean = true): string => {
+    if (date.getMinutes() !== 0 && onlyExactHours) {
+      return "";
     }
-    const hour = Math.floor(index / factor);
 
-    return `${hour < 10 ? `0${hour}` : hour}:${minutes < 10 ? `0${minutes}` : minutes}`
+    return date.toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+      hourCycle: "h23",
+    });
   };
 
   return (
@@ -86,31 +83,44 @@ export default function CalendarDayView({ currentDay, events, cellHeight = 80 }:
           <thead>
             <tr className={styles["calendar-day-header"]}>
               <th className={styles["calendar-day-time-title"]}>Time</th>
-              <th align="left" className={styles["calendar-day-title"]} onClick={scrollToCurrent}>
+              <th
+                align="left"
+                className={styles["calendar-day-title"]}
+                onClick={scrollToCurrent}
+              >
                 {getDayName(currentDay)}
               </th>
             </tr>
           </thead>
           <tbody className={styles["calendar-day-body"]}>
-            {hours.map((hour, index) => (
+            {hours.map((cell, index) => (
               <tr key={`row-${index}}`}>
                 <td valign="top" className={styles["calendar-day-tag"]}>
-                  {getTimeTag(hour, true)}
+                  {getTimeTag(cell.startDate, true)}
                 </td>
                 <td
                   align="center"
-                  style={{height: cellHeight}}
-                  className={styles[getCellStyle(hour)]}
+                  style={{ height: cellHeight }}
+                  className={styles[getCellStyle(cell)]}
+                  ref={cellRefs[index]}
                 >
+                  {cell.events.map((event, eventIndex) => (
+                    <Event
+                      event={event}
+                      margin={5}
+                      ref={cellRefs[index]}
+                      index={eventIndex}
+                      total={cell.events.length}
+                      factor={factor}
+                      cell={cell}
+                    />
+                  ))}
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
-        <div className={styles["calendar-events"]}>
-          <Event events={events} factor={factor} height={cellHeight + 4} margin={5}/>
-        </div>
-        <hr className={styles["calendar-hour-line"]} style={{top: top}}/>
+        {/* <hr className={styles["calendar-hour-line"]} style={{top: top}}/> */}
       </div>
     </div>
   );

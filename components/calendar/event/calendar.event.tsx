@@ -1,102 +1,62 @@
+import { MutableRefObject, forwardRef, useEffect, useState } from "react";
 import { concatStyles } from "../../../utils/styles.utils";
-import { getHeight, getMinutes, getTop } from "../utils/calendar.utils";
+import { CalendarCell, CalendarEvent } from "../types/calendar.types";
 import styles from "./calendar.event.module.sass";
 
-export type EventType = {
-  startDate: Date;
-  endDate: Date;
-  title: string;
-  type: "low" | "medium" | "important" | "default"
-};
-
 export type EventProps = {
-  events: Array<EventType>;
-  factor: 1 | 2 | 4;
-  height: number;
+  event: CalendarEvent;
   margin: number;
+  index: number;
+  total: number;
+  factor: number;
+  cell: CalendarCell;
 };
 
-type EventComponent = {
-  id: number,
-  top: number,
-  height: number,
-  // left: string,
-  duration: number,
-  event: EventType,
-  conflicts: Array<EventComponent>,
-}
-
-export default function Event({
-  events,
-  height,
+const Event= forwardRef(({
+  event,
   margin,
+  index,
+  total,
   factor,
-}: EventProps) {
+  cell
+}: EventProps, forwardedRef: MutableRefObject<any>) => {
+  const [width, setWidth] = useState<number>(0)
+  const [height, setHeight] = useState<number>(0)
+  const [boundary, setBoundary] = useState<{width: number, height: number}>({width: 0, height: 0})
 
-  const width = (event: EventComponent) => {
-    var conflicts = event.conflicts.length === 1 ? 1 : Math.max(...event.conflicts.map(x => x.conflicts.length))
-    return `calc(${100 / (conflicts + 1) }% - ${2 * margin}px)`;
+  const leftOffset = (): number => width * index +  margin
+  const topOffset = (): number => {
+    const minutes = CalendarEvent.getDuration(cell.startDate, event.startDate);
+    return boundary.height * minutes * factor / 60 + margin;
   };
-
-  const RemainingWidth = (conflicts: EventComponent) => `calc(100% - ${width(conflicts)})`;
-
-  const getEvents = () : Array<EventComponent> => {
-    const components = events
-    .map((event, index) => {
-      return {
-        id: index,
-        event,
-        height: getHeight(event.startDate, event.endDate, height, factor, margin),
-        top: getTop(event.startDate, height, factor, margin),
-        duration: getMinutes(event.startDate, event.endDate),
-        conflicts: [],
-      }
-    });
-    
-    components.forEach(event => {
-      const isOverlapped = (anchor: EventComponent, ref: EventComponent) => {
-        const ancS = anchor.event.startDate;
-        const ancE = anchor.event.endDate;
-        const refS = ref.event.startDate;
-        const refE = ref.event.endDate;
-        return refS < ancS && (refE <= ancE && refE > ancS) ||
-          (refS >= ancS && refS < ancE) && (refE <= ancE && refE > ancS) ||
-          (refS >= ancS && refS < ancE) && refE > ancE  ||
-          refS <= ancS && refE >= ancE;
-      }
-
-      const occurences = components
-        .filter(x => x.id !== event.id && isOverlapped(event, x));
-
-      event.conflicts = occurences; 
-    })
-
-    return components;
-  }
-
-  const getOffset = (event: EventComponent): string => {
-    const index = 0
-    return `calc(${index} * (${RemainingWidth(event)} + 2 * ${margin}px) + ${margin}px)`
-  }
+  
+  useEffect(() => {
+    if(forwardedRef && forwardedRef.current) {
+      var boundary = forwardedRef.current.getBoundingClientRect(); 
+      setWidth(boundary.width / total - 2 * margin)
+      setHeight((boundary.height * event.duration * factor / 60) - 2 * margin)
+      setBoundary({width: boundary.width, height: boundary.height})
+    }
+  }, [forwardedRef])
 
   return (
     <>
-      {getEvents().map((component, index) => {
-        return (
-          <div
-            key={`event-${component.event.title}-${index}`}
-            style={{
-              left: getOffset(component),
-              width: width(component),
-              height: component.height,
-              top: component.top,
-            }}
-            className={concatStyles(styles["calendar-event"], styles[component.event.type])}
-          >
-            <p>{component.event.title}-{component.conflicts.length}-{component.conflicts.map(x => x.event.title).join(', ')}</p>
-          </div>
-        );
-      })}
+      {forwardedRef && forwardedRef.current &&
+        <div
+          key={`event-${event.title}`}
+          style={{
+            left: leftOffset(),
+            width,
+            height,
+            top: topOffset(),
+          }}
+          className={concatStyles(styles["calendar-event"], styles[event.type])}
+        >
+          <p>{event.title}</p>
+        </div>
+      }
     </>
   );
-}
+})
+
+export default Event;
