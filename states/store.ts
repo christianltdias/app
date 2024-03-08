@@ -1,9 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { dragReducer } from './slices/components/drag/drag.slice'
+import { calendarReducer } from './slices/components/calendar/calendar.slice'
 
 export const makeStore = () => {
   return configureStore({
-    reducer: { drag: dragReducer },
+    reducer: { 
+      drag: dragReducer,
+      calendar: calendarReducer,
+    },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }),
   })
 }

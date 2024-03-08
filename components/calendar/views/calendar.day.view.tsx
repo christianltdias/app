@@ -1,12 +1,13 @@
 import { createRef, useEffect, useRef, useState } from "react";
 import Event from "../event/calendar.event";
 import {
-  createCalendarDayCells,
   getDayName,
   getTop,
-} from "../utils/calendar.utils";
+} from "../../../utils/calendar.utils";
 import styles from "./calendar.view.module.sass";
-import { CalendarCell, CalendarEvent } from "../types/calendar.types";
+import { CalendarCell, CalendarEvent } from "../../../types/calendar.types";
+import { useAppDispatch, useAppSelector } from "../../../states/hooks";
+import { setCells } from "../../../states/slices/components/calendar/calendar.slice";
 
 type CalendarDayViewProps = {
   currentDay: Date;
@@ -20,18 +21,17 @@ export default function CalendarDayView({
   cellHeight = 80,
 }: CalendarDayViewProps) {
   const wrapperRef = useRef(null);
-
-  const [factor, setFactor] = useState<1 | 2 | 4>(1);
-  const [hours, setHours] = useState<Array<CalendarCell>>(
-    createCalendarDayCells(currentDay, factor, events)
-  );
-
+  const dispatch = useAppDispatch();
+  
+  const factor = useAppSelector(state => state.calendar.factor);
+  const hours = useAppSelector(state => state.calendar.cells);
   const [cellRefs, setCellRefs] = useState([]);
 
   const top = getTop(currentDay, cellHeight + 4, factor, 5) + 50;
 
   useEffect(() => {
     setCellRefs((elRefs) => hours.map((_, i) => elRefs[i] || createRef()));
+    dispatch(setCells({cells: hours, events}))
   }, []);
 
   useEffect(() => {
@@ -104,13 +104,11 @@ export default function CalendarDayView({
                   className={styles[getCellStyle(cell)]}
                   ref={cellRefs[index]}
                 >
-                  {cell.events.map((event, eventIndex) => (
+                  {events.filter(e => e.parentCell?.id === cell.id).map((event) => (
                     <Event
                       event={event}
                       margin={5}
                       ref={cellRefs[index]}
-                      index={eventIndex}
-                      total={cell.events.length}
                       factor={factor}
                       cell={cell}
                     />
