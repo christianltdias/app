@@ -8,6 +8,7 @@ import styles from "./calendar.view.module.sass";
 import { CalendarCell, CalendarEvent } from "../../../types/calendar.types";
 import { useAppDispatch, useAppSelector } from "../../../states/hooks";
 import { setCells } from "../../../states/slices/components/calendar/calendar.slice";
+import Spinner from "../../spinner/spinner";
 
 type CalendarDayViewProps = {
   currentDay: Date;
@@ -25,6 +26,7 @@ export default function CalendarDayView({
   
   const factor = useAppSelector(state => state.calendar.factor);
   const hours = useAppSelector(state => state.calendar.cells);
+  const loading = useAppSelector(state => state.calendar.loading);
   const [cellRefs, setCellRefs] = useState([]);
 
   const top = getTop(currentDay, cellHeight + 4, factor, 5) + 50;
@@ -104,7 +106,7 @@ export default function CalendarDayView({
                   className={styles[getCellStyle(cell)]}
                   ref={cellRefs[index]}
                 >
-                  {events.filter(e => e.parentCell?.id === cell.id).map((event) => (
+                  {!loading && events.filter(e => e.parentCell?.id === cell.id).map((event) => (
                     <Event
                       event={event}
                       margin={5}
@@ -118,8 +120,11 @@ export default function CalendarDayView({
             ))}
           </tbody>
         </table>
-        {/* <hr className={styles["calendar-hour-line"]} style={{top: top}}/> */}
       </div>
+        {/* <hr className={styles["calendar-hour-line"]} style={{top: top}}/> */}
+        <div className={styles["spinner-wrapper"]}>
+          {loading && <Spinner />}
+        </div>
     </div>
   );
 }

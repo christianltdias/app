@@ -2,8 +2,9 @@
  
 import { useRouter } from 'next/navigation';
 import Button from "../components/buttons/common/button";
-import Calendar from '../components/calendar/calendar';
 import PageComponent from "../components/page/page";
+// import Spinner from '../components/spinner/spinner';
+import Calendar from '../components/calendar/calendar';
 
 export default function Page() {
   const router = useRouter()
@@ -11,11 +12,7 @@ export default function Page() {
   return (
     <PageComponent title="Home">
       <Button onClick={() => router.push('/dashboard')}>Dashboard</Button>
-      {/* <div style={{width: '300px', height: '120vh'}}> */}
-      <div>
-        <Calendar />
-      </div>
-      {/* <DatePicker isDateRange/> */}
+      <Calendar/>
     </PageComponent>
   );
 }

@@ -9,6 +9,7 @@ export interface ICalendarState {
   cells: Array<CalendarCell>,
   factor: 1 | 2 | 4,
   selectedDate: Date,
+  loading: boolean,
 }
 
 const initialState: ICalendarState = {
@@ -16,6 +17,7 @@ const initialState: ICalendarState = {
   factor: 1,
   cells: createCalendarDayCells(new Date(), 1),
   selectedDate: new Date(),
+  loading: true,
 };
 
 export const calendarSlice = createSlice({
@@ -33,6 +35,7 @@ export const calendarSlice = createSlice({
     },
     setCells: (state, action: PayloadAction<MapCalendarEvents>) => {
       state.cells = mapEvents(action.payload.events, action.payload.cells);
+      state.loading = false;
     },
   },
 });
