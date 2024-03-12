@@ -50,10 +50,6 @@ export const mapEvents = (events: Array<CalendarEvent>, cells: Array<CalendarCel
       if(isCellParentOfEvent(e, c)){
         e.parentCell = c
       }
-      if(isCellPartOfEvent(e, c)){
-        e.addCell(c);
-        c.addEvent(e)
-      }
     })
   })
 

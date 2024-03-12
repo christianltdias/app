@@ -13,7 +13,6 @@ export class CalendarCell {
   endDate: Date;
   row: number;
   column: number;
-  private events: Array<CalendarEvent>;
 
   constructor(id: number, startDate: Date, endDate: Date, row: number, column: number){
     this.id = id;
@@ -21,38 +20,25 @@ export class CalendarCell {
     this.endDate = endDate;
     this.row = row;
     this.column = column;
-    this.events = [];
   }  
-  
-  public addEvent(event: CalendarEvent): void {
-    if(!this.events.filter(x => x.id === event.id).length) {
-      this.events.push(event)
-    }
-  }
 
-  public getEvents(): Array<CalendarEvent> {
-    return this.events;
-  }
-
-  public getEventOrder(event: CalendarEvent): number {
-    this.events = this.events.filter(e=> isCellPartOfEvent(event, e)).sort((a, b) => {
-      let value = b.parentCell.row - a.parentCell.row;
+  public static getEventsOrdered(event: CalendarEvent, cells: CalendarCell[], events: CalendarEvent[]): CalendarEvent[] {
+    return events.filter(e=> e.id === event.id || isCellPartOfEvent(event, e)).sort((a, b) => {
+      let value = a.parentCell.row - b.parentCell.row;
       if(value === 0){
-        value = a.startDate.getTime() - b.endDate.getTime();
+        value = b.startDate.getTime() - a.endDate.getTime();
 
         if(value === 0){
-          value = a.getTotalConflicts() - b.getTotalConflicts();
+          value = CalendarEvent.getTotalConflicts(a, cells, events) - CalendarEvent.getTotalConflicts(b, cells, events);
 
           if(value === 0){
-            return a.duration - b.duration
+            return b.duration - a.duration
           }   
         }
       }
 
       return value;
     })
-
-    return this.events.findIndex(e => e.id === event.id);
   }
 }
 
@@ -65,8 +51,6 @@ export class CalendarEvent {
   isWholeDay: boolean;
   duration: number;
   parentCell: CalendarCell;
-  private cells: Array<CalendarCell>;
-  private conflicts: number;
   
   constructor(startDate: Date, title: string, type: "low" | "medium" | "important" | "default", endDate?: Date){
     this.id = uuidv4();
@@ -76,8 +60,6 @@ export class CalendarEvent {
     this.type = type;
     this.isWholeDay = !!endDate;
     this.duration = CalendarEvent.getDuration(startDate, endDate);
-    this.cells = []
-    this.conflicts = 0;
   }
 
   public static getDuration(startDate: Date, endDate: Date): number {
@@ -89,25 +71,9 @@ export class CalendarEvent {
     return (finalDateMiliseconds - initialDateMiliseconds) / (1000 * 60);
   }
 
-  public addCell(cell: CalendarCell): void {
-    if(!this.cells.filter(x => x.id === cell.id).length) {
-      this.cells.push(cell)
-    } 
-  }
-
-  public getCells(): Array<CalendarCell> {
-    return this.cells;
-  }
-
-  public getTotalConflicts(): number {
-    return Math.max(...this.cells.map(cell => {
-      if(this.conflicts > 0){
-        return this.conflicts;
-      }
-      var events = cell.getEvents().filter(e => e.id !== this.id && isCellPartOfEvent(this, e));
-      
-      this.conflicts = events.length;
-      return this.conflicts;
+  public static getTotalConflicts(event: CalendarEvent, cells: CalendarCell[], events: CalendarEvent[]): number {
+    return Math.max(...cells.filter(c => isCellPartOfEvent(event, c)).map(cell => {
+      return events.filter(e => e.id !== event.id && isCellPartOfEvent(e, cell) && isCellPartOfEvent(event, e)).length;
     }));
   }
 }

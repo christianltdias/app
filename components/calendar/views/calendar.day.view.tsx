@@ -3,11 +3,11 @@ import Event from "../event/calendar.event";
 import {
   getDayName,
   getTop,
+  mapEvents,
 } from "../../../utils/calendar.utils";
 import styles from "./calendar.view.module.sass";
 import { CalendarCell, CalendarEvent } from "../../../types/calendar.types";
 import { useAppDispatch, useAppSelector } from "../../../states/hooks";
-import { setCells } from "../../../states/slices/components/calendar/calendar.slice";
 import Spinner from "../../spinner/spinner";
 
 type CalendarDayViewProps = {
@@ -26,14 +26,16 @@ export default function CalendarDayView({
   
   const factor = useAppSelector(state => state.calendar.factor);
   const hours = useAppSelector(state => state.calendar.cells);
-  const loading = useAppSelector(state => state.calendar.loading);
+
   const [cellRefs, setCellRefs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [cells, setCells] = useState<CalendarCell[]>(mapEvents(events, hours));
 
   const top = getTop(currentDay, cellHeight + 4, factor, 5) + 50;
 
   useEffect(() => {
     setCellRefs((elRefs) => hours.map((_, i) => elRefs[i] || createRef()));
-    dispatch(setCells({cells: hours, events}))
+    setLoading(false);
   }, []);
 
   useEffect(() => {
@@ -95,7 +97,7 @@ export default function CalendarDayView({
             </tr>
           </thead>
           <tbody className={styles["calendar-day-body"]}>
-            {hours.map((cell, index) => (
+            {cells.map((cell, index) => (
               <tr key={`row-${index}}`}>
                 <td valign="top" className={styles["calendar-day-tag"]}>
                   {getTimeTag(cell.startDate, true)}
@@ -108,6 +110,7 @@ export default function CalendarDayView({
                 >
                   {!loading && events.filter(e => e.parentCell?.id === cell.id).map((event) => (
                     <Event
+                      events={events}
                       event={event}
                       margin={5}
                       ref={cellRefs[index]}
