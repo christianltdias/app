@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { CalendarCell, CalendarView } from "../../../../types/calendar.types";
-import { MapCalendarEvents, SetCalendarFactor, SetCalendarSelectedDate, SetCalendarView } from "./calendar.actions";
-import { createCalendarDayCells, mapEvents } from "../../../../utils/calendar.utils";
+import { SetCalendarFactor, SetCalendarSelectedDate, SetCalendarView } from "./calendar.actions";
+import { createCalendarDayCells} from "../../../../utils/calendar.utils";
 
 export interface ICalendarState {
   view: CalendarView,

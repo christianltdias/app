@@ -1,4 +1,3 @@
-import { isCellPartOfEvent } from "../utils/calendar.utils";
 import { uuidv4 } from "../utils/id.utils";
 
 export enum CalendarView {
@@ -20,25 +19,6 @@ export class CalendarCell {
     this.endDate = endDate;
     this.row = row;
     this.column = column;
-  }  
-
-  public static getEventsOrdered(event: CalendarEvent, cells: CalendarCell[], events: CalendarEvent[]): CalendarEvent[] {
-    return events.filter(e=> e.id === event.id || isCellPartOfEvent(event, e)).sort((a, b) => {
-      let value = a.parentCell.row - b.parentCell.row;
-      if(value === 0){
-        value = b.startDate.getTime() - a.endDate.getTime();
-
-        if(value === 0){
-          value = CalendarEvent.getTotalConflicts(a, cells, events) - CalendarEvent.getTotalConflicts(b, cells, events);
-
-          if(value === 0){
-            return b.duration - a.duration
-          }   
-        }
-      }
-
-      return value;
-    })
   }
 }
 
@@ -51,6 +31,8 @@ export class CalendarEvent {
   isWholeDay: boolean;
   duration: number;
   parentCell: CalendarCell;
+  maxConflictedEvents: CalendarEvent[];
+  column: number | undefined;
   
   constructor(startDate: Date, title: string, type: "low" | "medium" | "important" | "default", endDate?: Date){
     this.id = uuidv4();
@@ -60,6 +42,8 @@ export class CalendarEvent {
     this.type = type;
     this.isWholeDay = !!endDate;
     this.duration = CalendarEvent.getDuration(startDate, endDate);
+    this.maxConflictedEvents = [];
+    this.column = undefined;
   }
 
   public static getDuration(startDate: Date, endDate: Date): number {
@@ -71,9 +55,8 @@ export class CalendarEvent {
     return (finalDateMiliseconds - initialDateMiliseconds) / (1000 * 60);
   }
 
-  public static getTotalConflicts(event: CalendarEvent, cells: CalendarCell[], events: CalendarEvent[]): number {
-    return Math.max(...cells.filter(c => isCellPartOfEvent(event, c)).map(cell => {
-      return events.filter(e => e.id !== event.id && isCellPartOfEvent(e, cell) && isCellPartOfEvent(event, e)).length;
-    }));
+  public getTotalConflicts(): number {
+    const maxtotal = Math.max(...this.maxConflictedEvents.map(x => x.maxConflictedEvents.length));
+    return maxtotal < this.maxConflictedEvents.length ? maxtotal : this.maxConflictedEvents.length;
   }
 }

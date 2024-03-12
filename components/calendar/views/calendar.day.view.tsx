@@ -3,6 +3,7 @@ import Event from "../event/calendar.event";
 import {
   getDayName,
   getTop,
+  isCellPartOfEvent,
   mapEvents,
 } from "../../../utils/calendar.utils";
 import styles from "./calendar.view.module.sass";
@@ -49,6 +50,21 @@ export default function CalendarDayView({
     });
   };
 
+  const getEvents = (events: CalendarEvent[], cells: CalendarCell[]): CalendarEvent[] => {
+    cells.map(cell => {
+      var cellEvents = events.filter(event => isCellPartOfEvent(event, cell))
+      cellEvents.map(refevent => {
+        var conflictedEvents = cellEvents.filter(event => refevent.id !== event.id && isCellPartOfEvent(refevent, event))
+        if(refevent.maxConflictedEvents.length < conflictedEvents.length){
+          console.log(refevent.title)
+          refevent.maxConflictedEvents = conflictedEvents;
+          console.log(refevent.maxConflictedEvents.length)
+        }
+      })
+    })
+    return events;
+  }
+
   const getCellStyle = (cell: CalendarCell): string => {
     const minutes = cell.startDate.getMinutes();
     if (factor === 1) {
@@ -80,6 +96,8 @@ export default function CalendarDayView({
     });
   };
 
+  const mappedEvents = getEvents(events, cells);
+
   return (
     <div className={styles["calendar-day-container"]}>
       <div className={styles["calendar-day-wrapper"]} ref={wrapperRef}>
@@ -108,9 +126,8 @@ export default function CalendarDayView({
                   className={styles[getCellStyle(cell)]}
                   ref={cellRefs[index]}
                 >
-                  {!loading && events.filter(e => e.parentCell?.id === cell.id).map((event) => (
+                  {!loading && mappedEvents.filter(e => e.parentCell?.id === cell.id).map((event) => (
                     <Event
-                      events={events}
                       event={event}
                       margin={5}
                       ref={cellRefs[index]}
