@@ -1,5 +1,7 @@
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import styles from "./dropdown.common.module.sass";
+import { concatStyles } from "../../../../utils/styles.utils";
+import * as Unicons from '@iconscout/react-unicons';
 
 type DropdownItem = {
   title: string;
@@ -9,12 +11,21 @@ type DropdownItem = {
 
 type DropdownProps = {
   children: ReactNode;
+  color: 'primary' | 'secondary' | 'white';
   items?: DropdownItem[];
+  isSelection?: boolean;
 };
 
-export default function Dropdown({ children, items = [] }: DropdownProps) {
+export default function Dropdown({ children, items = [], color = 'white', isSelection = false }: DropdownProps) {
+  const [selected, setSelected] = useState<DropdownItem | undefined>(undefined);
+
   if(items.filter(i => i.items && i.items.length > 0).length > 1){
     throw new Error("Dropdown should not contain more than one item with sub items.")
+  }
+
+  const handleClick = (e: React.MouseEvent<HTMLElement>, item: DropdownItem) => {
+    setSelected(item);
+    item.onClick?.apply(e)
   }
 
   const getDropdownItem = (item: DropdownItem): ReactNode => {
@@ -27,8 +38,8 @@ export default function Dropdown({ children, items = [] }: DropdownProps) {
             id="dropdown-sub"
             name="dropdown-sub"
           />
-          <label className={styles["for-dropdown-sub"]} htmlFor="dropdown-sub">
-            {item.title} <i className={styles["uil uil-plus"]}></i>
+          <label className={concatStyles(styles["for-dropdown-sub"], styles[color])} htmlFor="dropdown-sub">
+            {item.title} <Unicons.UilPlus className={styles["uil"]} size="20" color="white" />
           </label>
           {item.items && item.items.length > 0 &&
             <div className={styles["section-dropdown-sub"]}>
@@ -38,10 +49,11 @@ export default function Dropdown({ children, items = [] }: DropdownProps) {
         </>
       );
     }
+
     return (
-      <a href="#" onClick={item.onClick}>
+      <a href="#" onClick={(e) => handleClick(e, item)} className={styles[color]}>
         {item.title}
-        <i className={styles["uil uil-arrow-right"]}></i>
+        <Unicons.UilArrowRight className={styles["uil"]} size="20" color="white" />
       </a>
     );
   };
@@ -56,8 +68,8 @@ export default function Dropdown({ children, items = [] }: DropdownProps) {
             id="dropdown"
             name="dropdown"
           />
-          <label className={styles["for-dropdown"]} htmlFor="dropdown">
-            {children} <i className={styles["uil uil-arrow-down"]}></i>
+          <label className={concatStyles(styles["for-dropdown"], styles["fixed"], styles[color])} htmlFor="dropdown">
+            {isSelection && selected ? selected.title : children} <Unicons.UilArrowDown className={styles["uil"]} size="20" color={color !== 'white' ? 'white' : 'black' } />
           </label>
           {items.length > 0 && (
             <div className={styles["section-dropdown"]}>
@@ -68,40 +80,4 @@ export default function Dropdown({ children, items = [] }: DropdownProps) {
       </div>
     </>
   );
-}
-
-{
-  /* <div className={styles["section-dropdown"]}>
-              <a href="#">
-                Dropdown Link 1<i className={styles["uil uil-arrow-right"]}></i>
-              </a>
-              <input
-                className={styles["dropdown-sub"]}
-                type="checkbox"
-                id="dropdown-sub"
-                name="dropdown-sub"
-              />
-              <label
-                className={styles["for-dropdown-sub"]}
-                htmlFor="dropdown-sub"
-              >
-                Dropdown Sub <i className={styles["uil uil-plus"]}></i>
-              </label>
-              <div className={styles["section-dropdown-sub"]}>
-                <a href="#">
-                  Dropdown sub Link 1
-                  <i className={styles["uil uil-arrow-right"]}></i>
-                </a>
-                <a href="#">
-                  Dropdown sub Link 2
-                  <i className={styles["uil uil-arrow-right"]}></i>
-                </a>
-              </div>
-              <a href="#">
-                Dropdown Link 2<i className={styles["uil uil-arrow-right"]}></i>
-              </a>
-              <a href="#">
-                Dropdown Link 3<i className={styles["uil uil-arrow-right"]}></i>
-              </a>
-            </div> */
 }
