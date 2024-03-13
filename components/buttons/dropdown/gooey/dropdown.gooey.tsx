@@ -1,5 +1,4 @@
-import styles from "./dropdown.module.sass";
-import { useState } from "react";
+import styles from "./dropdown.gooey.module.sass";
 
 type DropdownItem = {
   title: string;
@@ -12,9 +11,7 @@ type DropdownProps = {
   type?: 'default' | 'dark'
 };
 
-export default function Dropdown({ children, items, type = 'default' }: DropdownProps) {
-  const [isOpen, setIsOpen] = useState(false);
-
+export default function GooeyDropdown({ children, items, type = 'default' }: DropdownProps) {
   return (
     <>
       <div className={[styles["dropdown"], styles[type]].join(' ')}>

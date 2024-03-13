@@ -1,15 +1,18 @@
 import { Month } from "../types/dates";
 import { getEnumByIndex } from "./enum.utils";
 import { CalendarCell, CalendarEvent } from "../types/calendar.types";
+import { BoundaryReference } from "../types/references";
 
-export const getHeight = (event: CalendarEvent, height: number, factor: number, margin: number): number => {
-  var eventSize = (height * factor) * (event.duration / 60) - 2 * margin;
-  return eventSize
-};
+export const getTop = (boundary: BoundaryReference<any>, margin: number): number => {
+  const now = new Date();
+  const initialDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0)
+  const finalDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59)
+  
+  const totalminutes = CalendarEvent.getDuration(initialDate, finalDate);
+  const currentminutes = CalendarEvent.getDuration(initialDate, now);
+  const top = currentminutes === 0 ? 0 : boundary.height * currentminutes / totalminutes + margin;
 
-export const getTop = (initialDate: Date, height: number, factor: number, margin: number): number => {
-  const minutes = CalendarEvent.getDuration(new Date(initialDate.getFullYear(), initialDate.getMonth(), initialDate.getDate()), initialDate);
-  return (height * factor) * (minutes / 60) + margin;
+  return top;
 };
 
 export const getDayName = (currentDay: Date) => {

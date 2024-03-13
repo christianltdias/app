@@ -6,7 +6,7 @@ export interface SetCalendarSelectedDate {
 }
 
 export interface SetCalendarFactor {
-  factor: 1 | 2 | 4;
+  factor: 1 | 2;
 }
 
 export interface SetCalendarView {

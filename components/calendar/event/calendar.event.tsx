@@ -22,14 +22,10 @@ const Event= forwardRef(({
   const total = event.getTotalConflicts();
 
   const eventsOrdered = [...event.maxConflictedEvents, event].sort((a, b) => {
-    let value = a.parentCell.row - b.parentCell.row;
-    if(value === 0){
-      value = a.maxConflictedEvents.length - b.maxConflictedEvents.length;
-       
+      let value = a.maxConflictedEvents.length - b.maxConflictedEvents.length;
       if(value === 0){
         return b.duration - a.duration
       } 
-    }
     return value;
   });
 
@@ -82,8 +78,7 @@ const Event= forwardRef(({
           }}
           className={concatStyles(styles["calendar-event"], styles[event.type])}
         >
-          <p>{event.title} - {total} - {index} - {event.maxConflictedEvents.length}</p>
-          <p>{eventsOrdered.map(e => e.title).join(' , ')}</p>
+          <p>{event.title}</p>
         </div>
       }
     </>

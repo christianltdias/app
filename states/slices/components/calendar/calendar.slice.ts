@@ -7,14 +7,16 @@ import { createCalendarDayCells} from "../../../../utils/calendar.utils";
 export interface ICalendarState {
   view: CalendarView,
   cells: Array<CalendarCell>,
-  factor: 1 | 2 | 4,
+  factor: 1 | 2,
   selectedDate: Date,
 }
 
+const initialFactor: 1 | 2 = 1;
+
 const initialState: ICalendarState = {
   view: CalendarView.Day,
-  factor: 1,
-  cells: createCalendarDayCells(new Date(), 1),
+  factor: initialFactor,
+  cells: createCalendarDayCells(new Date(), initialFactor),
   selectedDate: new Date(),
 };
 

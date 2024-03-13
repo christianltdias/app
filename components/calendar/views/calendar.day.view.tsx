@@ -8,8 +8,9 @@ import {
 } from "../../../utils/calendar.utils";
 import styles from "./calendar.view.module.sass";
 import { CalendarCell, CalendarEvent } from "../../../types/calendar.types";
-import { useAppDispatch, useAppSelector } from "../../../states/hooks";
+import { useAppSelector } from "../../../states/hooks";
 import Spinner from "../../spinner/spinner";
+import { BoundaryReference } from "../../../types/references";
 
 type CalendarDayViewProps = {
   currentDay: Date;
@@ -23,30 +24,44 @@ export default function CalendarDayView({
   cellHeight = 80,
 }: CalendarDayViewProps) {
   const wrapperRef = useRef(null);
-  const dispatch = useAppDispatch();
+  const tableRef = useRef(null);
   
   const factor = useAppSelector(state => state.calendar.factor);
   const hours = useAppSelector(state => state.calendar.cells);
 
   const [cellRefs, setCellRefs] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [cells, setCells] = useState<CalendarCell[]>(mapEvents(events, hours));
-
-  const top = getTop(currentDay, cellHeight + 4, factor, 5) + 50;
+  const [cells, _] = useState<CalendarCell[]>(mapEvents(events, hours));
+  const [mappedEvents, setMappedEvents] = useState<CalendarEvent[]>([]);
+  const [top, setTop] = useState<number>(0);
 
   useEffect(() => {
     setCellRefs((elRefs) => hours.map((_, i) => elRefs[i] || createRef()));
+    setMappedEvents(getEvents(events, cells));
     setLoading(false);
   }, []);
 
   useEffect(() => {
-    // scrollToCurrent();
-  }, [wrapperRef]);
+    const calculateTop = (): number => {
+      var boundary: BoundaryReference<any> = tableRef.current.getBoundingClientRect();
+      const top = getTop(boundary, 15);
+      setTop(top);
+      return top;
+    }
 
-  const scrollToCurrent = () => {
+    const interval = setInterval(() => {
+       calculateTop();
+    }, 60000);
+    
+    scrollToCurrent(calculateTop());
+    return () => clearInterval(interval);
+
+  }, [wrapperRef, tableRef]);
+
+  const scrollToCurrent = (top: number) => {
     wrapperRef.current.scrollTo({
       behavior: "smooth",
-      top: top,
+      top: top - 150,
     });
   };
 
@@ -54,15 +69,13 @@ export default function CalendarDayView({
     cells.map(cell => {
       var cellEvents = events.filter(event => isCellPartOfEvent(event, cell))
       cellEvents.map(refevent => {
-        var conflictedEvents = cellEvents.filter(event => refevent.id !== event.id && isCellPartOfEvent(refevent, event))
+        var conflictedEvents = events.filter(event => refevent.id !== event.id && isCellPartOfEvent(refevent, event))
         if(refevent.maxConflictedEvents.length < conflictedEvents.length){
-          console.log(refevent.title)
           refevent.maxConflictedEvents = conflictedEvents;
-          console.log(refevent.maxConflictedEvents.length)
         }
       })
     })
-    return events;
+    return events.sort((a, b) => a.startDate.getTime() - b.startDate.getTime());
   }
 
   const getCellStyle = (cell: CalendarCell): string => {
@@ -96,19 +109,17 @@ export default function CalendarDayView({
     });
   };
 
-  const mappedEvents = getEvents(events, cells);
-
   return (
     <div className={styles["calendar-day-container"]}>
       <div className={styles["calendar-day-wrapper"]} ref={wrapperRef}>
-        <table className={styles["calendar-day-table"]}>
+        <table className={styles["calendar-day-table"]} ref={tableRef}>
           <thead>
             <tr className={styles["calendar-day-header"]}>
               <th className={styles["calendar-day-time-title"]}>Time</th>
               <th
                 align="left"
                 className={styles["calendar-day-title"]}
-                onClick={scrollToCurrent}
+                onClick={() => scrollToCurrent(top)}
               >
                 {getDayName(currentDay)}
               </th>
@@ -117,7 +128,7 @@ export default function CalendarDayView({
           <tbody className={styles["calendar-day-body"]}>
             {cells.map((cell, index) => (
               <tr key={`row-${index}}`}>
-                <td valign="top" className={styles["calendar-day-tag"]}>
+                <td valign="top" className={styles["calendar-day-tag"]} key={`row-${index}-key}`}>
                   {getTimeTag(cell.startDate, true)}
                 </td>
                 <td
@@ -125,6 +136,7 @@ export default function CalendarDayView({
                   style={{ height: cellHeight }}
                   className={styles[getCellStyle(cell)]}
                   ref={cellRefs[index]}
+                  key={`row-${index}}-cell`}
                 >
                   {!loading && mappedEvents.filter(e => e.parentCell?.id === cell.id).map((event) => (
                     <Event
@@ -140,8 +152,8 @@ export default function CalendarDayView({
             ))}
           </tbody>
         </table>
+        <hr className={styles["calendar-hour-line"]} style={{top: top}}/>
       </div>
-        {/* <hr className={styles["calendar-hour-line"]} style={{top: top}}/> */}
         <div className={styles["spinner-wrapper"]}>
           {loading && <Spinner />}
         </div>
