@@ -60,22 +60,12 @@ export function createMonthArray(
   const numOfDaysPreviousMonth = firstDayIndex === 0 ? 0 : numDays(month === 0 ? year - 1 : year, month === 0 ? 11 : month - 1);
 
   for (let i = firstDayIndex - 1; i >= 0; i--) {
-    arrayOfDays.push(
-      {
-        day: numOfDaysPreviousMonth - i,
-        year: month === 0 ? year - 1 : year,
-        month: month === 0 ? 11 : month - 1,
-        dayOfWeek: getEnumByIndex(DayOfWeek, Math.abs(i + 1 - firstDayIndex)),
-      });
+    arrayOfDays.push(createDayOfWeek(numOfDaysPreviousMonth - i, month === 0 ? 11 : month - 1, month === 0 ? year - 1 : year, Math.abs(i + 1 - firstDayIndex)));
   }
+
   var aux = firstDayIndex
   for (let i = 1; i <= numOfDaysCurrentMonth; i++) {
-    arrayOfDays.push({
-      day: i,
-      year: year,
-      month: month,
-      dayOfWeek: getEnumByIndex(DayOfWeek, aux++),
-    });
+    arrayOfDays.push(createDayOfWeek(i, month, year, aux++));
     if (aux > 6) {
       aux = 0;
     }
@@ -83,12 +73,7 @@ export function createMonthArray(
 
   const reaminingDays = 7 * 6 - arrayOfDays.length;
   for (let i = 1; i <= reaminingDays; i++) {
-    arrayOfDays.push({
-      day: i,
-      year: month === 11 ? year + 1 : year,
-      month: month === 11 ? 0 : month + 1,
-      dayOfWeek: getEnumByIndex(DayOfWeek, aux++),
-    });
+    arrayOfDays.push(createDayOfWeek(i, month === 11 ? 0 : month + 1, month === 11 ? year + 1 : year, aux++));
     if (aux > 6) {
       aux = 0;
     }
@@ -103,6 +88,15 @@ export function createMonthMatrix(
 ): Array<Array<DayOfMonth>> {
   const arrayOfDays = createMonthArray(month, year);
   return convertArrayToMatrix<DayOfMonth>(arrayOfDays, 7);
+}
+
+export function createWeekArray(currentDate: Date): Array<DayOfMonth> {
+  const monthArray = createMonthArray(currentDate.getMonth(), currentDate.getFullYear())
+  const dayOfWeek = currentDate.getDay();
+  const day = currentDate.getDate()
+  const dayIndex = monthArray.findIndex(x => x.day === day);
+
+  return monthArray.slice(dayIndex - dayOfWeek, dayIndex + (7 - dayOfWeek));
 }
 
 export const numDays = (year: number, month: number) => createDate(0, month + 1, year).getDate();
@@ -147,4 +141,24 @@ export const isDateValid = (date: string): boolean => {
   return true;
 }
 
-export const createDate = (day: number, month: number, year: number) => new Date(year, month, day)
+export const createDate = (day: number, month: number, year: number): Date => new Date(year, month, day)
+
+export const convert = (dayOfMonth: DayOfMonth): Date => new Date(dayOfMonth.year, dayOfMonth.month, dayOfMonth.day)
+
+export const createDayOfWeek = (day: number, month: number, year: number, dayOfWeek: number): DayOfMonth => {
+  return {
+    day: day,
+    year: year,
+    month: month,
+    dayOfWeek: getEnumByIndex(DayOfWeek, dayOfWeek),
+  } as DayOfMonth
+}
+
+export const createDayOfWeekFromDate = (date: Date): DayOfMonth => {
+  return {
+    day: date.getDate(),
+    year: date.getFullYear(),
+    month: date.getMonth(),
+    dayOfWeek: getEnumByIndex(DayOfWeek, date.getDay()),
+  } as DayOfMonth
+}

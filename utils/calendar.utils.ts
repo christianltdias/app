@@ -1,7 +1,8 @@
-import { Month } from "../types/dates";
-import { getEnumByIndex } from "./enum.utils";
 import { CalendarCell, CalendarEvent } from "../types/calendar.types";
+import { DayOfMonth, Month } from "../types/dates";
 import { BoundaryReference } from "../types/references";
+import { convert } from "./date.utils";
+import { getEnumByIndex } from "./enum.utils";
 
 export const getTop = (boundary: BoundaryReference<any>, margin: number): number => {
   const now = new Date();
@@ -31,6 +32,29 @@ export const createCalendarDayCells = (date: Date, factor: number): Array<Calend
     const finalDate = cloneDate(date, hours, minutes);
     calendarCells.push(new CalendarCell(i, initialDate, finalDate, i, 0));
   }
+
+  return calendarCells;
+}
+
+export const createCalendarDayCellsMatrix = (daysOfWeek: Array<DayOfMonth>, factor: number): Array<Array<CalendarCell>> => {
+  var calendarCells: Array<Array<CalendarCell>> = [];
+  const hoursArray = Array.from(Array(24 * factor).keys())
+
+  daysOfWeek.forEach(day => {
+    const date = convert(day)
+    const cellsOnDay: Array<CalendarCell> = [];
+    var hours = 0
+    var minutes = 0
+
+    for(let i = 0; i < hoursArray.length; i++) {
+      const initialDate = cloneDate(date, hours, minutes);
+      ({hours, minutes} = incrementTime(hours, minutes, factor))
+      const finalDate = cloneDate(date, hours, minutes);
+      cellsOnDay.push(new CalendarCell(i, initialDate, finalDate, i, 0));
+    }
+
+    calendarCells.push(cellsOnDay);
+  })
 
   return calendarCells;
 }

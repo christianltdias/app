@@ -1,0 +1,107 @@
+@import '../../../../styles/variables'
+
+.calendar-day-container
+  width: 100%
+  display: flex
+  flex-direction: column
+  justify-content: flex-start
+  max-height: 600px
+
+  .spinner-wrapper
+    position: absolute
+    left: 50%
+    top: 300px
+
+  .calendar-day-wrapper
+    position: relative
+    overflow: auto
+
+    .calendar-hour-line
+      position: absolute
+      width: calc(100% - 50px)
+      margin: 0
+      box-sizing: border-box
+      height: 1pix
+      border: 1px solid $primary-color
+      opacity: 0.6
+      left: 50px
+      top: 50px
+      z-index: 1
+    
+    .calendar-day-table
+      width: 100%
+      border-spacing: 0
+      table-layout: fixed
+
+      .calendar-day-header
+        background-color: white
+        position: sticky
+        height: 50px
+        top: 0
+        z-index: 100
+
+      .calendar-day-body
+        background-color: #f7f7f7
+
+      .calendar-day-time-title
+        border-bottom: 1px solid #9c9c9cc9
+
+      .calendar-day-title
+        cursor: pointer
+        padding: 10px
+        border-bottom: 1px solid #9c9c9cc9
+
+      .calendar-day-tag
+        background-color: white
+        text-align: center
+        width: 50px
+        font-weight: bold
+        color: #4b4b4bc7
+        font-size: 10pt
+
+      .calendar-hour
+        cursor: pointer
+        position: relative
+        
+        &:hover
+          background-color: #d3d3d3
+
+          .cell-day-number
+            opacity: 1
+            font-weight: bold
+
+        .cell-day-number
+          padding: 0
+          margin: 0
+          position: absolute
+          top: 10px
+          left: 10px
+          color: $text-color
+          opacity: 0.7
+
+        .month-preview
+          opacity: 0.2
+
+        .current-day
+          color: $primary-color
+          font-weight: bolder
+
+      .calendar-hour-both
+        @extend .calendar-hour
+        border: 1px solid rgba(0,0,0,.1)
+
+      .calendar-hour-top
+        @extend .calendar-hour
+        border: 1px solid rgba(0,0,0,.1)
+        border-top: 1px dashed rgba(0,0,0,.1)
+
+      .calendar-hour-middle
+        @extend .calendar-hour
+        border: 1px solid rgba(0,0,0,.1)
+        border-top: 1px dashed rgba(0,0,0,.1)
+        border-bottom: 1px dashed rgba(0,0,0,.1)
+
+      .calendar-hour-bottom
+        @extend .calendar-hour
+        border: 1px solid rgba(0,0,0,.1)
+        border-bottom: 1px dashed rgba(0,0,0,.1)

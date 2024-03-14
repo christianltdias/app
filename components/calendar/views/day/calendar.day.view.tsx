@@ -1,43 +1,44 @@
 import { createRef, useEffect, useRef, useState } from "react";
-import Event from "../event/calendar.event";
+import Event from "../../event/calendar.event";
 import {
   getDayName,
   getTop,
   isCellPartOfEvent,
   mapEvents,
-} from "../../../utils/calendar.utils";
-import styles from "./calendar.view.module.sass";
-import { CalendarCell, CalendarEvent } from "../../../types/calendar.types";
-import { useAppSelector } from "../../../states/hooks";
-import Spinner from "../../spinner/spinner";
-import { BoundaryReference } from "../../../types/references";
+} from "../../../../utils/calendar.utils";
+import styles from "./calendar.day.view.module.sass";
+import { CalendarCell, CalendarEvent } from "../../../../types/calendar.types";
+import { useAppSelector } from "../../../../states/hooks";
+import Spinner from "../../../spinner/spinner";
+import { BoundaryReference } from "../../../../types/references";
 
 type CalendarDayViewProps = {
   currentDay: Date;
   events: Array<CalendarEvent>;
   cellHeight?: number;
+  scrollToCurrentTime?: boolean;
 };
 
 export default function CalendarDayView({
   currentDay,
   events,
   cellHeight = 80,
+  scrollToCurrentTime = false,
 }: CalendarDayViewProps) {
   const wrapperRef = useRef(null);
   const tableRef = useRef(null);
   
   const factor = useAppSelector(state => state.calendar.factor);
-  const hours = useAppSelector(state => state.calendar.cells);
+  const cells = useAppSelector(state => state.calendar.cells[0]);
 
   const [cellRefs, setCellRefs] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [cells, _] = useState<CalendarCell[]>(mapEvents(events, hours));
   const [mappedEvents, setMappedEvents] = useState<CalendarEvent[]>([]);
   const [top, setTop] = useState<number>(0);
 
   useEffect(() => {
-    setCellRefs((elRefs) => hours.map((_, i) => elRefs[i] || createRef()));
-    setMappedEvents(getEvents(events, cells));
+    setCellRefs((elRefs) => cells.map((_, i) => elRefs[i] || createRef()));
+    setMappedEvents(getEvents(events, mapEvents(events, cells)));
     setLoading(false);
   }, []);
 
@@ -53,7 +54,11 @@ export default function CalendarDayView({
        calculateTop();
     }, 60000);
     
-    scrollToCurrent(calculateTop());
+    const topvalue = calculateTop();
+    if(scrollToCurrentTime){
+      scrollToCurrent(topvalue);
+    }
+
     return () => clearInterval(interval);
 
   }, [wrapperRef, tableRef]);
@@ -115,13 +120,13 @@ export default function CalendarDayView({
         <table className={styles["calendar-day-table"]} ref={tableRef}>
           <thead>
             <tr className={styles["calendar-day-header"]}>
-              <th className={styles["calendar-day-time-title"]}>Time</th>
+              <th className={styles["calendar-day-time-title"]}></th>
               <th
                 align="left"
                 className={styles["calendar-day-title"]}
                 onClick={() => scrollToCurrent(top)}
               >
-                {getDayName(currentDay)}
+                {getDayName(currentDay).split(' ').map(daypart=> <p>{daypart}</p>)}
               </th>
             </tr>
           </thead>

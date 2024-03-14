@@ -2,8 +2,8 @@ import { uuidv4 } from "../utils/id.utils";
 
 export enum CalendarView {
   Day,
-  Month, 
-  Year
+  Week, 
+  Month
 }
 
 export class CalendarCell {

@@ -1,5 +1,5 @@
-import { CalendarView } from "../../../../components/pickers/calendar/calendar.picker";
-import { CalendarCell, CalendarEvent } from "../../../../types/calendar.types";
+
+import { CalendarCell, CalendarEvent, CalendarView } from "../../../../types/calendar.types";
 
 export interface SetCalendarSelectedDate {
   date: Date;

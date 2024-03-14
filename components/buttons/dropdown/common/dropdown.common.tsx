@@ -10,13 +10,13 @@ type DropdownItem = {
 };
 
 type DropdownProps = {
-  children: ReactNode;
+  placeholder: string;
   color: 'primary' | 'secondary' | 'white';
   items?: DropdownItem[];
   isSelection?: boolean;
 };
 
-export default function Dropdown({ children, items = [], color = 'white', isSelection = false }: DropdownProps) {
+export default function Dropdown({ placeholder, items = [], color = 'white', isSelection = false }: DropdownProps) {
   const [selected, setSelected] = useState<DropdownItem | undefined>(undefined);
 
   if(items.filter(i => i.items && i.items.length > 0).length > 1){
@@ -35,10 +35,12 @@ export default function Dropdown({ children, items = [], color = 'white', isSele
           <input
             className={styles["dropdown-sub"]}
             type="checkbox"
-            id="dropdown-sub"
-            name="dropdown-sub"
+            id={`dropdown-${item.title}-sub`}
+            name={`dropdown-${item.title}-sub`}
+            // id="dropdown-sub"
+            // name="dropdown-sub"
           />
-          <label className={concatStyles(styles["for-dropdown-sub"], styles[color])} htmlFor="dropdown-sub">
+          <label className={concatStyles(styles["for-dropdown-sub"], styles[color])} htmlFor={`dropdown-${item.title}-sub`}>
             {item.title} <Unicons.UilPlus className={styles["uil"]} size="20" color="white" />
           </label>
           {item.items && item.items.length > 0 &&
@@ -65,11 +67,11 @@ export default function Dropdown({ children, items = [], color = 'white', isSele
           <input
             className={styles["dropdown"]}
             type="checkbox"
-            id="dropdown"
-            name="dropdown"
+            id={`dropdown-${placeholder}`}
+            name={`dropdown-${placeholder}`}
           />
-          <label className={concatStyles(styles["for-dropdown"], styles["fixed"], styles[color])} htmlFor="dropdown">
-            {isSelection && selected ? selected.title : children} <Unicons.UilArrowDown className={styles["uil"]} size="20" color={color !== 'white' ? 'white' : 'black' } />
+          <label className={concatStyles(styles["for-dropdown"], styles["fixed"], styles[color])} htmlFor={`dropdown-${placeholder}`}>
+            {isSelection && selected ? selected.title : placeholder} <Unicons.UilArrowDown className={styles["uil"]} size="20" color={color !== 'white' ? 'white' : 'black' } />
           </label>
           {items.length > 0 && (
             <div className={styles["section-dropdown"]}>

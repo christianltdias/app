@@ -1,4 +1,4 @@
-@import '../../../styles/variables'
+@import '../../../../styles/variables'
 
 .calendar-day-container
   width: 100%
@@ -23,6 +23,7 @@
       box-sizing: border-box
       height: 1pix
       border: 1px solid $primary-color
+      opacity: 0.6
       left: 50px
       top: 50px
       z-index: 1
@@ -30,6 +31,7 @@
     .calendar-day-table
       width: 100%
       border-spacing: 0
+      table-layout: fixed
 
       .calendar-day-header
         background-color: white
@@ -48,6 +50,21 @@
         cursor: pointer
         padding: 10px
         border-bottom: 1px solid #9c9c9cc9
+        color: $text-color
+
+        &.current-day
+          color: $primary-color
+
+        .day-title-day
+          margin: 0
+          padding: 0
+          font-size: 18pt
+
+        .day-title-dayweek
+          margin: 0
+          padding: 0
+          font-size: 10pt
+          font-weight: 500
 
       .calendar-day-tag
         background-color: white
