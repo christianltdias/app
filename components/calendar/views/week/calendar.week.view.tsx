@@ -132,7 +132,7 @@ export default function CalendarWeekView({
         <div className={styles["calendar-week-table-wrapper"]}>
           <div
             className={styles["calendar-week-time-container"]}
-            style={{ gap: `calc(${cellHeight}px - 10pt)` }}
+            style={{ gap: `calc(${cellHeight}px - 10pt - 5px)` }}
           >
             {cells[0].map((cell, index) => (
               <p

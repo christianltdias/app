@@ -122,7 +122,7 @@ export default function CalendarDayView({
         <div className={styles["calendar-day-table-wrapper"]}>
           <div
             className={styles["calendar-day-time-container"]}
-            style={{ gap: `calc(${cellHeight}px - 10pt)` }}
+            style={{ gap: `calc(${cellHeight}px - 10pt - 5px)` }}
           >
             {cells.map((cell, index) => (
               <p
