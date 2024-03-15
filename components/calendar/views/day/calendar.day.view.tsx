@@ -8,10 +8,14 @@ import {
   mapEvents,
 } from "../../../../utils/calendar.utils";
 import styles from "./calendar.day.view.module.sass";
-import { CalendarCell, CalendarEvent } from "../../../../types/calendar.types";
-import { useAppSelector } from "../../../../states/hooks";
+import { CalendarCell, CalendarEvent, CalendarView } from "../../../../types/calendar.types";
+import { useAppDispatch, useAppSelector } from "../../../../states/hooks";
 import Spinner from "../../../spinner/spinner";
 import { BoundaryReference } from "../../../../types/references";
+import Dropdown from "../../../buttons/dropdown/common/dropdown.common";
+import { getEnumByIndex } from "../../../../utils/enum.utils";
+import { setFactor, setView } from "../../../../states/slices/components/calendar/calendar.slice";
+import CalendarControls from "../controls/calendar.controls";
 
 type CalendarDayViewProps = {
   currentDay: Date;
@@ -36,6 +40,7 @@ export default function CalendarDayView({
   const [loading, setLoading] = useState(true);
   const [mappedEvents, setMappedEvents] = useState<CalendarEvent[]>([]);
   const [top, setTop] = useState<number>(0);
+
 
   useEffect(() => {
     setCellRefs((elRefs) => cells.map((_, i) => elRefs[i] || createRef()));
@@ -113,11 +118,14 @@ export default function CalendarDayView({
     <div className={styles["calendar-day-container"]}>
       <div className={styles["calendar-day-main-wrapper"]} ref={wrapperRef}>
         <div className={styles["calendar-day-header"]}>
-          {getDayName(currentDay)
-            .split(" ")
-            .map((daypart) => (
-              <p>{daypart}</p>
-            ))}
+          <div className={styles["calendar-day-date"]}>
+            {getDayName(currentDay)
+              .split(" ")
+              .map((daypart) => (
+                <p>{daypart}</p>
+              ))}
+          </div>
+          <CalendarControls />
         </div>
         <div className={styles["calendar-day-table-wrapper"]}>
           <div

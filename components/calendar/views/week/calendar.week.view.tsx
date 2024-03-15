@@ -13,6 +13,7 @@ import styles from "./calendar.week.view.module.sass";
 import { concatStyles } from "../../../../utils/styles.utils";
 import { DayOfWeek } from "../../../../types/dates";
 import { getEnumIndex } from "../../../../utils/enum.utils";
+import CalendarControls from "../controls/calendar.controls";
 
 type CalendarDayViewProps = {
   currentDay: Date;
@@ -121,23 +122,28 @@ export default function CalendarWeekView({
     <div className={styles["calendar-week-container"]}>
       <div className={styles["calendar-week-main-wrapper"]} ref={wrapperRef}>
         <div className={styles["calendar-week-header"]}>
-          {week.map((day) => (
-            <div
-              className={concatStyles(
-                styles["calendar-week-title"],
-                day.day === today.getDate() && day.month == today.getMonth()
-                  ? styles["current-day"]
-                  : "",
-                getEnumIndex(DayOfWeek, day.dayOfWeek) === 0 ||
-                  getEnumIndex(DayOfWeek, day.dayOfWeek) === 6
-                  ? styles["weekend-day"]
-                  : ""
-              )}
-            >
-              <p className={styles["day-title-week"]}>{day.day}</p>
-              <p className={styles["day-title-week-day"]}>{day.dayOfWeek}</p>
-            </div>
-          ))}
+          <div>
+            <CalendarControls />
+          </div>
+          <div className={styles["calendar-week-row"]}>
+            {week.map((day) => (
+              <div
+                className={concatStyles(
+                  styles["calendar-week-title"],
+                  day.day === today.getDate() && day.month == today.getMonth()
+                    ? styles["current-day"]
+                    : "",
+                  getEnumIndex(DayOfWeek, day.dayOfWeek) === 0 ||
+                    getEnumIndex(DayOfWeek, day.dayOfWeek) === 6
+                    ? styles["weekend-day"]
+                    : ""
+                )}
+              >
+                <p className={styles["day-title-week"]}>{day.day}</p>
+                <p className={styles["day-title-week-day"]}>{day.dayOfWeek}</p>
+              </div>
+            ))}
+          </div>
         </div>
         <div className={styles["calendar-week-table-wrapper"]}>
           <div

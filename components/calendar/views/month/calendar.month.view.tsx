@@ -6,6 +6,8 @@ import { createWeekArray } from "../../../../utils/date.utils";
 import Spinner from "../../../spinner/spinner";
 import styles from "./calendar.month.view.module.sass";
 import { concatStyles } from "../../../../utils/styles.utils";
+import { getEnumIndex } from "../../../../utils/enum.utils";
+import { DayOfWeek } from "../../../../types/dates";
 
 type CalendarMonthViewProps = {
   currentDay: Date;
@@ -64,7 +66,13 @@ export default function CalendarMonthView({
       <div className={styles["calendar-month-main-wrapper"]} ref={wrapperRef}>
         <div className={styles["calendar-month-header"]}>
           {week.map((day) => (
-            <p className={styles["calendar-month-title"]}>{day.dayOfWeek}</p>
+            <p className={concatStyles(
+              styles["calendar-month-title"],
+              getEnumIndex(DayOfWeek, day.dayOfWeek) === 0 ||
+                getEnumIndex(DayOfWeek, day.dayOfWeek) === 6
+              ? styles["weekend-day"]
+              : ""
+            )}>{day.dayOfWeek}</p>
           ))}
         </div>
 
