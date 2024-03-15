@@ -46,7 +46,7 @@ export default function CalendarDayView({
     const calculateTop = (): number => {
       var boundary: BoundaryReference<any> =
         tableRef.current.getBoundingClientRect();
-      const top = getTop(boundary, 15);
+      const top = getTop(boundary);
       setTop(top);
       return top;
     };

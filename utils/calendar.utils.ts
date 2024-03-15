@@ -4,14 +4,14 @@ import { BoundaryReference } from "../types/references";
 import { convert } from "./date.utils";
 import { getEnumByIndex } from "./enum.utils";
 
-export const getTop = (boundary: BoundaryReference<any>, margin: number): number => {
+export const getTop = (boundary: BoundaryReference<any>): number => {
   const now = new Date();
   const initialDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0)
   const finalDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59)
   
   const totalminutes = CalendarEvent.getDuration(initialDate, finalDate);
   const currentminutes = CalendarEvent.getDuration(initialDate, now);
-  const top = currentminutes === 0 ? 0 : boundary.height * currentminutes / totalminutes + margin;
+  const top = currentminutes === 0 ? 0 : boundary.height * currentminutes / totalminutes;
 
   return top;
 };
