@@ -9,9 +9,11 @@ type DropdownItem = {
   items?: DropdownItem[];
 };
 
+export type DropdownColors = 'primary' | 'secondary' | 'white';
+
 type DropdownProps = {
   placeholder: string;
-  color: 'primary' | 'secondary' | 'white';
+  color: DropdownColors;
   items?: DropdownItem[];
   isSelection?: boolean;
 };
@@ -37,8 +39,6 @@ export default function Dropdown({ placeholder, items = [], color = 'white', isS
             type="checkbox"
             id={`dropdown-${item.title}-sub`}
             name={`dropdown-${item.title}-sub`}
-            // id="dropdown-sub"
-            // name="dropdown-sub"
           />
           <label className={concatStyles(styles["for-dropdown-sub"], styles[color])} htmlFor={`dropdown-${item.title}-sub`}>
             {item.title} <Unicons.UilPlus className={styles["uil"]} size="20" color="white" />
@@ -55,7 +55,7 @@ export default function Dropdown({ placeholder, items = [], color = 'white', isS
     return (
       <a href="#" onClick={(e) => handleClick(e, item)} className={styles[color]}>
         {item.title}
-        <Unicons.UilArrowRight className={styles["uil"]} size="20" color="white" />
+        <Unicons.UilAngleRight className={styles["uil"]} size="20" color="white" />
       </a>
     );
   };
@@ -71,7 +71,7 @@ export default function Dropdown({ placeholder, items = [], color = 'white', isS
             name={`dropdown-${placeholder}`}
           />
           <label className={concatStyles(styles["for-dropdown"], styles["fixed"], styles[color])} htmlFor={`dropdown-${placeholder}`}>
-            {isSelection && selected ? selected.title : placeholder} <Unicons.UilArrowDown className={styles["uil"]} size="20" color={color !== 'white' ? 'white' : 'black' } />
+            {isSelection && selected ? selected.title : placeholder} <Unicons.UilAngleDown className={styles["uil"]} size="20" color={color !== 'white' ? 'white' : 'black' } />
           </label>
           {items.length > 0 && (
             <div className={styles["section-dropdown"]}>

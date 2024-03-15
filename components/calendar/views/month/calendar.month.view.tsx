@@ -8,6 +8,7 @@ import styles from "./calendar.month.view.module.sass";
 import { concatStyles } from "../../../../utils/styles.utils";
 import { getEnumIndex } from "../../../../utils/enum.utils";
 import { DayOfWeek } from "../../../../types/dates";
+import CalendarControls from "../controls/calendar.controls";
 
 type CalendarMonthViewProps = {
   currentDay: Date;
@@ -65,15 +66,20 @@ export default function CalendarMonthView({
     <div className={styles["calendar-month-container"]}>
       <div className={styles["calendar-month-main-wrapper"]} ref={wrapperRef}>
         <div className={styles["calendar-month-header"]}>
-          {week.map((day) => (
-            <p className={concatStyles(
-              styles["calendar-month-title"],
-              getEnumIndex(DayOfWeek, day.dayOfWeek) === 0 ||
-                getEnumIndex(DayOfWeek, day.dayOfWeek) === 6
-              ? styles["weekend-day"]
-              : ""
-            )}>{day.dayOfWeek}</p>
-          ))}
+          <div>
+            <CalendarControls selectFactor={false} />
+          </div>
+          <div className={styles["calendar-month-row"]}>
+            {week.map((day) => (
+              <p className={concatStyles(
+                styles["calendar-month-title"],
+                getEnumIndex(DayOfWeek, day.dayOfWeek) === 0 ||
+                  getEnumIndex(DayOfWeek, day.dayOfWeek) === 6
+                ? styles["weekend-day"]
+                : ""
+              )}>{day.dayOfWeek}</p>
+            ))}
+          </div>
         </div>
 
         <div className={styles["calendar-month-table-wrapper"]}>
