@@ -2,6 +2,7 @@ import { createRef, useEffect, useRef, useState } from "react";
 import Event from "../../event/calendar.event";
 import {
   getDayName,
+  getTimeTag,
   getTop,
   isCellPartOfEvent,
   mapEvents,
@@ -108,18 +109,6 @@ export default function CalendarDayView({
     }
   };
 
-  const getTimeTag = (date: Date, onlyExactHours: boolean = true): string => {
-    if (date.getMinutes() !== 0 && onlyExactHours) {
-      return "";
-    }
-
-    return date.toLocaleTimeString([], {
-      hour: "2-digit",
-      minute: "2-digit",
-      hourCycle: "h23",
-    });
-  };
-
   return (
     <div className={styles["calendar-day-container"]}>
       <div className={styles["calendar-day-main-wrapper"]} ref={wrapperRef}>
@@ -131,8 +120,18 @@ export default function CalendarDayView({
             ))}
         </div>
         <div className={styles["calendar-day-table-wrapper"]}>
-          <div className={styles["calendar-day-time-container"]} style={{gap: `calc(${cellHeight}px - 10pt)`}}>
-            {cells.map((cell, index) => <p className={styles["calendar-day-hour-tag"]} key={`row-${index}-key}`}>{getTimeTag(cell.startDate, true)}</p>)}
+          <div
+            className={styles["calendar-day-time-container"]}
+            style={{ gap: `calc(${cellHeight}px - 10pt)` }}
+          >
+            {cells.map((cell, index) => (
+              <p
+                className={styles["calendar-day-hour-tag"]}
+                key={`row-${index}-key}`}
+              >
+                {getTimeTag(cell.startDate, true)}
+              </p>
+            ))}
           </div>
           <table className={styles["calendar-day-table"]} ref={tableRef}>
             <tbody className={styles["calendar-day-table-body"]}>
@@ -162,10 +161,12 @@ export default function CalendarDayView({
               ))}
             </tbody>
           </table>
-          <hr
-            className={styles["calendar-day-hour-line"]}
-            style={{ top: top }}
-          />
+          {!loading && (
+            <hr
+              className={styles["calendar-day-hour-line"]}
+              style={{ top: top }}
+            />
+          )}
         </div>
       </div>
       <div className={styles["spinner-wrapper"]}>{loading && <Spinner />}</div>

@@ -99,3 +99,15 @@ export const isCellPartOfEvent = (event: CalendarEvent, cell: CalendarCell | Cal
 
   return (es < ce && ee > cs);
 }
+
+export const getTimeTag = (date: Date, onlyExactHours: boolean = true): string => {
+  if (date.getMinutes() !== 0 && onlyExactHours) {
+    return "";
+  }
+
+  return date.toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+    hourCycle: "h23",
+  });
+};

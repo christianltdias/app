@@ -1,108 +1,79 @@
 @import '../../../../styles/variables'
 
-.calendar-day-container
+$container-width: 550px
+$header-width: 60px
+$header-padding: 10px
+
+.calendar-month-container
   width: 100%
   display: flex
   flex-direction: column
   justify-content: flex-start
-  max-height: 500px
+  max-height: $container-width
 
   .spinner-wrapper
     position: absolute
     left: 50%
     top: 300px
 
-  .calendar-day-wrapper
+  .calendar-month-main-wrapper
     position: relative
     overflow: auto
     border-bottom: 1px solid #9c9c9c67
 
-    .calendar-hour-line
-      position: absolute
-      width: calc(100% - 50px)
-      margin: 0
-      box-sizing: border-box
-      height: 1pix
-      border: 1px solid $primary-color
-      opacity: 0.6
-      left: 50px
-      top: 50px
-      z-index: 1
-    
-    .calendar-day-table
-      width: 100%
-      border-spacing: 0
-      table-layout: fixed
-
-      .calendar-day-header
-        background-color: white
-        position: sticky
-        height: 50px
-        top: 0
-        z-index: 100
-
-      .calendar-day-body
-        background-color: #f7f7f7
-
-      .calendar-day-time-title
-        border-bottom: 1px solid #9c9c9cc9
-
-      .calendar-day-title
+    .calendar-month-header
+      background-color: white
+      position: sticky
+      height: 50px
+      top: 0
+      z-index: 100
+      display: flex
+      height: $header-width
+      
+      .calendar-month-title
         cursor: pointer
         padding: 10px
-        border-bottom: 1px solid #9c9c9cc9
 
-      .calendar-day-tag
-        background-color: white
-        text-align: center
-        width: 50px
-        font-weight: bold
-        color: #4b4b4bc7
-        font-size: 10pt
+  
+    .calendar-month-table-wrapper
+      position: relative
+      overflow: auto
+      max-height: calc($container-width - $header-width - 2 * $header-padding)
+      display: flex
+      flex-direction: row
 
-      .calendar-hour
-        cursor: pointer
-        position: relative
-        
-        &:hover
-          background-color: #d3d3d3
+      .calendar-month-table
+        width: 100%
+        border-spacing: 0
+        table-layout: fixed
+
+        .calendar-month-body
+          background-color: #f7f7f7
 
           .cell-day-number
-            opacity: 1
-            font-weight: bold
+            padding: 0
+            margin: 0
+            position: absolute
+            top: 10px
+            left: 10px
+            color: $text-color
+            opacity: 0.7
 
-        .cell-day-number
-          padding: 0
-          margin: 0
-          position: absolute
-          top: 10px
-          left: 10px
-          color: $text-color
-          opacity: 0.7
+          .month-preview
+            opacity: 0.2
 
-        .month-preview
-          opacity: 0.2
+          .current-day
+            color: $primary-color
+            font-weight: bolder
 
-        .current-day
-          color: $primary-color
-          font-weight: bolder
-
-      .calendar-hour-both
-        @extend .calendar-hour
-        border: 1px solid rgba(0,0,0,.1)
-
-      .calendar-hour-top
-        @extend .calendar-hour
-        border: 1px solid rgba(0,0,0,.1)
-        border-top: 1px dashed rgba(0,0,0,.1)
-
-      .calendar-hour-middle
-        @extend .calendar-hour
-        border: 1px solid rgba(0,0,0,.1)
-        border-top: 1px dashed rgba(0,0,0,.1)
-        border-bottom: 1px dashed rgba(0,0,0,.1)
-
-      .calendar-hour-bottom
-        @extend .calendar-hour
-        border: 1px solid rgba(0,0,0,.1)
-        border-bottom: 1px dashed rgba(0,0,0,.1)
+        .calendar-month-hour-both
+          cursor: pointer
+          position: relative
+          border: 1px solid rgba(0,0,0,.1)
+          
+          &:hover
+            background-color: #d3d3d3
+          
+            .cell-day-number
+              opacity: 1
+              font-weight: bold

@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useAppSelector } from "../../../../states/hooks";
 import { CalendarCell, CalendarEvent } from "../../../../types/calendar.types";
 import { BoundaryReference } from "../../../../types/references";
-import { getTop, isCellPartOfEvent } from "../../../../utils/calendar.utils";
+import { getTimeTag, getTop, isCellPartOfEvent } from "../../../../utils/calendar.utils";
 import { createWeekArray } from "../../../../utils/date.utils";
 import Spinner from "../../../spinner/spinner";
 import styles from "./calendar.week.view.module.sass";
@@ -91,19 +91,19 @@ export default function CalendarWeekView({
   const getCellStyle = (cell: CalendarCell): string => {
     const minutes = cell.startDate.getMinutes();
     if (factor === 1) {
-      return "calendar-hour-both";
+      return "calendar-week-hour-both";
     } else if (factor === 2) {
       if (minutes !== 0) {
-        return "calendar-hour-top";
+        return "calendar-week-hour-top";
       }
-      return "calendar-hour-bottom";
+      return "calendar-week-hour-bottom";
     } else {
       if (minutes === 15 || minutes === 30) {
-        return "calendar-hour-middle";
+        return "calendar-week-hour-middle";
       } else if (minutes !== 0) {
-        return "calendar-hour-top";
+        return "calendar-week-hour-top";
       }
-      return "calendar-hour-bottom";
+      return "calendar-week-hour-bottom";
     }
   };
 
@@ -112,40 +112,56 @@ export default function CalendarWeekView({
   );
 
   return (
-    <div className={styles["calendar-day-container"]}>
-      <div className={styles["calendar-day-wrapper"]} ref={wrapperRef}>
-        <table className={styles["calendar-day-table"]} ref={tableRef}>
-          <thead>
-            <tr className={styles["calendar-day-header"]}>
-              {week.map((day) => (
-                <th align="left" className={concatStyles(
-                  styles["calendar-day-title"],
-                  day.day === today.getDate() && day.month == today.getMonth() ? styles["current-day"] : "",)}
-                >
-                  <p className={styles["day-title-day"]}>{day.day}</p>
-                  <p className={styles["day-title-dayweek"]}>{day.dayOfWeek}</p>
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody className={styles["calendar-day-body"]}>
-            {cellsMatrix.map((rows, index) => (
-              <tr key={`row-${index}}`}>
-                {rows.map((cell) => (
-                  <td
-                    align="center"
-                    style={{ height: cellHeight }}
-                    className={styles[getCellStyle(cell)]}
-                    ref={cellRefs[index]}
-                    key={`row-${index}}-cell`}
-                  >
-                  </td>
-                ))}
-              </tr>
+    <div className={styles["calendar-week-container"]}>
+      <div className={styles["calendar-week-main-wrapper"]} ref={wrapperRef}>
+        <div className={styles["calendar-week-header"]}>
+          {week.map((day) => (
+            <div
+              className={concatStyles(
+                styles["calendar-week-title"],
+                day.day === today.getDate() && day.month == today.getMonth()
+                  ? styles["current-day"]
+                  : ""
+              )}
+            >
+              <p className={styles["day-title-week"]}>{day.day}</p>
+              <p className={styles["day-title-week-day"]}>{day.dayOfWeek}</p>
+            </div>
+          ))}
+        </div>
+        <div className={styles["calendar-week-table-wrapper"]}>
+          <div
+            className={styles["calendar-week-time-container"]}
+            style={{ gap: `calc(${cellHeight}px - 10pt)` }}
+          >
+            {cells[0].map((cell, index) => (
+              <p
+                className={styles["calendar-week-hour-tag"]}
+                key={`row-${index}-key}`}
+              >
+                {getTimeTag(cell.startDate, true)}
+              </p>
             ))}
-          </tbody>
-        </table>
-        <hr className={styles["calendar-hour-line"]} style={{ top: top }} />
+          </div>
+          <table className={styles["calendar-week-table"]} ref={tableRef}>
+            <tbody className={styles["calendar-week-body"]}>
+              {cellsMatrix.map((rows, index) => (
+                <tr key={`row-${index}}`}>
+                  {rows.map((cell) => (
+                    <td
+                      align="center"
+                      style={{ height: cellHeight }}
+                      className={styles[getCellStyle(cell)]}
+                      ref={cellRefs[index]}
+                      key={`row-${index}}-cell`}
+                    ></td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <hr className={styles["calendar-week-hour-line"]} style={{ top: top }} />
+        </div>
       </div>
       <div className={styles["spinner-wrapper"]}>{loading && <Spinner />}</div>
     </div>
