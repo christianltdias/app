@@ -2,11 +2,17 @@ import { useEffect, useRef, useState } from "react";
 import { useAppSelector } from "../../../../states/hooks";
 import { CalendarCell, CalendarEvent } from "../../../../types/calendar.types";
 import { BoundaryReference } from "../../../../types/references";
-import { getTimeTag, getTop, isCellPartOfEvent } from "../../../../utils/calendar.utils";
+import {
+  getTimeTag,
+  getTop,
+  isCellPartOfEvent,
+} from "../../../../utils/calendar.utils";
 import { createWeekArray } from "../../../../utils/date.utils";
 import Spinner from "../../../spinner/spinner";
 import styles from "./calendar.week.view.module.sass";
 import { concatStyles } from "../../../../utils/styles.utils";
+import { DayOfWeek } from "../../../../types/dates";
+import { getEnumIndex } from "../../../../utils/enum.utils";
 
 type CalendarDayViewProps = {
   currentDay: Date;
@@ -45,7 +51,7 @@ export default function CalendarWeekView({
     const calculateTop = (): number => {
       var boundary: BoundaryReference<any> =
         tableRef.current.getBoundingClientRect();
-      const top = getTop(boundary, 15);
+      const top = getTop(boundary);
       setTop(top);
       return top;
     };
@@ -121,6 +127,10 @@ export default function CalendarWeekView({
                 styles["calendar-week-title"],
                 day.day === today.getDate() && day.month == today.getMonth()
                   ? styles["current-day"]
+                  : "",
+                getEnumIndex(DayOfWeek, day.dayOfWeek) === 0 ||
+                  getEnumIndex(DayOfWeek, day.dayOfWeek) === 6
+                  ? styles["weekend-day"]
                   : ""
               )}
             >
@@ -132,16 +142,20 @@ export default function CalendarWeekView({
         <div className={styles["calendar-week-table-wrapper"]}>
           <div
             className={styles["calendar-week-time-container"]}
-            style={{ gap: `calc(${cellHeight}px - 10pt - 5px)` }}
+            style={{ gap: `calc(${factor * cellHeight}px - 10pt - 5px)` }}
           >
-            {cells[0].map((cell, index) => (
-              <p
-                className={styles["calendar-week-hour-tag"]}
-                key={`row-${index}-key}`}
-              >
-                {getTimeTag(cell.startDate, true)}
-              </p>
-            ))}
+            {cells[0].map((cell, index) => {
+              if (index % factor === 0) {
+                return (
+                  <p
+                    className={styles["calendar-week-hour-tag"]}
+                    key={`row-${index}-key}`}
+                  >
+                    {getTimeTag(cell.startDate, true)}
+                  </p>
+                );
+              }
+            })}
           </div>
           <table className={styles["calendar-week-table"]} ref={tableRef}>
             <tbody className={styles["calendar-week-body"]}>
@@ -160,7 +174,10 @@ export default function CalendarWeekView({
               ))}
             </tbody>
           </table>
-          <hr className={styles["calendar-week-hour-line"]} style={{ top: top }} />
+          <hr
+            className={styles["calendar-week-hour-line"]}
+            style={{ top: top }}
+          />
         </div>
       </div>
       <div className={styles["spinner-wrapper"]}>{loading && <Spinner />}</div>

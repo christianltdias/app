@@ -122,16 +122,20 @@ export default function CalendarDayView({
         <div className={styles["calendar-day-table-wrapper"]}>
           <div
             className={styles["calendar-day-time-container"]}
-            style={{ gap: `calc(${cellHeight}px - 10pt - 5px)` }}
+            style={{ gap: `calc(${factor * cellHeight}px - 10pt - 5px)` }}
           >
-            {cells.map((cell, index) => (
-              <p
-                className={styles["calendar-day-hour-tag"]}
-                key={`row-${index}-key}`}
-              >
-                {getTimeTag(cell.startDate, true)}
-              </p>
-            ))}
+            {cells.map((cell, index) => {
+              if (index % factor === 0) {
+                return (
+                  <p
+                    className={styles["calendar-day-hour-tag"]}
+                    key={`row-${index}-key}`}
+                  >
+                    {getTimeTag(cell.startDate, true)}
+                  </p>
+                );
+              }
+            })}
           </div>
           <table className={styles["calendar-day-table"]} ref={tableRef}>
             <tbody className={styles["calendar-day-table-body"]}>

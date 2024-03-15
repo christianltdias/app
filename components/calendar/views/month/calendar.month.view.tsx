@@ -87,10 +87,14 @@ export default function CalendarMonthView({
                           cell.startDate.getMonth() !== selectedDate.getMonth()
                             ? styles["month-preview"]
                             : "",
+                          cell.startDate.getDay() === 0 ||
+                            cell.startDate.getDay() === 6
+                            ? styles["weekend-day"]
+                            : "",
                           cell.startDate.getDate() === today.getDate() &&
                             cell.startDate.getMonth() == today.getMonth()
                             ? styles["current-day"]
-                            : ""
+                            : "",
                         )}
                       >
                         {cell.startDate.getDate()}
