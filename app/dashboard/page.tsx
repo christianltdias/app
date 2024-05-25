@@ -41,33 +41,33 @@ export default function Page() {
         {
           children: (
             <Button
-              color="tertiary"
+              color="success"
               type="filled"
               onClick={() => router.push(`/`)}
             >
-              Tertiary
+              Success
             </Button>
           ),
         },
         {
           children: (
             <Button
-              color="quartenary"
+              color="warning"
               type="filled"
               onClick={() => router.push(`/`)}
             >
-              Quartenary
+              Warning
             </Button>
           ),
         },
         {
           children: (
             <Button
-              color="error"
+              color="cancel"
               type="filled"
               onClick={() => router.push(`/`)}
             >
-              Error
+              Cancel
             </Button>
           ),
         },
@@ -83,7 +83,7 @@ export default function Page() {
             {
               children: (
                 <Button
-                  color="error"
+                  color="cancel"
                   type="filled"
                   onClick={() => setShowModal(false)}
                 >

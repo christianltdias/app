@@ -1,5 +1,7 @@
 import { createRef, useEffect, useRef, useState } from "react";
-import Event from "../../event/calendar.event";
+import { useAppDispatch, useAppSelector } from "../../../../states/hooks";
+import { CalendarCell, CalendarEvent } from "../../../../types/calendar.types";
+import { BoundaryReference } from "../../../../types/references";
 import {
   getDayName,
   getTimeTag,
@@ -7,41 +9,38 @@ import {
   isCellPartOfEvent,
   mapEvents,
 } from "../../../../utils/calendar.utils";
-import styles from "./calendar.day.view.module.sass";
-import { CalendarCell, CalendarEvent, CalendarView } from "../../../../types/calendar.types";
-import { useAppDispatch, useAppSelector } from "../../../../states/hooks";
 import Spinner from "../../../spinner/spinner";
-import { BoundaryReference } from "../../../../types/references";
-import Dropdown from "../../../buttons/dropdown/common/dropdown.common";
-import { getEnumByIndex } from "../../../../utils/enum.utils";
-import { setFactor, setView } from "../../../../states/slices/components/calendar/calendar.slice";
+import Event from "../../event/calendar.event";
 import CalendarControls from "../controls/calendar.controls";
+import styles from "./calendar.day.view.module.sass";
+import { concatStyles } from "../../../../utils/styles.utils";
 
 type CalendarDayViewProps = {
-  currentDay: Date;
   events: Array<CalendarEvent>;
   cellHeight?: number;
   scrollToCurrentTime?: boolean;
 };
 
 export default function CalendarDayView({
-  currentDay,
   events,
   cellHeight = 80,
   scrollToCurrentTime = false,
 }: CalendarDayViewProps) {
   const wrapperRef = useRef(null);
   const tableRef = useRef(null);
+  
+  const dispatch = useAppDispatch();
 
   const factor = useAppSelector((state) => state.calendar.factor);
   const cells = useAppSelector((state) => state.calendar.cells[0]);
+  const currentDay = useAppSelector((state) => state.calendar.selectedDate);
 
   const [cellRefs, setCellRefs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [mappedEvents, setMappedEvents] = useState<CalendarEvent[]>([]);
   const [top, setTop] = useState<number>(0);
 
-
+  console.log(events)
   useEffect(() => {
     setCellRefs((elRefs) => cells.map((_, i) => elRefs[i] || createRef()));
     setMappedEvents(getEvents(events, mapEvents(events, cells)));
@@ -113,19 +112,24 @@ export default function CalendarDayView({
       return "calendar-day-hour-bottom";
     }
   };
-
+  const today = new Date();
   return (
     <div className={styles["calendar-day-container"]}>
       <div className={styles["calendar-day-main-wrapper"]} ref={wrapperRef}>
         <div className={styles["calendar-day-header"]}>
-          <div className={styles["calendar-day-date"]}>
+          <div className={concatStyles(
+            styles["calendar-day-date"],        
+            currentDay.getDate() === today.getDate() && currentDay.getMonth() == today.getMonth()
+            ? styles["current-day"]
+            : "")}
+          >
             {getDayName(currentDay)
               .split(" ")
               .map((daypart) => (
                 <p>{daypart}</p>
               ))}
           </div>
-          <CalendarControls />
+          <CalendarControls dateText={getDayName(currentDay)} />
         </div>
         <div className={styles["calendar-day-table-wrapper"]}>
           <div

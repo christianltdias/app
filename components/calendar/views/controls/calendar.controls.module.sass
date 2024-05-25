@@ -1,6 +1,24 @@
+@import '../../../../styles/variables'
+
 .calendar-day-header-controls
   display: flex
   flex-direction: row
   height: 30px
   align-self: center
+  align-items: center
   gap: 20px
+
+  span
+    color: $text-color
+    font-size: 10pt
+    opacity: .8
+
+  .icon
+    cursor: pointer
+    fill: $text-color
+
+    &.primary
+      fill: $primary-color
+
+    &.secondary
+      fill: $secondary-color

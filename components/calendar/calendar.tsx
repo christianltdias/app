@@ -1,4 +1,4 @@
-import { useAppDispatch, useAppSelector } from "../../states/hooks";
+import { useAppSelector } from "../../states/hooks";
 import { CalendarEvent, CalendarView } from "../../types/calendar.types";
 import styles from "./calendar.module.sass";
 import CalendarDayView from "./views/day/calendar.day.view";
@@ -8,11 +8,8 @@ import CalendarWeekView from "./views/week/calendar.week.view";
 type CalendarProps = {};
 
 export default function Calendar({}: CalendarProps) {
-  const dispatch = useAppDispatch();
-
-  const selectedDate = useAppSelector((state) => state.calendar.selectedDate);
   const view = useAppSelector((state) => state.calendar.view);
-  const factor = useAppSelector((state) => state.calendar.factor);
+  const currentDay = useAppSelector((state) => state.calendar.selectedDate);
 
   const events = [
     new CalendarEvent(
@@ -34,10 +31,10 @@ export default function Calendar({}: CalendarProps) {
       new Date(2024, 2, 15, 3, 15, 0)
     ),
     new CalendarEvent(
-      new Date(2024, 2, 15, 3, 0, 0),
+      new Date(2024, 2, 16, 3, 0, 0),
       "Take kid to school",
       "medium",
-      new Date(2024, 2, 15, 4, 45, 0)
+      new Date(2024, 2, 16, 4, 45, 0)
     ),
     new CalendarEvent(
       new Date(2024, 2, 15, 0, 0, 0),
@@ -62,15 +59,15 @@ export default function Calendar({}: CalendarProps) {
   return (
     <div className={styles["calendar-container"]}>
       {CalendarView.Day === view && (
-        <CalendarDayView currentDay={selectedDate} events={events} />
+        <CalendarDayView events={events.filter(e => e.startDate.getTime() >= currentDay.getTime() && e.endDate.getTime() <= currentDay.getTime() + 60 * 60 * 24 * 1000)} />
       )}
 
       {CalendarView.Week === view && (
-        <CalendarWeekView currentDay={selectedDate} events={[]} />
+        <CalendarWeekView events={[]} />
       )}
 
       {CalendarView.Month === view && (
-        <CalendarMonthView currentDay={selectedDate} events={[]} />
+        <CalendarMonthView events={[]} />
       )}
     </div>
   );

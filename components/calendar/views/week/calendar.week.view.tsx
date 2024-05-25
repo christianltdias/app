@@ -16,14 +16,12 @@ import { getEnumIndex } from "../../../../utils/enum.utils";
 import CalendarControls from "../controls/calendar.controls";
 
 type CalendarDayViewProps = {
-  currentDay: Date;
   events: Array<CalendarEvent>;
   cellHeight?: number;
   scrollToCurrentTime?: boolean;
 };
 
 export default function CalendarWeekView({
-  currentDay,
   events,
   cellHeight = 80,
   scrollToCurrentTime = false,
@@ -33,6 +31,8 @@ export default function CalendarWeekView({
 
   const factor = useAppSelector((state) => state.calendar.factor);
   const cells = useAppSelector((state) => state.calendar.cells);
+  const currentDay = useAppSelector((state) => state.calendar.selectedDate);
+  
   const today = new Date();
 
   const [cellRefs, setCellRefs] = useState([]);

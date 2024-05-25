@@ -1,12 +1,13 @@
 
 import { CalendarCell, CalendarEvent, CalendarView } from "../../../../types/calendar.types";
+import { CalendarFactorType } from "./calendar.slice";
 
 export interface SetCalendarSelectedDate {
-  date: Date;
+  isNext: boolean;
 }
 
 export interface SetCalendarFactor {
-  factor: 1 | 2;
+  factor: CalendarFactorType;
 }
 
 export interface SetCalendarView {

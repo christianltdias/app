@@ -1,11 +1,11 @@
 import Header from "../components/header/header";
-import { Roboto } from "next/font/google";
+import { Lexend } from "next/font/google";
 import "../styles/global.sass";
 import StoreProvider from "../states/provider";
 
-const roboto = Roboto({
-  weight: ["400", "700"],
-  style: ["normal", "italic"],
+const lexend = Lexend({
+  weight: ["300", "500", "700"],
+  style: ["normal"],
   subsets: ["latin"],
   display: "swap",
 });
@@ -17,7 +17,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={roboto.className}>
+      <body className={lexend.className}>
         <StoreProvider>
           <Header isLogged />
           {children}

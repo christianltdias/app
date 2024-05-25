@@ -11,13 +11,11 @@ import { DayOfWeek } from "../../../../types/dates";
 import CalendarControls from "../controls/calendar.controls";
 
 type CalendarMonthViewProps = {
-  currentDay: Date;
   events: Array<CalendarEvent>;
   cellHeight?: number;
 };
 
 export default function CalendarMonthView({
-  currentDay,
   events,
   cellHeight = 160,
 }: CalendarMonthViewProps) {
@@ -26,7 +24,7 @@ export default function CalendarMonthView({
 
   const factor = useAppSelector((state) => state.calendar.factor);
   const cells = useAppSelector((state) => state.calendar.cells);
-  const selectedDate = useAppSelector((state) => state.calendar.selectedDate);
+  const currentDay = useAppSelector((state) => state.calendar.selectedDate);
   const today = new Date();
 
   const [cellRefs, setCellRefs] = useState([]);
@@ -98,7 +96,7 @@ export default function CalendarMonthView({
                       <p
                         className={concatStyles(
                           styles["cell-day-number"],
-                          cell.startDate.getMonth() !== selectedDate.getMonth()
+                          cell.startDate.getMonth() !== currentDay.getMonth()
                             ? styles["month-preview"]
                             : "",
                           cell.startDate.getDay() === 0 ||

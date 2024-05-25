@@ -12,7 +12,6 @@ export default function Page() {
   return (
     <PageComponent title="Home">
       <Button onClick={() => router.push('/dashboard')}>Dashboard</Button>
-      <Calendar/>
     </PageComponent>
   );
 }

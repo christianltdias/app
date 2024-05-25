@@ -22,19 +22,23 @@ $header-padding: 10px
     border-bottom: 1px solid #d3d3d3
 
     .calendar-day-header
-      cursor: pointer
+      // cursor: pointer
       padding: $header-padding
-      color: $primary-color
       width: 100%
       height: $header-width
       border-bottom: 1px solid #d3d3d3
+      color: $text-color
       display: flex
       flex-direction: row
       justify-content: space-between
 
+
       .calendar-day-date
         width: fit-content
 
+        &.current-day
+          color: $primary-color
+          
         p
           margin: 0
           margin-left: 50px

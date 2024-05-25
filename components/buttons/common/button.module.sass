@@ -1,232 +1,86 @@
 @import '../../../styles/variables'
 
+$border-thickness: 2px
+$colors: ("primary": $button-primary, "secondary": $button-secondary, "success": $button-success, "warning": $button-warning, "cancel": $button-cancel, "white": white)
+      
+@keyframes background-smooth
+  0%
+    background-color: #ffffff00
+  
+  100% 
+    background-color: #ffffff30
+
+@keyframes background-hard
+  0%
+    background-color: #ffffff30
+  
+  100% 
+    background-color: #ffffff60
+
+@mixin animate($animation,$duration,$method,$times)
+    animation: $animation $duration $method $times
+
+@mixin setBgColorAndHover($baseColor)
+  border: $border-thickness solid $baseColor
+  background-color: $baseColor
+  color: $baseColor
+
+  @if $baseColor == white
+    color: $text-color
+    background-color: transparent
+    border: none
+  
+  &:hover
+    $darker-color: darken($baseColor, 30%)  
+
+    @if $baseColor == white
+      $darker-color: #ffffff30
+    
+    &.filled
+      @if $baseColor == white
+        @include animate(background-smooth, .3s, forwards, 1)
+      @else
+        background-color: $darker-color
+      
+    &.border,&.empty
+      border-color: $darker-color
+      color: $darker-color
+
+  &:active
+    $lighten-color: lighten($baseColor, 20%)
+    
+    @if $baseColor == white
+      $lighten-color: #ffffff60
+    
+    &.filled
+      @if $baseColor == white
+        @include animate(background-hard, .3s, forwards, 1)
+      @else
+        background-color: $lighten-color
+
+    &.border,&.empty
+      border-color: $lighten-color
+      color: $lighten-color
+
 .container
-  height: 25px
-  width: fit-content
-  padding: 5px 15px
-  border-radius: 10px
-  display: flex
+  padding: 10px 25px
+  border-radius: 7.5px
+  border: none
   cursor: pointer
   user-select: none
+  font-weight: 700
+
+  @each $name, $color in $colors
+    &.#{$name}
+      +setBgColorAndHover($color)
+
+  &.border
+    background-color: transparent
   
-  .text.filled
-    margin: auto
+  &.filled
+    border: none
     color: white
-    font-weight: bold
-    font-size: 12pt
+
+  &.empty
     border: none
-
-  
-  .text.white.filled
-    margin: auto
-    opacity: 1
-    color: $button-primary
-    font-weight: bold
-    font-size: 12pt
-    border: none
-  
-  .text.primary.border
-    margin: auto
-    color: $button-primary
-    font-weight: bold
-    font-size: 12pt
-    border: none
-
-  &.primary.filled
-    background-color: $button-primary
-  
-  &.primary.border
-    border: 1px solid $button-primary
-
-  &.secondary.filled
-    background-color: $button-secondary
-  
-  &.secondary.border
-    border: 1px solid $button-secondary
-      
-  .text.secondary.border
-    margin: auto
-    color: $button-secondary
-    font-weight: bold
-    font-size: 12pt
-    border: none
-    
-  &.tertiary.border
-    border: 1px solid $button-tertiary
-
-  &.tertiary.filled
-    background-color: $button-tertiary
-
-  .text.tertiary.border
-    margin: auto
-    color: $button-tertiary
-    font-weight: bold
-    font-size: 12pt
-    border: none
-
-  &.quartenary.filled
-    background-color: $button-quartenary
-
-  &.quartenary.border
-    border: 1px solid $button-quartenary
-
-  .text.quartenary.border
-    margin: auto
-    color: $button-quartenary
-    font-weight: bold
-    font-size: 12pt
-    border: none
-
-  &.error.filled
-    background-color: $button-error
-
-  &.error.border
-    border: 1px solid $button-error
-
-  .text.error.border
-    margin: auto
-    color: $button-error
-    font-weight: bold
-    font-size: 12pt
-    border: none
-
-  &.white.filled
-    background-color: $button-white
-
-  &.white.border
-    border: 1px solid  $button-white
-
-  .text.white.border
-    margin: auto
-    color:  $button-white
-    font-weight: bold
-    font-size: 12pt
-    border: none
-
-  &:hover
-    .text.primary.border
-      color: $button-primary-hover
-      border: none
-
-    &.primary.filled
-      background-color: $button-primary-hover
-
-    &.primary.border
-      border: 1px solid $button-primary-hover
-
-    &.secondary.filled
-      background-color: $button-secondary-hover
-  
-    &.secondary.border
-      border: 1px solid $button-secondary-hover
-
-    .text.secondary.border
-      color: $button-secondary-hover
-      border: none
-      
-    &.tertiary.filled
-      background-color: $button-tertiary-hover
-      
-    &.tertiary.border:hover
-      border: 1px solid $button-tertiary-hover
-
-    .text.tertiary.border
-      color: $button-tertiary-hover
-      border: none
-
-    &.quartenary.filled
-      background-color: $button-quartenary-hover
-
-    &.quartenary.border
-      border: 1px solid $button-quartenary-hover
-
-    .text.quartenary.border
-      color: $button-quartenary-hover
-      border: none
-
-    &.error.filled
-      background-color: $button-error-hover
-  
-    &.error.border
-      border: 1px solid $button-error-hover
-
-    .text.error.border
-      color: $button-error-hover
-      border: none
-
-    &.white.filled
-      background-color: $button-white-hover
-  
-    &.white.border
-      border: 1px solid $button-white-hover
-
-    .text.white.border
-      color: $button-white-hover
-      border: none
-    
-  &:active
-    .text.primary.border:active
-      color: $button-primary-active
-      border: none
-
-    &.primary.filled
-      background-color: $button-primary-active
-      
-    &.primary.border
-      border: 1px solid $button-primary-active
-      
-    &.secondary.filled
-      background-color: $button-secondary-active
-
-    &.secondary.border
-      border: 1px solid $button-secondary-active
-
-    .text.secondary.border
-      color: $button-secondary-active
-      border: none
-      
-    &.tertiary.filled
-      background-color: $button-tertiary-active
-
-    &.tertiary.border
-      border: 1px solid $button-tertiary-active
-
-    .text.tertiary.border
-      color: $button-tertiary-active
-      border: none
-
-    &.quartenary.filled
-      background-color: $button-quartenary-active
-
-    &.quartenary.border
-      border: 1px solid $button-quartenary-active
-
-    .text.quartenary.border
-      color: $button-quartenary-active
-      border: none
-
-    &.error.filled
-      background-color: $button-error-active
-
-    &.error.border
-      border: 1px solid $button-error-active
-
-    .text.error.border
-      color: $button-error-active
-      border: none
-      
-    &.white.filled
-      background-color: $button-white-active
-
-    &.white.border
-      border: 1px solid $button-white-active
-
-    .text.white.border
-      color: $button-white-active
-      border: none
-
-  
-
-
-
-
+    background-color: transparent
