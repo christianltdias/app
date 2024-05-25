@@ -1,11 +1,11 @@
 import Header from "../components/header/header";
-import { Lexend } from "next/font/google";
+import { Noto_Sans } from "next/font/google";
 import "../styles/global.sass";
 import StoreProvider from "../states/provider";
 
-const lexend = Lexend({
-  weight: ["300", "500", "700"],
-  style: ["normal"],
+const noto = Noto_Sans({
+  weight: ["300" , "500" , "600" , "700" , "800" , "900"],
+  style: ["normal", "italic"],
   subsets: ["latin"],
   display: "swap",
 });
@@ -17,7 +17,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={lexend.className}>
+      <body className={noto.className}>
         <StoreProvider>
           <Header isLogged />
           {children}

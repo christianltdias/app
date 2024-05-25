@@ -1,66 +1,25 @@
 @import '../../../styles/variables'
+@import '../../../styles/keyframes'
+@import '../../../styles/mixins'
 
-$border-thickness: 2px
-$colors: ("primary": $button-primary, "secondary": $button-secondary, "success": $button-success, "warning": $button-warning, "cancel": $button-cancel, "white": white)
-      
-@keyframes background-smooth
-  0%
-    background-color: #ffffff00
-  
-  100% 
-    background-color: #ffffff30
-
-@keyframes background-hard
-  0%
-    background-color: #ffffff30
-  
-  100% 
-    background-color: #ffffff60
-
-@mixin animate($animation,$duration,$method,$times)
-    animation: $animation $duration $method $times
-
-@mixin setBgColorAndHover($baseColor)
-  border: $border-thickness solid $baseColor
+@mixin setBgColorAndHover($name, $baseColor)
+  border: $button-border-thickness solid $baseColor
   background-color: $baseColor
   color: $baseColor
-
-  @if $baseColor == white
-    color: $text-color
-    background-color: transparent
-    border: none
   
-  &:hover
-    $darker-color: darken($baseColor, 30%)  
-
-    @if $baseColor == white
-      $darker-color: #ffffff30
-    
+  &:hover    
     &.filled
-      @if $baseColor == white
-        @include animate(background-smooth, .3s, forwards, 1)
-      @else
-        background-color: $darker-color
+      @include animate(background-smooth-#{$name}, $button-animation-duration)
       
     &.border,&.empty
-      border-color: $darker-color
-      color: $darker-color
+      @include animate(border-smooth-#{$name}, $button-animation-duration)
 
-  &:active
-    $lighten-color: lighten($baseColor, 20%)
-    
-    @if $baseColor == white
-      $lighten-color: #ffffff60
-    
+  &:active   
     &.filled
-      @if $baseColor == white
-        @include animate(background-hard, .3s, forwards, 1)
-      @else
-        background-color: $lighten-color
+      @include animate(background-hard-#{$name}, $button-animation-duration)
 
     &.border,&.empty
-      border-color: $lighten-color
-      color: $lighten-color
+      @include animate(border-hard-#{$name}, $button-animation-duration)
 
 .container
   padding: 10px 25px
@@ -70,9 +29,20 @@ $colors: ("primary": $button-primary, "secondary": $button-secondary, "success":
   user-select: none
   font-weight: 700
 
-  @each $name, $color in $colors
+  @each $name, $color in $button-colors
+    @if $color == white
+      @include background-opacity-color($name: border-smooth-#{$name}, $color: #ffffff, $min-opacity: 0, $max-opacity: .3)
+      @include background-opacity-color($name: border-hard-#{$name}, $color: #ffffff, $min-opacity: .3, $max-opacity: .6)
+    @else
+      $lighten-color: lighten($color, 20%)
+      $darker-color: darken($color, 20%) 
+      @include background-from-color-to-color($name: background-smooth-#{$name}, $from-color: $color, $to-color: $lighten-color)
+      @include background-from-color-to-color($name: background-hard-#{$name}, $from-color: $lighten-color, $to-color: $darker-color)
+      @include border-from-color-to-color($name: border-smooth-#{$name}, $from-color: $color, $to-color: $lighten-color)
+      @include border-from-color-to-color($name: border-hard-#{$name}, $from-color: $lighten-color, $to-color: $darker-color)
+      
     &.#{$name}
-      +setBgColorAndHover($color)
+      +setBgColorAndHover($name, $color)
 
   &.border
     background-color: transparent

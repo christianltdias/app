@@ -11,6 +11,10 @@ type ButtonProps = {
 }
 
 const button = forwardRef(({children, color = 'primary', type = 'border', onClick} : ButtonProps, ref: MutableRefObject<any>) => {
+  if (color === 'white') {
+    type = 'empty'
+  }
+  
   return (
     <button ref={ref} onClick={onClick} className={concatStyles(styles['container'], styles[color], styles[type])}>{children}</button>
   );
