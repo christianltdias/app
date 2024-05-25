@@ -1,7 +1,7 @@
 "use client";
 
-import Button from "../../components/buttons/common/button";
-import Input from "../../components/inputs/input";
+import Button from "../../components/controls/buttons/common/button";
+import Input from "../../components/controls/inputs/text/input";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import styles from "./login.module.sass";

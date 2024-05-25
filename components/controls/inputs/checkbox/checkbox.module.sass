@@ -1,0 +1,31 @@
+@import '../../../../styles/variables'
+
+$checkbox-colors: ("default": #4984f1, "light-blue": #5ac6ed, "green": #47df3f, "yellow": #eea840)
+
+
+.container
+
+  input[type='checkbox']
+    height: 16px
+    width: 16px
+    outline: none
+    display: inline-block
+    vertical-align: middle
+    position: relative
+    margin: 0
+    cursor: pointer
+    transition: background .3s, border-color .3s, box-shadow .2s
+      
+
+    @each $name, $color in $checkbox-colors
+      &.#{$name}
+        // border: 1px solid $color
+        accent-color: $color
+    
+       
+    & + label 
+      font-size: 14px
+      display: inline-block
+      vertical-align: middle
+      cursor: pointer
+      margin-left: 5px

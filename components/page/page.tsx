@@ -4,7 +4,7 @@ import { ReactNode } from "react";
 import BreadCrumb from "../breadcrumb/breadcrumb";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
-import PageButton, { PageButtonProps } from "../buttons/pagebutton/pagebutton";
+import PageButton, { PageButtonProps } from "../controls/buttons/pagebutton/pagebutton";
 import styles from "./page.module.sass";
 
 type Prop = {

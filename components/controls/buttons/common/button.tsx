@@ -1,7 +1,7 @@
 'use client';
 import { MutableRefObject, forwardRef } from 'react';
 import styles from './button.module.sass';
-import { concatStyles } from '../../../utils/styles.utils';
+import { concatStyles } from '../../../../utils/styles.utils';
 
 type ButtonProps = {
   children: string,

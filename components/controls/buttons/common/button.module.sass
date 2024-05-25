@@ -1,6 +1,6 @@
-@import '../../../styles/variables'
-@import '../../../styles/keyframes'
-@import '../../../styles/mixins'
+@import '../../../../styles/variables'
+@import '../../../../styles/keyframes'
+@import '../../../../styles/mixins'
 
 @mixin setBgColorAndHover($name, $baseColor)
   border: $button-border-thickness solid $baseColor
@@ -22,12 +22,15 @@
       @include animate(border-hard-#{$name}, $button-animation-duration)
 
 .container
+  box-sizing: content-box
   padding: 10px 25px
   border-radius: 7.5px
   border: none
   cursor: pointer
+  height: 20px
   user-select: none
-  font-weight: 700
+  font-size: 14px
+  font-weight: bold
 
   @each $name, $color in $button-colors
     @if $color == white

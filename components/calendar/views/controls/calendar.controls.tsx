@@ -6,7 +6,7 @@ import {
 } from "../../../../states/slices/components/calendar/calendar.slice";
 import { CalendarView } from "../../../../types/calendar.types";
 import { getEnumByIndex } from "../../../../utils/enum.utils";
-import Dropdown, { DropdownColors } from "../../../buttons/dropdown/common/dropdown.common";
+import Dropdown, { DropdownColors } from "../../../controls/buttons/dropdown/common/dropdown.common";
 import * as Unicons from '@iconscout/react-unicons';
 import styles from "./calendar.controls.module.sass";
 import { concatStyles } from "../../../../utils/styles.utils";

@@ -2,7 +2,7 @@ import React, { ReactNode } from "react";
 import ReactDOM from "react-dom";
 import styles from "./modal.module.sass";
 import Image from "next/image";
-import PageButton, { PageButtonProps } from "../buttons/pagebutton/pagebutton";
+import PageButton, { PageButtonProps } from "../controls/buttons/pagebutton/pagebutton";
 
 type ModalProps = {
   buttons?: PageButtonProps[];

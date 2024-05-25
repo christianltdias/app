@@ -1,11 +1,12 @@
 "use client";
 
 import PageComponent from "../../components/page/page";
-import Button from "../../components/buttons/common/button";
+import Button from "../../components/controls/buttons/common/button";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import Modal from "../../components/modal/modal";
 import { useState } from "react";
+import MultiOptionButton from "../../components/controls/buttons/multi-option/multi-option-button";
 
 export default function Page() {
   const pathName = usePathname();
@@ -70,7 +71,24 @@ export default function Page() {
               Cancel
             </Button>
           ),
-        },
+        },    
+        {
+          children: (
+            <MultiOptionButton 
+            color='primary'
+            options={[
+              {
+                'title': 'Go to Dashboard',
+                'onClick': () => router.push('/dashboard')
+              },
+              {
+                'title': 'Go to Details',
+                'onClick': () => router.push('/dashboard/details')
+              },
+            ]}
+          />
+          ),
+        }
       ]}
     >
       <p>Hello, Dashboard Page!</p>
