@@ -57,7 +57,7 @@ export default function Page() {
       />
 
       <Divider />
-      <Switch value={isChecked} onChange={setChecked}>default</Switch>
+      <Switch value={isChecked} onChange={setChecked} colored>default</Switch>
       <Switch disabled color="error" value={isChecked} onChange={setChecked}>error</Switch>
       <Switch color="green" value={isChecked} onChange={setChecked}>green</Switch>
       <Switch color="purple" value={isChecked} onChange={setChecked}>purple</Switch>

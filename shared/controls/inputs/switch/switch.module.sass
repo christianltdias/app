@@ -3,11 +3,15 @@
 @import '../../../../styles/mixins'
 
 $checkbox-colors: ("green": #27C86A, "error": #FE5945, "warning": #FEA50A, "default": #25B8A6, "purple": #9B58B7)
+$disabled-color: #c0c0c0
 
 @each $name, $color in $checkbox-colors
   @include switch-animation-to(to-#{$name}, $color)
   @include switch-animation-from(from-#{$name}, $color)
 
+  
+@include switch-animation-to('to-white', #fff)
+@include switch-animation-from('from-white', $disabled-color)
 
 .container 
   display: flex
@@ -27,31 +31,14 @@ $checkbox-colors: ("green": #27C86A, "error": #FE5945, "warning": #FEA50A, "defa
       border: 1px solid $color
       outline: none
       cursor: pointer
+      position: relative
 
-      &:hover:not(:disabled):not(:checked)
-        background-color: rgb($color, .2)
+      &::before
+        content: "\2B24"
+        font-size: 12px
+        position: absolute
+        bottom: 1px
 
-      &:checked
-        background-color: $color
-        position: relative
-
-        &::before
-          content: "\2B24"
-          font-size: 12px
-          position: absolute
-          bottom: 1px
-          @include animate(to-#{$name}, .3s)
-      
-      &:not(checked)
-        position: relative
-        
-        &::before
-          content: "\2B24"
-          font-size: 12px
-          position: absolute
-          bottom: 1px
-          @include animate(from-#{$name}, .3s)
-      
       + label
         font-size: 16px
         display: flex
@@ -61,17 +48,31 @@ $checkbox-colors: ("green": #27C86A, "error": #FE5945, "warning": #FEA50A, "defa
         &.colored
           color: $color
           font-weight: bold
-                
-      &:disabled
-        border-color: #c0c0c0
+
+      &:not(:disabled)
+        &:hover
+          background-color: rgb($color, .2)
 
         &:checked
-          background-color: #c0c0c0
+          background-color: $color
 
-        &:not(:checked)::before
-          color: #c0c0c0 !important
+          &::before
+            @include animate(to-#{$name}, .3s)
+
+        &:not(checked)::before
+          @include animate(from-#{$name}, .3s)
+
+      &:disabled
+        border-color: #c0c0c0
+        
+        &:checked
+          background-color: #c0c0c0
+          
+          &::before
+            @include animate(to-white, .3s)
+        
+        &:not(checked)::before
+          @include animate(from-white, .3s)
           
         + label
           color: #c0c0c0
-
-
