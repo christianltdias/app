@@ -1,0 +1,1 @@
+export type InputColors = "default" | "error" | "warning" | "green" | "purple";

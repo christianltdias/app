@@ -1,0 +1,77 @@
+@import '../../../../styles/variables'
+@import '../../../../styles/keyframes'
+@import '../../../../styles/mixins'
+
+$checkbox-colors: ("green": #27C86A, "error": #FE5945, "warning": #FEA50A, "default": #25B8A6, "purple": #9B58B7)
+
+@each $name, $color in $checkbox-colors
+  @include switch-animation-to(to-#{$name}, $color)
+  @include switch-animation-from(from-#{$name}, $color)
+
+
+.container 
+  display: flex
+  flex-direction: row
+  justify-content: flex-start
+  align-content: center
+  width: fit-content
+
+  @each $name, $color in $checkbox-colors
+    .#{$name}[type="checkbox"] 
+      -webkit-appearance: none
+      appearance: none
+      box-sizing: content-box
+      width: 32px
+      height: 16px
+      border-radius: 20px
+      border: 1px solid $color
+      outline: none
+      cursor: pointer
+
+      &:hover:not(:disabled):not(:checked)
+        background-color: rgb($color, .2)
+
+      &:checked
+        background-color: $color
+        position: relative
+
+        &::before
+          content: "\2B24"
+          font-size: 12px
+          position: absolute
+          bottom: 1px
+          @include animate(to-#{$name}, .3s)
+      
+      &:not(checked)
+        position: relative
+        
+        &::before
+          content: "\2B24"
+          font-size: 12px
+          position: absolute
+          bottom: 1px
+          @include animate(from-#{$name}, .3s)
+      
+      + label
+        font-size: 16px
+        display: flex
+        align-self: center
+        padding-left: 0.5rem
+
+        &.colored
+          color: $color
+          font-weight: bold
+                
+      &:disabled
+        border-color: #c0c0c0
+
+        &:checked
+          background-color: #c0c0c0
+
+        &:not(:checked)::before
+          color: #c0c0c0 !important
+          
+        + label
+          color: #c0c0c0
+
+

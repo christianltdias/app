@@ -1,12 +1,12 @@
 "use client";
 
-import PageComponent from "../../components/page/page";
-import Button from "../../components/controls/buttons/common/button";
+import PageComponent from "../../shared/page/page";
+import Button from "../../shared/controls/buttons/common/button";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
-import Modal from "../../components/modal/modal";
+import Modal from "../../shared/modal/modal";
 import { useState } from "react";
-import MultiOptionButton from "../../components/controls/buttons/multi-option/multi-option-button";
+import MultiOptionButton from "../../shared/controls/buttons/multi-option/multi-option-button";
 
 export default function Page() {
   const pathName = usePathname();

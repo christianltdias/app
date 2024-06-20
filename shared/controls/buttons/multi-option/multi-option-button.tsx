@@ -30,8 +30,6 @@ export default function MultiOptionButton({
   const mainRef = useRef(null)
   const menuRef = useRef(null)
 
-  console.log(mainRef)
-
   const menuItemRender = (item: Option) => {
     const handleClick = () => {
       setSelectedItem(item)

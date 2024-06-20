@@ -1,0 +1,59 @@
+@import '../../../../styles/variables'
+
+$checkbox-colors: ("green": #27C86A, "error": #FE5945, "warning": #FEA50A, "default": #25B8A6, "purple": #9B58B7)
+
+.container 
+  display: flex
+  flex-direction: row
+  justify-content: flex-start
+  align-content: center
+  width: fit-content
+
+  @each $name, $color in $checkbox-colors
+    .#{$name}[type="checkbox"] 
+      -webkit-appearance: none
+      appearance: none
+      box-sizing: content-box
+      width: 16px
+      height: 16px
+      margin: 0
+      border-radius: 100%
+      border: 1px solid $color
+      outline: none
+      cursor: pointer
+
+      &:hover:not(:disabled):not(:checked)
+        background-color: rgb($color, .6)
+
+      &:checked
+        background-color: $color
+        position: relative
+
+        &::before
+          content: "\2714"
+          font-size: 13px
+          color: #fff
+          position: absolute
+          right: 2.5px
+          bottom: -.5px
+      
+      + label
+        font-size: 16px
+        display: flex
+        padding-left: .5rem
+        cursor: pointer
+
+        &.colored
+          color: $color
+          font-weight: bold
+                
+      &:disabled
+        border-color: #c0c0c0
+
+        &:checked
+          background-color: #c0c0c0
+
+        + label
+          color: #c0c0c0
+
+

@@ -1,4 +1,4 @@
-import PageComponent from "../../../components/page/page";
+import PageComponent from "../../../shared/page/page";
 
 export default function Page() {
   return (

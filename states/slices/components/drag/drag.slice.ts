@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { DragInitItemsAction, DragMoveAction, DragPinItemAction, DragStartAction } from "./drag.actions";
-import { DragItemProps } from "../../../../components/container/drag/item/dragitem";
-import { convertToMatrix } from "../../../../components/container/drag/drag.utils";
+import { DragItemProps } from "../../../../shared/container/drag/item/dragitem";
+import { convertToMatrix } from "../../../../shared/container/drag/drag.utils";
 import { ReactNode } from "react";
 
 export interface IDragState {

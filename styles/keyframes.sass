@@ -24,3 +24,25 @@
     100% 
       border-color: $to-color
       color: $to-color
+
+@mixin switch-animation-to($name, $color)
+  @keyframes #{$name}
+    0%
+      color: $color
+      left: 3px
+    
+    100% 
+      color: white
+      left: 18px
+
+
+@mixin switch-animation-from($name, $color)
+  @keyframes #{$name}
+    0%
+      color: white
+      left: 18px
+    
+    100% 
+      color: $color
+      left: 3px
+

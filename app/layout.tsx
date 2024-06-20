@@ -1,4 +1,4 @@
-import Header from "../components/header/header";
+import Header from "../shared/header/header";
 import { Noto_Sans } from "next/font/google";
 import "../styles/global.sass";
 import StoreProvider from "../states/provider";
