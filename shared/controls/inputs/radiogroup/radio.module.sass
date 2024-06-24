@@ -1,7 +1,5 @@
 @import '../../../../styles/variables'
 
-$checkbox-colors: ("green": #27C86A, "error": #FE5945, "warning": #FEA50A, "default": #25B8A6, "purple": #9B58B7)
-
 .container 
   display: flex
   flex-direction: row
@@ -9,7 +7,7 @@ $checkbox-colors: ("green": #27C86A, "error": #FE5945, "warning": #FEA50A, "defa
   align-content: center
   width: fit-content
 
-  @each $name, $color in $checkbox-colors
+  @each $name, $color in $input-colors
     .#{$name}[type="checkbox"] 
       -webkit-appearance: none
       appearance: none
@@ -49,12 +47,12 @@ $checkbox-colors: ("green": #27C86A, "error": #FE5945, "warning": #FEA50A, "defa
           font-weight: bold
                 
       &:disabled
-        border-color: #c0c0c0
+        border-color: $disabled-color
 
         &:checked
-          background-color: #c0c0c0
+          background-color: $disabled-color
 
         + label
-          color: #c0c0c0
+          color: $disabled-color
 
 

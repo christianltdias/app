@@ -2,8 +2,8 @@ import { ReactNode, useEffect, useRef } from "react";
 import DragItem from "./item/dragitem";
 import styles from "./dragcontainer.module.sass";
 import { concatStyles } from "../../../utils/styles.utils";
-import { useAppDispatch, useAppSelector } from "../../../states/hooks";
-import { setActiveCell, setItems } from "../../../states/slices/components/drag/drag.slice";
+import { useAppDispatch, useAppSelector } from "../../../store/store";
+import { setActiveCell, setItems } from "../../../store/drag/drag.slice";
 
 type DragContainerProps = {
   items: ReactNode[];

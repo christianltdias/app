@@ -10,12 +10,12 @@ import styles from "./dragitem.module.sass";
 import { concatStyles } from "../../../../utils/styles.utils";
 import { calculatePosition } from "../drag.utils";
 import Image from "next/image";
-import { useAppDispatch, useAppSelector } from "../../../../states/hooks";
+import { useAppDispatch, useAppSelector } from "../../../../store/store";
 import {
   applyMovement,
   pinItem,
   setActiveItem,
-} from "../../../../states/slices/components/drag/drag.slice";
+} from "../../../../store/drag/drag.slice";
 
 export type DragItemProps = {
   children: ReactNode;

@@ -1,4 +1,4 @@
-import { useAppSelector } from "../../states/hooks";
+import { useAppSelector } from "../../store/store";
 import { CalendarEvent, CalendarView } from "../../types/calendar.types";
 import styles from "./calendar.module.sass";
 import CalendarDayView from "./views/day/calendar.day.view";

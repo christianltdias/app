@@ -1,0 +1,89 @@
+@import '../../styles/variables'
+@import '../../styles/mixins'
+
+@keyframes toast-entry
+  0%
+    right: -500px
+  
+  100% 
+    right: 0
+
+
+@keyframes toast-out
+  0%
+    right: 0px
+  
+  100% 
+    right: -500px
+
+.container
+  position: absolute
+  padding: 10px 0
+  right: 0
+  width: 330px
+  display: flex
+  justify-content: flex-start
+  max-height: 90vh
+  overflow-y: auto
+  overflow-x: hidden
+
+.toast-container
+  position: relative
+  width: 300px
+  padding: 15px 0
+  margin: 0 15px 15px 15px
+  border-radius: 5px
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px
+  border-left: 7.5px solid transparent
+  display: flex
+  flex-direction: row
+  align-items: center
+  background-color: white
+  @include animate(toast-entry, .3s)
+
+  .sticky
+    position: absolute
+    top: 5px
+    right: 10px
+
+  &.gone
+    @include animate(toast-out, .3s)
+
+  &.info
+    border-color: $primary-color
+    
+    .icon
+      filter: invert(52%) sepia(64%) saturate(4939%) hue-rotate(209deg) brightness(91%) contrast(85%)
+  
+  &.warning
+    border-color: $warning-color
+    
+    .icon
+      filter: invert(94%) sepia(22%) saturate(7005%) hue-rotate(322deg) brightness(99%) contrast(97%)
+  
+  &.error
+    border-color: $error-color
+    
+    .icon
+      filter: invert(42%) sepia(86%) saturate(2499%) hue-rotate(332deg) brightness(113%) contrast(110%)
+
+  &.success
+    border-color: $success-color
+    
+    .icon
+      filter: invert(99%) sepia(75%) saturate(1471%) hue-rotate(48deg) brightness(95%) contrast(92%)
+
+  .icon
+    margin: 0 12px
+
+  .title
+    font-size: 11pt
+    margin: 0
+    padding: 0
+    margin-bottom: 10px
+    color: #00000090
+
+  .content
+    font-size: 10pt
+    margin: 0
+    padding: 0

@@ -2,19 +2,16 @@
 
 import { useRouter } from "next/navigation";
 import MultiOptionButton from "../shared/controls/buttons/multi-option/multi-option-button";
-import CheckBox from "../shared/controls/inputs/checkbox/checkbox";
-import RadioGroup from "../shared/controls/inputs/radiogroup/radiogroup";
 import PageComponent from "../shared/page/page";
-import Switch from "../shared/controls/inputs/switch/switch";
-import { useState } from "react";
-import Divider from "../shared/divider/divider";
-import RadioButton from "../shared/controls/inputs/radiogroup/radio";
+import Toaster from "../shared/toast/toaster";
+import { useAppDispatch } from "../store/store";
+import { createToast } from "../store/toast/toast.slice";
 
 export default function Page() {
   const router = useRouter();
-  const [isChecked, setChecked] = useState<boolean>();
-  const [selectedItem, setSelectedItem] = useState<number>(0);
-  
+  const dispatch = useAppDispatch();
+  let count = 0;
+
   return (
     <PageComponent title="Home">
       <MultiOptionButton
@@ -22,47 +19,30 @@ export default function Page() {
         options={[
           {
             title: "Go to Dashboard",
-            onClick: () => router.push("/dashboard"),
+            // onClick: () => router.push("/dashboard"),
+            onClick: () =>
+              dispatch(
+                createToast({
+                  children: "test",
+                  title: `test title ${++count}`,
+                  sticky: [true, false][Math.floor(Math.random() * 2)],
+                  type: ["info", "warning", "success", "error"][Math.floor(Math.random() * 4)],
+                })
+              ),
           },
           {
             title: "Go to Details",
-            onClick: () => router.push("/dashboard/details"),
+            onClick: () =>               dispatch(
+              createToast({
+                children: "This is a test Toast",
+                title: 'Error',
+                sticky: true,
+                type: "error",
+              })
+            ),
           },
         ]}
       />
-
-      <Divider />
-      <CheckBox value={isChecked} onChange={setChecked}>
-        checkbox
-      </CheckBox>
-      <Divider />
-      <RadioButton value={isChecked} onChange={setChecked}>
-        radio
-      </RadioButton>
-      <Divider />
-
-      <RadioGroup
-        title="test color"
-        items={[
-          { text: "item 1" },
-          { text: "item 2" },
-          { text: "item 3" },
-          { text: "item 4", disabled: true },
-          { text: "item 5" },
-        ]}
-        onChange={setSelectedItem}
-        color="error"
-        direction="row"
-        borderless
-      />
-
-      <Divider />
-      <Switch value={isChecked} onChange={setChecked} colored>default</Switch>
-      <Switch disabled color="error" value={isChecked} onChange={setChecked}>error</Switch>
-      <Switch color="green" value={isChecked} onChange={setChecked}>green</Switch>
-      <Switch color="purple" value={isChecked} onChange={setChecked}>purple</Switch>
-      <Switch color="warning" value={isChecked} onChange={setChecked}>warning</Switch>
-      <Divider />
     </PageComponent>
   );
 }

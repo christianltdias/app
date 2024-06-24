@@ -1,5 +1,5 @@
 
-import { CalendarCell, CalendarEvent, CalendarView } from "../../../../types/calendar.types";
+import { CalendarCell, CalendarEvent, CalendarView } from "../../types/calendar.types";
 import { CalendarFactorType } from "./calendar.slice";
 
 export interface SetCalendarSelectedDate {

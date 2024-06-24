@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { CalendarCell, CalendarView } from "../../../../types/calendar.types";
+import { CalendarCell, CalendarView } from "../../types/calendar.types";
 import { SetCalendarFactor, SetCalendarSelectedDate, SetCalendarView } from "./calendar.actions";
-import { createCalendarDayCellsMatrix} from "../../../../utils/calendar.utils";
-import { createDate, createDayOfWeekFromDate, createMonthMatrix, createWeekArray } from "../../../../utils/date.utils";
+import { createCalendarDayCellsMatrix} from "../../utils/calendar.utils";
+import { createDate, createDayOfWeekFromDate, createMonthMatrix, createWeekArray } from "../../utils/date.utils";
 
 export type CalendarFactorType = 1 | 2;
 

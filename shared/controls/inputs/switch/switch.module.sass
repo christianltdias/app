@@ -2,10 +2,7 @@
 @import '../../../../styles/keyframes'
 @import '../../../../styles/mixins'
 
-$checkbox-colors: ("green": #27C86A, "error": #FE5945, "warning": #FEA50A, "default": #25B8A6, "purple": #9B58B7)
-$disabled-color: #c0c0c0
-
-@each $name, $color in $checkbox-colors
+@each $name, $color in $input-colors
   @include switch-animation-to(to-#{$name}, $color)
   @include switch-animation-from(from-#{$name}, $color)
 
@@ -20,7 +17,7 @@ $disabled-color: #c0c0c0
   align-content: center
   width: fit-content
 
-  @each $name, $color in $checkbox-colors
+  @each $name, $color in $input-colors
     .#{$name}[type="checkbox"] 
       -webkit-appearance: none
       appearance: none
@@ -63,10 +60,10 @@ $disabled-color: #c0c0c0
           @include animate(from-#{$name}, .3s)
 
       &:disabled
-        border-color: #c0c0c0
+        border-color: $disabled-color
         
         &:checked
-          background-color: #c0c0c0
+          background-color: $disabled-color
           
           &::before
             @include animate(to-white, .3s)
@@ -75,4 +72,4 @@ $disabled-color: #c0c0c0
           @include animate(from-white, .3s)
           
         + label
-          color: #c0c0c0
+          color: $disabled-color

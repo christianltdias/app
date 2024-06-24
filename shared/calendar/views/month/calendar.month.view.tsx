@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useAppSelector } from "../../../../states/hooks";
+import { useAppSelector } from "../../../../store/store";
 import { CalendarCell, CalendarEvent } from "../../../../types/calendar.types";
 import { isCellPartOfEvent } from "../../../../utils/calendar.utils";
 import { createWeekArray } from "../../../../utils/date.utils";

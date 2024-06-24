@@ -1,5 +1,5 @@
 import { createRef, useEffect, useRef, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../../../states/hooks";
+import { useAppDispatch, useAppSelector } from "../../../../store/store";
 import { CalendarCell, CalendarEvent } from "../../../../types/calendar.types";
 import { BoundaryReference } from "../../../../types/references";
 import {

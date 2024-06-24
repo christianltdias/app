@@ -1,9 +1,9 @@
-import { useAppDispatch, useAppSelector } from "../../../../states/hooks";
+import { useAppDispatch, useAppSelector } from "../../../../store/store";
 import {
   setFactor,
   setSelectedDate,
   setView,
-} from "../../../../states/slices/components/calendar/calendar.slice";
+} from "../../../../store/calendar/calendar.slice";
 import { CalendarView } from "../../../../types/calendar.types";
 import { getEnumByIndex } from "../../../../utils/enum.utils";
 import Dropdown, { DropdownColors } from "../../../controls/buttons/dropdown/common/dropdown.common";
