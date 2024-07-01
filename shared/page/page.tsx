@@ -33,7 +33,7 @@ export default function Page({
         <div className={styles.page_info}>
           {enableBreadcrumb && (
             <div className={styles.page_breadcrumb}>
-              <BreadCrumb separator="|" />
+              <BreadCrumb />
             </div>
           )}
           {title != null && (

@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import styles from "./breadcrumb.module.sass";
 import React from "react";
+import Image from "next/image";
 
 type TBreadCrumbProps = {
   separator?: string;
@@ -11,22 +12,12 @@ type TBreadCrumbProps = {
   homeAsRoot?: boolean;
 };
 
-var getHref = (pathNames: string[], index: number): string =>
-  `/${pathNames.slice(0, index + 1).join("/")}`;
-
-var getText = (text: string, capitalizeLinks: boolean): string =>
-  capitalizeLinks ? text[0].toUpperCase() + text.slice(1, text.length) : text;
-
-var getSeparator = (separator: string, isLast: boolean): any => {
-  if (isLast) {
-    return <></>;
-  }
-
-  return <span> {separator} </span>;
-};
+var getHref = (pathNames: string[], index: number): string => `/${pathNames.slice(0, index + 1).join("/")}`;
+var getText = (text: string, capitalizeLinks: boolean): string => capitalizeLinks ? text[0].toUpperCase() + text.slice(1, text.length) : text;
+var getSeparator = (separator: string): any =>  <span className={styles["separator"]}> {separator} </span>;
 
 export default function BreadCrumb({
-  separator = "/",
+  separator = "❯",
   capitalizeLinks = true,
   homeAsRoot = true,
 }: TBreadCrumbProps) {
@@ -35,22 +26,27 @@ export default function BreadCrumb({
     .filter((path) => path);
 
   return (
-    <div className={styles.main_container}>
+    <div className={styles['main-container']}>
       {homeAsRoot && (
         <>
-          <Link className={`${styles.item} ${pathNames.length === 0 ? "" : styles.root}`} href={pathNames.length > 0 ? "/" : {}}>
-            Home
+          <Link className={styles["item"]} href={pathNames.length > 0 ? "/" : {}}>
+            <Image src="/home.svg" alt="home" width={20} height={20} /> 
+            <p>Home</p>
           </Link>
-          {getSeparator(separator, pathNames.length === 0)}
+          {pathNames.length !== 0 ? getSeparator(separator) : ""}
         </>
       )}
       {pathNames.map((link, index) => {
+        if(index === pathNames.length - 1){
+          return (<p className={styles["current"]}>{getText(link, capitalizeLinks)}</p>);
+        }
+
         return (
           <>
-            <Link className={styles.item} href={index === pathNames.length - 1 ? {} : getHref(pathNames, index)}>
-              {getText(link, capitalizeLinks)}
+            <Link className={styles["item"]} href={getHref(pathNames, index)}>
+              <p>{getText(link, capitalizeLinks)}</p>
             </Link>
-            {getSeparator(separator, index === pathNames.length - 1)}
+            {getSeparator(separator)}
           </>
         );
       })}

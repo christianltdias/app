@@ -1,21 +1,21 @@
-import { ReactNode } from 'react';
-import styles from './card.module.sass';
+import { ReactNode } from "react";
+import styles from "./card.module.sass";
 
 type Props = {
-  children?: ReactNode,
-  title: string,
-  color?: string
-}
+  children?: ReactNode;
+  img?: string;
+};
 
-function onClickBla(){
-  console.log("bla bla")
-}
-
-export default function Card({children, title}: Props) {
+export default function Card({ children, img }: Props) {
   return (
-    <div className={styles.container}>
-      {children}
-      <button onClick={() => onClickBla()}>Something</button>
+    <div className={styles["card-container"]}>
+      {img && (
+        <div className={styles["image-container"]}>
+          <img src={img} alt="home" className={styles["card-img"]} />
+          <div className={styles["card-img-shadow"]}></div>
+        </div>
+      )}
+      <div className={styles["card-content"]}>{children}</div>
     </div>
   );
 }

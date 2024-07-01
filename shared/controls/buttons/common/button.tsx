@@ -10,7 +10,7 @@ type ButtonProps = {
   onClick: (e: React.MouseEvent<HTMLElement>) => void,
 }
 
-const button = forwardRef(({children, color = 'primary', type = 'border', onClick} : ButtonProps, ref: MutableRefObject<any>) => {
+const Button = forwardRef(({children, color = 'primary', type = 'border', onClick} : ButtonProps, ref: MutableRefObject<any>) => {
   if (color === 'white') {
     type = 'empty'
   }
@@ -20,4 +20,4 @@ const button = forwardRef(({children, color = 'primary', type = 'border', onClic
   );
 });
 
-export default button;
+export default Button;
