@@ -13,36 +13,24 @@ export default function Tooltip({
   text,
   direction = "top",
 }: TooltipProps) {
-  let timeout;
-  const [active, setActive] = useState(false);
+  let timeout: NodeJS.Timeout;
+  const [show, setShow] = useState<boolean>(false);
 
   const showTip = () => {
     timeout = setTimeout(() => {
-      setActive(true);
-    }, 0);
+      setShow(true);
+    }, 500);
   };
 
   const hideTip = () => {
     clearInterval(timeout);
-    setActive(false);
+    setShow(false);
   };
 
   return (
-    <>
-      <div
-        className={styles["Tooltip-Wrapper"]}
-        onMouseEnter={showTip}
-        onMouseLeave={hideTip}
-      >
-        {children}
-        {active && (
-          <div
-          className={concatStyles(styles["Tooltip-Tip"], styles[direction])}
-          >
-            {text}
-          </div>
-        )}
-      </div>
-    </>
+    <div onMouseEnter={showTip} onMouseLeave={hideTip} className={styles["tooltip-wrapper"]}>
+      {children}
+      {show && <div className={concatStyles(styles["tooltip"], styles[direction])}>{text}</div>}
+    </div>
   );
 }

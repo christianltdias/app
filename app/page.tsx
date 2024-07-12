@@ -28,11 +28,12 @@ export default function Page() {
     <PageComponent title="Home">
       <Dropdown
         items={items}
+        color="warning"
         renderItem={(el) => (<div><h1>{el.name}</h1><h2>{el.lastname}</h2><p>{el.age}</p></div>)}
         pickField={(el) => el.name}
         filterFun={(filterText) =>
           items.filter((i) =>
-            i.name.toLowerCase().includes(filterText.toLowerCase())
+            i.name.toLowerCase().includes(filterText.toLowerCase()) || i.lastname.toLowerCase().includes(filterText.toLowerCase()) || i.age.toString().startsWith(filterText) 
           )
         }
       />

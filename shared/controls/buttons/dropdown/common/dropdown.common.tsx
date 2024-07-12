@@ -1,6 +1,6 @@
 import { ReactNode, useRef, useState } from "react";
 import styles from "./dropdown.common.module.sass";
-import Badge from "../../../../badge/badge";
+import Badge, { BadgeColors } from "../../../../badge/badge";
 import { concatStyles } from "../../../../../utils/styles.utils";
 
 type DropdownProps<T> = {
@@ -8,6 +8,7 @@ type DropdownProps<T> = {
   filterFun: (filterElement: string) => T[];
   pickField?: (obj: T) => (Partial<T> & ReactNode) | ReactNode;
   renderItem?: (obj: T) => ReactNode;
+  color?: BadgeColors;
 };
 
 export default function Dropdown<T>({
@@ -15,10 +16,11 @@ export default function Dropdown<T>({
   filterFun,
   renderItem,
   pickField = (el) => `${el}`,
+  color = 'default',
 }: DropdownProps<T>) {
   const [filteredItems, setFilteredItems] = useState<T[]>(items);
   const [selectedItem, setSelectedItem] = useState<T>(undefined);
-  const [isOpen, setIsOpen] = useState<boolean>(true);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isClosing, setIsClosing] = useState<boolean>(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -42,12 +44,12 @@ export default function Dropdown<T>({
   return (
     <>
       <div
-        className={styles["input-wrapper"]}
+        className={concatStyles(styles["input-wrapper"], isOpen ? styles[color] : "")}
         onFocus={(e) => e.stopPropagation()}
       >
         {selectedItem && (
           <div className={styles["badge-container"]}>
-            <Badge onDelete={() => setSelectedItem(undefined)}>
+            <Badge onDelete={() => setSelectedItem(undefined)} color={color}>
               {pickField(selectedItem)}
             </Badge>
           </div>

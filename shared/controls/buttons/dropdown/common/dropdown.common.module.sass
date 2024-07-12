@@ -4,7 +4,6 @@
 
 
 $border-color: #b1b1b1
-// @include open-dialog($height: 250px)
 @include handle-dialog(open-dialog, 0, 250px)
 @include handle-dialog(close-dialog, 250px, 0)
 
@@ -12,9 +11,14 @@ $border-color: #b1b1b1
   height: 50px
   width: 400px
   border-radius: 5px
-  border: 1px solid $border-color
+  border: 2px solid rgba($border-color,.3)
   cursor: text
   display: flex
+  box-sizing: border-box
+
+  @each $name, $color in $badge-colors
+    &.#{$name}
+      border-color: $color
 
   .badge-container
     padding: 10px
@@ -27,6 +31,7 @@ $border-color: #b1b1b1
     outline: none
     border: none
     width: 100%
+  
 
 .drop-wrapper
   position: absolute

@@ -3,13 +3,12 @@
 $tooltip-margin: 30px
 $tooltip-arrow-size: 6px
 
-
-/* Wrapping */
-.Tooltip-Wrapper 
-  display: inline-block
+.tooltip-wrapper
+  width: fit-content
+  height: fit-content
   position: relative
 
-  .Tooltip-Tip 
+  .tooltip
     position: absolute
     border-radius: 4px
     left: 50%
@@ -71,4 +70,3 @@ $tooltip-arrow-size: 6px
         top: 50%
         transform: translateX(0) translateY(-50%)
         border-left-color: $tooltip-background-color
-
