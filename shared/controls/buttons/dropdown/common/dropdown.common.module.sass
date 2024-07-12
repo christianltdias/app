@@ -1,232 +1,67 @@
 @import '../../../../../styles/variables'
+@import '../../../../../styles/keyframes'
+@import '../../../../../styles/mixins'
 
-.dropdown-wrapper
-  width: fit-content
+
+$border-color: #b1b1b1
+// @include open-dialog($height: 250px)
+@include handle-dialog(open-dialog, 0, 250px)
+@include handle-dialog(close-dialog, 250px, 0)
+
+.input-wrapper
+  height: 50px
+  width: 400px
+  border-radius: 5px
+  border: 1px solid $border-color
+  cursor: text
+  display: flex
+
+  .badge-container
+    padding: 10px
+    display: flex
+    align-items: center
   
-  label, a
-    user-select: none
-    
-    &.fixed
-      &.primary
-        color: white
-        background-color: $primary-color
-        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px
-
-      &.secondary
-        color: white
-        background-color: $secondary-color
-        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px
-
-      &.white
-        color: $text-color
-        background-color: white
-
-    &:hover:not(.fixed)
-      &.primary
-        color: white
-        background-color: $primary-color
-
-      &.secondary
-        color: white
-        background-color: $secondary-color
-
-      &.white
-        color: $text-color
-        background-color: $highlight-color
-
-        .uil 
-          fill: $text-color
-
-  .sec-center
-    position: relative
-    width: fit-content
-    text-align: center
-
-  [type="checkbox"]:checked,
-  [type="checkbox"]:not(:checked)
-    position: absolute
-    left: -9999px
-    opacity: 0
-    pointer-events: none
-    
-
-  .dropdown:checked + label,
-  .dropdown:not(:checked) + label
-    position: relative
-    font-weight: 500
-    font-size: 10pt
-    min-width: 150px
-    line-height: 2
-    width: fit-content
-    padding: 5px 20px
-    transition: all 200ms linear
-    border-radius: 4px
-    letter-spacing: 1px
-    display: -webkit-inline-flex
-    display: -ms-inline-flexbox
-    display: inline-flex
-    -webkit-align-items: center
-    -moz-align-items: center
-    -ms-align-items: center
-    align-items: center
-    -webkit-justify-content: center
-    -moz-justify-content: center
-    -ms-justify-content: center
-    justify-content: center
-    -ms-flex-pack: center
-    text-align: center
+  input
+    background-color: transparent
+    padding: 10px
+    outline: none
     border: none
-    cursor: pointer
-
-  .dropdown:checked + label:before,
-  .dropdown:not(:checked) + label:before
-    position: fixed
-    top: 0
-    left: 0
-    content: ''
     width: 100%
-    height: 100%
-    z-index: -1
-    cursor: auto
-    pointer-events: none
 
-  .dropdown:checked + label:before
-    pointer-events: auto
+.drop-wrapper
+  position: absolute
+  background-color: white
+  max-height: 250px
+  width: 400px
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px
+  border-bottom-left-radius: 4px
+  border-bottom-right-radius: 4px
+  overflow-y: auto
+  @include animate(open-dialog, .2s)
 
-  .dropdown:not(:checked) + label .uil
-    font-size: 10pt
-    margin-left: 10px
-    transition: transform 200ms linear
+  ul
+    list-style-type: none
+    padding: 0
+    margin: 0
 
-  .dropdown:checked + label .uil
-    transform: rotate(180deg)
-    font-size: 10pt
-    margin-left: 10px
-    transition: transform 200ms linear
+    li
+      padding: 10px
+      color: #5c5c5c
+      font-size: 11pt
 
-  .section-dropdown
-    position: absolute
-    padding: 5px
-    background-color: #111
-    top: 50px
-    left: 0
-    width: 100%
-    border-radius: 4px
-    display: block
-    box-shadow: 0 14px 35px 0 rgba(9,9,12,0.4)
-    z-index: 2
-    opacity: 0
-    pointer-events: none
-    transform: translateY(20px)
-    transition: all 200ms linear
+      &:hover:not(.no-elements)
+        cursor: pointer
+        background-color: rgba(#e3e9ec, .3)
+      
+      &.no-elements
+        font-size: 10pt
+        color: #979797
 
-  .dropdown:checked ~ .section-dropdown
-    opacity: 1
-    pointer-events: auto
-    transform: translateY(0)
+      &:not(:nth-last-child(1))
+        border-bottom: 1px dashed rgba($border-color, .6)
 
-  .section-dropdown:before
-    position: absolute
-    top: -20px
-    left: 0
-    width: 100%
-    height: 20px
-    content: ''
-    display: block
-    z-index: 1
+  &.isClosing
+    @include animate(close-dialog, .2s)
+    box-shadow: none
 
-  .section-dropdown:after
-    position: absolute
-    top: -7px
-    left: 30px
-    width: 0
-    height: 0
-    border-left: 8px solid transparent
-    border-right: 8px solid transparent
-    border-bottom: 8px solid #111
-    content: ''
-    display: block
-    z-index: 2
-    transition: all 200ms linear
-
-  a
-    position: relative
-    color: #fff
-    transition: all 200ms linear
-    font-weight: 500
-    font-size: 10pt
-    border-radius: 2px
-    padding: 5px 0
-    padding-left: 20px
-    padding-right: 15px
-    margin: 2px 0
-    text-align: left
-    text-decoration: none
-    display: -ms-flexbox
-    display: flex
-    -webkit-align-items: center
-    -moz-align-items: center
-    -ms-align-items: center
-    align-items: center
-    justify-content: space-between
-    -ms-flex-pack: distribute
-
-  a .uil 
-    font-size: 10pt
-
-  .dropdown-sub:checked + label,
-  .dropdown-sub:not(:checked) + label
-    position: relative
-    color: #fff
-    transition: all 200ms linear
-    font-weight: 500
-    font-size: 10pt
-    border-radius: 2px
-    padding: 5px 0
-    padding-left: 20px
-    padding-right: 15px
-    text-align: left
-    text-decoration: none
-    display: -ms-flexbox
-    display: flex
-    -webkit-align-items: center
-    -moz-align-items: center
-    -ms-align-items: center
-    align-items: center
-    justify-content: space-between
-    -ms-flex-pack: distribute
-    cursor: pointer
-
-  .dropdown-sub:checked + label .uil,
-  .dropdown-sub:not(:checked) + label .uil
-    font-size: 10pt
-
-  .dropdown-sub:not(:checked) + label .uil
-    transition: transform 200ms linear
-
-  .dropdown-sub:checked + label .uil
-    transform: rotate(135deg)
-    transition: transform 200ms linear
-   
-  .section-dropdown-sub
-    position: relative
-    display: block
-    width: calc(100% - 10px)
-    pointer-events: none
-    opacity: 0
-    max-height: 0
-    padding-left: 10px
-    padding-right: 3px
-    overflow: hidden
-    transition: all 200ms linear
-
-  .dropdown-sub:checked ~ .section-dropdown-sub
-    pointer-events: auto
-    opacity: 1
-    max-height: 999px
-
-  .section-dropdown-sub a
-    font-size: 10pt
-
-  .section-dropdown-sub a .uil
-    font-size: 10pt
+    

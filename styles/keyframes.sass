@@ -46,3 +46,10 @@
       color: $color
       left: 3px
 
+@mixin handle-dialog($name, $from, $to)
+  @keyframes #{$name}
+    0%
+      max-height: $from
+    
+    100% 
+      max-height: $to
