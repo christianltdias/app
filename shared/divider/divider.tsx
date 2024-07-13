@@ -14,7 +14,8 @@ export default function Divider({ style = 'solid', thickness = 1, color = '#bbb'
   
     const styles = {
     borderTop: `${thickness}px ${style === 'rounded' ? 'solid' : style} ${color}`,
-    opacity: correctedOpacity
+    opacity: correctedOpacity,
+    width: '100%'
   }
   
   if(style === 'rounded'){
