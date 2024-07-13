@@ -44,3 +44,21 @@
     img
       align-self: center
       cursor: pointer
+
+.numberbadge-container
+  height: 25px
+  width: 25px
+  display: flex
+  align-items: center
+  justify-content: center
+  border-radius: 25px
+  font-weight: bold
+  font-size: 9pt
+
+  &.clickable
+    cursor: pointer
+
+  @each $name, $color in $badge-colors
+    &.#{$name}
+      background-color: $color
+      color: darken($color, 50%)

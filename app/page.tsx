@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import PageComponent from "../shared/page/page";
 import { useAppDispatch } from "../store/store";
 import Dropdown from "../shared/controls/buttons/dropdown/common/dropdown.common";
+import MultiSelectDropdown from "../shared/controls/buttons/dropdown/multi/multidropdown.common";
 
 type Test = {
   name: string,
@@ -26,17 +27,31 @@ export default function Page() {
   ];
   return (
     <PageComponent title="Home">
-      <Dropdown
-        items={items}
-        color="warning"
-        renderItem={(el) => (<div><h1>{el.name}</h1><h2>{el.lastname}</h2><p>{el.age}</p></div>)}
-        pickField={(el) => el.name}
-        filterFun={(filterText) =>
-          items.filter((i) =>
-            i.name.toLowerCase().includes(filterText.toLowerCase()) || i.lastname.toLowerCase().includes(filterText.toLowerCase()) || i.age.toString().startsWith(filterText) 
-          )
-        }
-      />
+      <div style={{display: "flex", gap: "50px"}}>
+        <Dropdown
+          items={items}
+          color="success"
+          renderItem={(el) => (<div><h1>{el.name}</h1><h2>{el.lastname}</h2><p>{el.age}</p></div>)}
+          pickField={(el) => el.name}
+          filterFun={(filterText) =>
+            items.filter((i) =>
+              i.name.toLowerCase().includes(filterText.toLowerCase()) || i.lastname.toLowerCase().includes(filterText.toLowerCase()) || i.age.toString().startsWith(filterText) 
+            )
+          }
+        />
+
+        <MultiSelectDropdown
+          items={items}
+          color="danger"
+          renderItem={(el) => (<div><h1>{el.name}</h1><h2>{el.lastname}</h2><p>{el.age}</p></div>)}
+          pickField={(el) => el.name}
+          filterFun={(filterText) =>
+            items.filter((i) =>
+              i.name.toLowerCase().includes(filterText.toLowerCase()) || i.lastname.toLowerCase().includes(filterText.toLowerCase()) || i.age.toString().startsWith(filterText) 
+            )
+          }
+        />
+      </div>
     </PageComponent>
   );
 }

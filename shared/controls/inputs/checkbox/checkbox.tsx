@@ -3,7 +3,7 @@ import styles from "./checkbox.module.sass";
 import { InputColors } from "../../../../types/input.types";
 
 type CheckBoxProps = {
-  children: string;
+  children?: string;
   value: boolean;
   onChange: (e: boolean) => void;
   color?: InputColors;
@@ -37,8 +37,7 @@ export default function CheckBox({
         checked={value}
         onChange={handleCheck}
       />
-
-      <label htmlFor={id} className={colored ? styles["colored"] : ''}>{children}</label>
+      {children && <label htmlFor={id} className={colored ? styles["colored"] : ''}>{children}</label>}
     </div>
   );
 }

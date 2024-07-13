@@ -16,7 +16,7 @@ export default function Dropdown<T>({
   filterFun,
   renderItem,
   pickField = (el) => `${el}`,
-  color = 'default',
+  color = "default",
 }: DropdownProps<T>) {
   const [filteredItems, setFilteredItems] = useState<T[]>(items);
   const [selectedItem, setSelectedItem] = useState<T>(undefined);
@@ -26,7 +26,7 @@ export default function Dropdown<T>({
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleDropdown = (action: boolean) => {
-    if(isClosing && inputRef.current){
+    if (isClosing && inputRef.current) {
       inputRef.current.blur();
       return;
     }
@@ -42,27 +42,28 @@ export default function Dropdown<T>({
   };
 
   return (
-    <>
-      <div
-        className={concatStyles(styles["input-wrapper"], isOpen ? styles[color] : "")}
-        onFocus={(e) => e.stopPropagation()}
-      >
-        {selectedItem && (
-          <div className={styles["badge-container"]}>
-            <Badge onDelete={() => setSelectedItem(undefined)} color={color}>
-              {pickField(selectedItem)}
-            </Badge>
-          </div>
-        )}
-        <input
-          ref={inputRef}
-          type="text"
-          placeholder="Search..."
-          onChange={(str) => setFilteredItems(filterFun(str.target.value))}
-          onFocus={() => handleDropdown(true)}
-          onBlur={() => handleDropdown(false)}
-        />
-      </div>
+    <div
+      className={concatStyles(
+        styles["input-wrapper"],
+        isOpen ? styles[color] : ""
+      )}
+      onFocus={(e) => e.stopPropagation()}
+    >
+      {selectedItem && (
+        <div className={styles["badge-container"]}>
+          <Badge onDelete={() => setSelectedItem(undefined)} color={color}>
+            {pickField(selectedItem)}
+          </Badge>
+        </div>
+      )}
+      <input
+        ref={inputRef}
+        type="text"
+        placeholder="Search..."
+        onChange={(str) => setFilteredItems(filterFun(str.target.value))}
+        onFocus={() => handleDropdown(true)}
+        onBlur={() => handleDropdown(false)}
+      />
       {isOpen && (
         <div
           className={concatStyles(
@@ -85,6 +86,6 @@ export default function Dropdown<T>({
           </ul>
         </div>
       )}
-    </>
+    </div>
   );
 }

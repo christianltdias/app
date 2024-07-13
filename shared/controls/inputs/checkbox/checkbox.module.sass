@@ -5,13 +5,14 @@
   flex-direction: row
   justify-content: flex-start
   align-content: center
-  width: fit-content
+  width: 16px
+  height: 16px
 
   @each $name, $color in $input-colors
     .#{$name}[type="checkbox"] 
       -webkit-appearance: none
       appearance: none
-      box-sizing: content-box
+      box-sizing: border-box
       width: 16px
       height: 16px
       margin: 0
