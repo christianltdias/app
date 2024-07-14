@@ -9,6 +9,7 @@
       filter: $filter
 
 .badge-container
+  width: fit-content
   height: 25px
   border-radius: 16px
   display: flex
@@ -31,13 +32,13 @@
     @include addBadgeColor($color: map.get($badge-colors, "success"), $filter: brightness(0) saturate(100%) invert(26%) sepia(91%) saturate(1680%) hue-rotate(137deg) brightness(93%) contrast(84%))
     
   .badge
-    padding-left: 12px
+    padding: 0 12px
     font-weight: bold
     font-size: 12pt
     margin: 0
   
   .badge-icon
-    padding: 0 8px
+    padding-right: 8px
     display: flex
     align-items: center
 

@@ -31,7 +31,7 @@ export default function BreadCrumb({
         <>
           <Link className={styles["item"]} href={pathNames.length > 0 ? "/" : {}}>
             <Image src="/home.svg" alt="home" width={20} height={20} /> 
-            <p>Home</p>
+            <p>{getText("home", capitalizeLinks)}</p>
           </Link>
           {pathNames.length !== 0 ? getSeparator(separator) : ""}
         </>
