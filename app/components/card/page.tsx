@@ -9,12 +9,16 @@ export default function Page() {
   return (
     <PageComponent title="Card">
       <div className={styles["example-container"]}>
+        <span className={styles["example-description"]}>A Card is used to show content container for text, photos, and actions in the context of a single subject. It can contain Header, Subheader, header avatar, body, action buttons, image etc.</span>
+
         <div className={styles["example"]}>
-          <h3 className={styles["example-title"]}>Image</h3>
-          <h4 className={styles["example-prop"]}>
-            img (string) (default: undefined)
-          </h4>
-          <div style={{ display: "flex", gap: "50px" }}>
+          <div className={styles["example-info"]}>
+            <h3 className={styles["example-title"]}>Image</h3>
+            <h4 className={styles["example-prop"]}>
+              img (string) (default: undefined)
+            </h4>
+          </div>
+          <div className={styles["row"]}>
             <Card>
               <div style={{ width: "300px" }}>
                 Lorem Ipsum is simply dummy text of the printing and typesetting
@@ -45,9 +49,12 @@ export default function Page() {
             </Card>
           </div>
         </div>
+
         <div className={styles["example"]}>
-          <h3 className={styles["example-title"]}>Example</h3>
-          <h4 className={styles["example-prop"]}>Card with image, content and buttons example</h4>
+          <div className={styles["example-info"]}>  
+            <h3 className={styles["example-title"]}>Example</h3>
+            <h4 className={styles["example-prop"]}>Card with image, content and buttons example</h4>
+          </div>
           <Card img="/test.png">
             <div style={{ width: "300px", display: 'flex', flexDirection: 'column'}}>
               <h3>This is an example card</h3>

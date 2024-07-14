@@ -10,10 +10,33 @@ export default function Page() {
   return (
     <PageComponent title="Home">
       <h1>Component List</h1>
+      <div className={styles["example-container"]}>
+
+        <div className={styles["example"]}>
+          <div className={styles["example-info"]}>
+            <h3 className={styles["example-title"]}><span className={styles["example-link"]} onClick={() => router.push("/components/badge")}>Badge</span></h3>
+            <h4 className={styles["example-prop"]}>Badges are small status descriptors for UI elements.</h4>
+          </div>
+        </div>
+
+        <div className={styles["example"]}>
+          <div className={styles["example-info"]}>
+            <h3 className={styles["example-title"]}><span className={styles["example-link"]} onClick={() => router.push("/components/breadcrumb")}>Breadcrumb</span></h3>
+            <h4 className={styles["example-prop"]}>The Breadcrumb component is a trail of links that shows where the user currently is in the navigation structure of the project or workflow</h4>
+          </div>
+        </div>
+
+        <div className={styles["example"]}>
+          <div className={styles["example-info"]}>
+            <h3 className={styles["example-title"]}><span className={styles["example-link"]} onClick={() => router.push("/components/calendar")}>Calendar</span></h3>
+            <h4 className={styles["example-prop"]}>TO DO</h4>
+          </div>
+        </div>
+
+      </div>
+
+
       <ul>
-        <li><p className={styles["example-link"]} onClick={() => router.push("/components/badge")}>Badge</p></li>
-        <li><p className={styles["example-link"]} onClick={() => router.push("/components/breadcrumb")}>Breadcrumb</p></li>
-        <li><p className={styles["example-link"]} onClick={() => router.push("/components/calendar")}>Calendar</p></li>
         <li><p className={styles["example-link"]} onClick={() => router.push("/components/card")}>Card</p></li>
         <li>
           <p className={styles["example-link"]} onClick={() => router.push("/components/container")}>Container</p>
