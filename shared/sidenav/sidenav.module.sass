@@ -1,86 +1,80 @@
 @use "sass:map"
 @import '../../styles/variables'
 
-.sidenav-container
+.container
   display: flex
+  position: fixed
+  width: 200px
+  height: 100vh
+  background-color: white
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px
+  display: flex
+  transition: all 0.5s
+  padding: 10px
+  flex-direction: column
+  color: rgb(80, 85, 117)
 
-  .container
-    position: fixed
-    width: 200px
-    height: 100vh
-    background-color: white
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px
+  .sidenav-section
     display: flex
-    transition: all 0.5s
-    padding: 10px
     flex-direction: column
-    color: rgb(80, 85, 117)
+    margin-bottom: 25px
 
-    .sidenav-section
+    .sidenav-section-title
+      font-size: 9pt
+      margin: 5px
+      padding: 0
+      transition: all 0.2s
+
+    .sidenav-section-element
+      cursor: pointer
+      width: 100%
+      height: fit-content
       display: flex
-      flex-direction: column
-      margin-bottom: 25px
+      align-items: center
+      padding: 10px
+      border-radius: 5px
+      gap: 10px
 
-      .sidenav-section-title
-        font-size: 9pt
-        margin: 5px
-        padding: 0
-        transition: all 0.2s
-
-      .sidenav-section-element
-        cursor: pointer
-        width: 100%
-        height: fit-content
-        display: flex
-        align-items: center
-        padding: 10px
-        border-radius: 5px
-        gap: 10px
+      img
+        filter: brightness(0) saturate(100%) invert(31%) sepia(22%) saturate(679%) hue-rotate(194deg) brightness(96%) contrast(87%)
+      
+      &:hover
+        background-color: rgba(80, 85, 117, .6)
+        color: white
 
         img
-          filter: brightness(0) saturate(100%) invert(31%) sepia(22%) saturate(679%) hue-rotate(194deg) brightness(96%) contrast(87%)
-        
-        &:hover
-          background-color: rgba(80, 85, 117, .6)
-          color: white
+          filter: brightness(0) saturate(100%) invert(100%) sepia(100%) saturate(0%) hue-rotate(61deg) brightness(106%) contrast(102%)
 
-          img
-            filter: brightness(0) saturate(100%) invert(100%) sepia(100%) saturate(0%) hue-rotate(61deg) brightness(106%) contrast(102%)
+      .sidenav-section-text
+        font-size: 11pt
+        transition: opacity 0.2s
 
+  &.expanded
+    .sidenav-section
+      .sidenav-section-title
+        opacity: 1
+
+      .sidenav-section-element
         .sidenav-section-text
-          font-size: 11pt
-          transition: opacity 0.2s
-
-    &.expanded
-      .sidenav-section
-        .sidenav-section-title
           opacity: 1
 
-        .sidenav-section-element
-          .sidenav-section-text
-            opacity: 1
+  &.colapsed
+    .sidenav-section
+      .sidenav-section-title
+        opacity: 0
 
-    &.colapsed
-      .sidenav-section
-        .sidenav-section-title
+      .sidenav-section-element
+        .sidenav-section-text
           opacity: 0
 
-        .sidenav-section-element
-          .sidenav-section-text
-            opacity: 0
+  .sidenav-control
+    width: 28px
+    height: 28px
+    border-radius: 14px
+    border: none
+    cursor: pointer
+    background-color: map.get($button-colors, "primary")
 
-    .sidenav-control
-      width: 28px
-      height: 28px
-      border-radius: 14px
-      border: none
-      cursor: pointer
-      background-color: map.get($button-colors, "primary")
-
-      &:hover
-        background-color: lighten(map.get($button-colors, "primary"), 10%)
-      
-  .content
-    transition: margin-left .5s
-    flex-grow: 1
+    &:hover
+      background-color: lighten(map.get($button-colors, "primary"), 10%)
     

@@ -5,8 +5,9 @@ import { Noto_Sans } from "next/font/google";
 import StoreProvider from "../store/provider";
 import Toaster from "../shared/toast/toaster";
 import SideNav, { SideNavSection, SideNavSectionType } from "../shared/sidenav/sidenav";
+import styles from "./layout.module.sass";
 import "../styles/global.sass";
-import "./page.sass";
+import { useState } from "react";
 
 const noto = Noto_Sans({
   weight: ["300", "500", "600", "700", "800", "900"],
@@ -44,16 +45,22 @@ export default function RootLayout({
     },
   ];
 
+  const [sideBarExpanded, setSideBarExpanded] = useState<boolean>(true);
   return (
     <html lang="en">
       <body className={noto.className}>
         <StoreProvider>
-          <Header isLogged />
-          <Toaster position="top-right" />
-          <SideNav sections={sections}>{children}</SideNav>
-          <div id="modal-root"></div>
-          <div id="popup-root"></div>
-          <div id="toaster-root"></div>
+          <div className={styles["main-container"]}>
+            <Header isLogged /> 
+            <div className={styles["main"]}>
+              <Toaster position="top-right" />
+              <SideNav sections={sections} isExpanded={sideBarExpanded} onExpand={setSideBarExpanded}/>
+              <div className={styles[`main-content--${sideBarExpanded ? 'expanded' : 'collapsed'}`]}>{children}</div>
+            </div>
+            <div id="modal-root"></div>
+            <div id="popup-root"></div>
+            <div id="toaster-root"></div>
+          </div>
         </StoreProvider>
       </body>
     </html>

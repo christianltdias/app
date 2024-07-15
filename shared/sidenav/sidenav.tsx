@@ -30,19 +30,19 @@ export type SideNavSectionRouteElement = SideNavSectionBaseElement & {
 }
 
 type SideNavOptions = {
-  children: ReactNode;
+  isExpanded: boolean;
+  onExpand: (isOpen: boolean) => void; 
   width?: number;
   sections?: SideNavSection[];
 };
 
-export default function SideNav({ children, width = 200, sections = [] }: SideNavOptions) {
-  const [isOpen, setIsOpen] = useState<boolean>(true);
+export default function SideNav({ isExpanded, onExpand, width = 200, sections = [] }: SideNavOptions) {
   const router = useRouter();
   
   const widthValue = `${width}px`;
   const collapsedWidth = "70px";
 
-  const getWidth = (): string => (isOpen ? widthValue : collapsedWidth);
+  const getWidth = (): string => (isExpanded ? widthValue : collapsedWidth);
 
   const createElement = (element: SideNavSectionElement) => {
     return (
@@ -87,17 +87,12 @@ export default function SideNav({ children, width = 200, sections = [] }: SideNa
     )
   }
 
-  const mainSection: SideNavSection = {elements: [{icon: "/burger-menu.svg", text: "Imperius", action: () => setIsOpen(!isOpen) }]}
+  const mainSection: SideNavSection = {elements: [{icon: "/burger-menu.svg", text: "Imperius", action: () => onExpand(!isExpanded) }]}
   
   return (
-    <div className={styles["sidenav-container"]}>
-      <div className={concatStyles(styles["container"], styles[isOpen ? "expanded" : "colapsed"])} style={{ width: getWidth() }}>
-        {createSection(mainSection)}
-        {sections.map(section => createSection(section))}
-      </div>
-      <div style={{ marginLeft: getWidth() }} className={styles["content"]}>
-        {children}
-      </div>
+    <div className={concatStyles(styles["container"], styles[isExpanded ? "expanded" : "colapsed"])} style={{ width: getWidth() }}>
+      {createSection(mainSection)}
+      {sections.map(section => createSection(section))}
     </div>
   );
 }

@@ -1,0 +1,25 @@
+.main-container
+  display: flex
+  flex-direction: column
+  height: 100vh
+
+  .main
+    display: flex
+    flex: 1
+    flex-grow: 1
+    padding-top: 50px
+
+    .main-content
+      display: flex
+      flex: 1
+      overflow-y: auto
+      padding: 5px
+      transition: all .5s
+
+      &--expanded
+        @extend .main-content
+        margin-left: 200px
+
+      &--collapsed
+        @extend .main-content
+        margin-left: 70px
