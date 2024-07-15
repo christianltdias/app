@@ -6,6 +6,8 @@ import { concatStyles } from "../../../../../utils/styles.utils";
 type DropdownProps<T> = {
   items: T[];
   filterFun: (filterElement: string) => T[];
+  onSelect: (el: T) => void;
+  selected?: T;
   pickField?: (obj: T) => (Partial<T> & ReactNode) | ReactNode;
   renderItem?: (obj: T) => ReactNode;
   color?: BadgeColors;
@@ -14,12 +16,14 @@ type DropdownProps<T> = {
 export default function Dropdown<T>({
   items,
   filterFun,
+  onSelect,
+  selected,
   renderItem,
   pickField = (el) => `${el}`,
   color = "default",
 }: DropdownProps<T>) {
   const [filteredItems, setFilteredItems] = useState<T[]>(items);
-  const [selectedItem, setSelectedItem] = useState<T>(undefined);
+  const [selectedItem, setSelectedItem] = useState<T>(selected);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isClosing, setIsClosing] = useState<boolean>(false);
 
@@ -41,6 +45,11 @@ export default function Dropdown<T>({
     }
   };
 
+  const handleSelection = (el: T) => {
+    setSelectedItem(el)
+    onSelect(el)
+  }
+
   return (
     <div
       className={concatStyles(
@@ -51,7 +60,7 @@ export default function Dropdown<T>({
     >
       {selectedItem && (
         <div className={styles["badge-container"]}>
-          <Badge onDelete={() => setSelectedItem(undefined)} color={color}>
+          <Badge onDelete={() => handleSelection(undefined)} color={color}>
             {pickField(selectedItem)}
           </Badge>
         </div>
@@ -75,7 +84,7 @@ export default function Dropdown<T>({
             {filteredItems.length > 0 ? (
               filteredItems.map((el) => {
                 return (
-                  <li onMouseDown={() => setSelectedItem(el)}>
+                  <li onMouseDown={() => handleSelection(el)}>
                     {renderItem ? renderItem(el) : pickField(el)}
                   </li>
                 );

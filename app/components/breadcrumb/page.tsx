@@ -45,6 +45,18 @@ export default function Page() {
           <p className={styles["example-value"]}>custom separator (eg: /)</p>
           <BreadCrumb separator="/" />
         </div>
+
+        <div className={styles["try-yourself"]}>
+          <h1 className={styles["try-title"]}>Try yourself</h1>
+          <div className={styles["row"]}>
+            <div className={styles["column"]}>
+              <BreadCrumb separator="/" />
+            </div>
+            <div className={styles["column"]}>
+              
+            </div>
+          </div>
+        </div>
       </div>
     </PageComponent>
   );

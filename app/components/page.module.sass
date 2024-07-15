@@ -15,7 +15,9 @@
     margin-bottom: 20px 
 
   .example
-    margin-bottom: 40px
+
+    &:not(.section)
+      margin-bottom: 40px
 
     .row
       display: flex
@@ -28,7 +30,7 @@
 
     .example-value
       margin: 35px 0 15px 15px
-      color: #888
+      color: #8596ac
       font-size: 11pt
       width: fit-content
       list-style-type: circle
@@ -43,12 +45,9 @@
 
       .example-title
         margin: 0
+        color: #70a5eb
       
-      .example-note
-        margin: 0
-        
-        
-      .example-prop
+      .example-text
         margin: 0
         padding-top: 5px
         padding-left: 10px
@@ -56,3 +55,42 @@
         font-style: italic
         font-size: 10pt
         color: #888
+
+      .example-note
+        @extend .example-text
+        padding-left: 20px
+        
+      .example-prop
+        @extend .example-text
+
+      .required
+        @extend .example-text
+        padding: 0
+        color: #f58787
+        font-weight: bold
+
+  .try-yourself
+    width: 100%
+
+    .try-title
+      color: #70a5eb
+      width: 75%
+      border-bottom: 1px solid rgba(#999, .4)
+      margin: 0
+      margin-bottom: 30px
+      padding-bottom: 20px
+      
+    .row
+      display: flex
+      gap: 25px
+
+    .column
+      width: 50%
+      display: flex
+      flex-direction: column
+      gap: 25px
+
+      &--center
+        @extend .column
+        align-self: center
+        align-items: center
