@@ -8,10 +8,18 @@ export default function Page() {
   return (
     <PageComponent title="Controls">
       <div className={styles["example-container"]}>
+        <span className={styles["example-description"]}>
+          A Button is a small, rectangular or circular element that is used to initiate an action. Basic buttons with a simple text to initiate an action.
+        </span>
+
+        
         <div className={styles["example"]}>
-          <h3 className={styles["example-title"]}>Color</h3>
-          <h4 className={styles["example-prop"]}>color (primary, secondary, success, cancel, warning and white) (default: primary)</h4>
-          <div style={{display: 'flex', gap: '20px', alignItems: 'center'}}>
+          <div className={styles["example-info"]}>
+            <h3 className={styles["example-title"]}>Color</h3>
+            <h4 className={styles["example-prop"]}>color (primary, secondary, success, cancel, warning and white) (default: primary)</h4>
+            <h4 className={styles["example-note"]}>* white buttons does not have filled or border options. They need to have a background color that is not white.</h4>
+          </div>
+          <div className={styles["row"]}>
             <Button onClick={() => alert("primary")}>Primary</Button>
             <Button onClick={() => alert("secondary")} color="secondary">Secondary</Button>
             <Button onClick={() => alert("secondary")} color="success">Sucess</Button>
@@ -22,12 +30,16 @@ export default function Page() {
             </div>
           </div>
         </div>
+
         <div className={styles["example"]}>
-          <h3 className={styles["example-title"]}>Type</h3>
-          <h4 className={styles["example-prop"]}>type (border, filled and empty) (default: border)</h4>
+          <div className={styles["example-info"]}>
+            <h3 className={styles["example-title"]}>Type</h3>
+            <h4 className={styles["example-prop"]}>type (border, filled and empty) (default: border)</h4>
+            <h4 className={styles["example-note"]}>* white buttons does not have filled or border options. They need to have a background color that is not white.</h4>
+          </div>
           
-          <p className={styles["value"]}>border</p>
-          <div style={{display: 'flex', gap: '20px', alignItems: 'center'}}>
+          <p className={styles["example-value"]}>border</p>
+          <div className={styles["row"]}>
             <Button onClick={() => alert("primary")}>Primary</Button>
             <Button onClick={() => alert("secondary")} color="secondary">Secondary</Button>
             <Button onClick={() => alert("sucess")} color="success">Sucess</Button>
@@ -38,8 +50,8 @@ export default function Page() {
             </div>
           </div>
 
-          <p className={styles["value"]}>filled</p>
-          <div style={{display: 'flex', gap: '20px', alignItems: 'center'}}>
+          <p className={styles["example-value"]}>filled</p>
+          <div className={styles["row"]}>
             <Button onClick={() => alert("primary")} type="filled">Primary</Button>
             <Button onClick={() => alert("secondary")} color="secondary" type="filled">Secondary</Button>
             <Button onClick={() => alert("sucess")} color="success" type="filled">Sucess</Button>
@@ -50,8 +62,8 @@ export default function Page() {
             </div>
           </div>
 
-          <p className={styles["value"]}>empty</p>
-          <div style={{display: 'flex', gap: '20px', alignItems: 'center'}}>
+          <p className={styles["example-value"]}>empty</p>
+          <div className={styles["row"]}>
             <Button onClick={() => alert("primary")} type="empty">Primary</Button>
             <Button onClick={() => alert("secondary")} color="secondary" type="empty">Secondary</Button>
             <Button onClick={() => alert("sucess")} color="success" type="empty">Sucess</Button>

@@ -4,7 +4,7 @@ type InputProps = {
   label: string;
   type?: "text" | "password";
   value?: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (text: string) => void;
   error?: string;
 };
 
@@ -17,7 +17,7 @@ export default function Input({
 }: InputProps) {
   var onValueChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     e.preventDefault();
-    onChange(e);
+    onChange(e.target.value);
   };
 
   var errorClass = error ? styles["error"] : '';
@@ -30,7 +30,7 @@ export default function Input({
           type={type}
           placeholder=" "
           value={value}
-          onChange={onValueChange}
+          onChange={(e) => onValueChange(e)}
         />
         <span className={[styles["input_label"], errorClass].join(' ')}>{label}</span>
       </label>

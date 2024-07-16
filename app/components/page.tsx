@@ -101,7 +101,7 @@ export default function Page() {
                 Controls
               </span>
             </h3>
-            <h4 className={styles["example-prop"]}>TO DO</h4>
+            <h4 className={styles["example-prop"]}>Controls are composed of buttons and inputs components.</h4>
           </div>
         </div>
 

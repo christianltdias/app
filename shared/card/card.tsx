@@ -1,12 +1,12 @@
 import { ReactNode } from "react";
 import styles from "./card.module.sass";
 
-type Props = {
-  children?: ReactNode;
+type CardProps = {
+  children: ReactNode;
   img?: string;
 };
 
-export default function Card({ children, img }: Props) {
+export default function Card({ children, img }: CardProps) {
   return (
     <div className={styles["card-container"]}>
       {img && (

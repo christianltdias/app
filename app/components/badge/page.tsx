@@ -97,7 +97,7 @@ export default function Page() {
               </Switch>
               <Input
                 label="badge text"
-                onChange={(e) => setValue(e.target.value)}
+                onChange={setValue}
                 value={value}
               />
               <Dropdown

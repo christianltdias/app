@@ -3,8 +3,15 @@
 import PageComponent from "../../../shared/page/page";
 import BreadCrumb from "../../../shared/breadcrumb/breadcrumb";
 import styles from '../page.module.sass'
+import { useState } from "react";
+import Switch from "../../../shared/controls/inputs/switch/switch";
+import Input from "../../../shared/controls/inputs/text/input";
 
 export default function Page() {
+  const [separator, setSeparator] = useState<string>("❯");
+  const [isHome, setIsHome] = useState<boolean>(true);
+  const [isCapitalize, setIsCapitalize] = useState<boolean>(true);
+
   return (
     <PageComponent title="Breadcrumb">
       <div className={styles["example-container"]}>
@@ -49,11 +56,27 @@ export default function Page() {
         <div className={styles["try-yourself"]}>
           <h1 className={styles["try-title"]}>Try yourself</h1>
           <div className={styles["row"]}>
-            <div className={styles["column"]}>
-              <BreadCrumb separator="/" />
+            <div className={styles["column--center"]}>
+              <BreadCrumb separator={separator} homeAsRoot={isHome} capitalizeLinks={isCapitalize}/>
             </div>
             <div className={styles["column"]}>
-              
+                <Switch
+                  value={isHome}
+                  onChange={setIsHome}
+                >
+                  Home as root?
+                </Switch>
+                <Switch
+                  value={isCapitalize}
+                  onChange={setIsCapitalize}
+                >
+                  Capitalize names?
+                </Switch>
+                <Input
+                  label="Separator"
+                  onChange={setSeparator}
+                  value={separator}
+                />
             </div>
           </div>
         </div>
