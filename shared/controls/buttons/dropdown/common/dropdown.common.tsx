@@ -27,47 +27,42 @@ export default function Dropdown<T>({
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isClosing, setIsClosing] = useState<boolean>(false);
   const [position, setPosition] = useState<'up' | 'down'>('down');
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    calculatePosition();
+    if (isOpen) {
+      calculatePosition();
+    }
   }, [isOpen]);
-
-  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const handleDropdown = (action: boolean) => {
     if (isClosing && dropdownRef.current) {
       dropdownRef.current.blur();
       return;
     }
-    if (action === false && !isClosing) {
+    if (action) {
+      setIsOpen(true);
+    } else if (!isClosing) {
       setIsClosing(true);
       setTimeout(() => {
         setIsClosing(false);
         setIsOpen(false);
       }, 100);
-    } else {
-      setIsOpen(true);
     }
   };
 
   const handleSelection = (el: T) => {
-    if(el === selected)
-    setSelectedItem(el)
-    onSelect(el)
-  }
+    setSelectedItem(el);
+    onSelect(el);
+  };
 
   const calculatePosition = (): void => {
     if (dropdownRef.current) {
       const dropdownRect = dropdownRef.current.getBoundingClientRect();
       const viewportHeight = window.innerHeight;
-      console.log(dropdownRect, viewportHeight)
-      if (dropdownRect.bottom + 250 > viewportHeight) {
-        setPosition('up');
-      } else {
-        setPosition('down');
-      }
+      setPosition(dropdownRect.bottom + 250 > viewportHeight ? 'up' : 'down');
     }
-  }
+  };
 
   return (
     <div
@@ -88,7 +83,7 @@ export default function Dropdown<T>({
       <input
         type="text"
         placeholder="Search..."
-        onChange={(str) => setFilteredItems(filterFun(str.target.value))}
+        onChange={(e) => setFilteredItems(filterFun(e.target.value))}
         onFocus={() => handleDropdown(true)}
         onBlur={() => handleDropdown(false)}
       />
@@ -97,18 +92,16 @@ export default function Dropdown<T>({
           className={concatStyles(
             styles["drop-wrapper"],
             styles[position],
-            isClosing && isOpen ? styles["isClosing"] : ""
+            isClosing && styles["isClosing"]
           )}
         >
           <ul>
             {filteredItems.length > 0 ? (
-              filteredItems.map((el) => {
-                return (
-                  <li onMouseDown={() => handleSelection(el)}>
-                    {renderItem ? renderItem(el) : pickField(el)}
-                  </li>
-                );
-              })
+              filteredItems.map((el) => (
+                <li key={el.toString()} onMouseDown={() => handleSelection(el)}>
+                  {renderItem ? renderItem(el) : pickField(el)}
+                </li>
+              ))
             ) : (
               <li className={styles["no-elements"]}>No elements found</li>
             )}
