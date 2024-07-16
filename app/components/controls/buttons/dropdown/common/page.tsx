@@ -58,6 +58,179 @@ export default function Page() {
             />
           </div>
         </div>
+        
+        <div className={styles["example"]}>
+          <div className={styles["example-info"]}>
+            <h3 className={styles["example-title"]}>Filter Function</h3>
+            <h4 className={styles["example-prop"]}>filterFun ((filterText: string)  {`<T>[ ]`}) <span className={styles["required"]}>*required</span></h4>
+          </div>
+          <p className={styles["example-value"]}>Eg: (filterText) {`=>`} items.startsWith(filterText)</p>
+          <div className={styles["row"]}>
+            <Dropdown
+              items={numbers}
+              filterFun={(filterText) =>
+                numbers.filter((i) =>
+                  i.toString().startsWith(filterText)
+                )
+              }
+              onSelect={(el) => console.log(el)}
+            />
+          </div>
+        </div>
+        
+        <div className={styles["example"]}>
+          <div className={styles["example-info"]}>
+            <h3 className={styles["example-title"]}>On select function</h3>
+            <h4 className={styles["example-prop"]}>onSelect ((el: {`<T>`}) {`=>`} void) <span className={styles["required"]}>*required</span></h4>
+            <h4 className={styles["example-note"]}>** This function is invoked everytimea a new item is selected.</h4>
+          </div>
+          <p className={styles["example-value"]}>Eg: (el) {`=>`} alert(el)</p>
+          <div className={styles["row"]}>
+            <Dropdown
+              items={numbers}
+              filterFun={(filterText) =>
+                numbers.filter((i) =>
+                  i.toString().startsWith(filterText)
+                )
+              }
+              onSelect={(el) => alert(el)}
+            />
+          </div>
+        </div>
+        
+        <div className={styles["example"]}>
+          <div className={styles["example-info"]}>
+            <h3 className={styles["example-title"]}>Selected</h3>
+            <h4 className={styles["example-prop"]}>select ({`<T>`}) (default: undefined)</h4>
+            <h4 className={styles["example-note"]}>** When given it will be the selected item.</h4>
+          </div>
+          <p className={styles["example-value"]}>Eg: (el) {`=>`} alert(el)</p>
+          <div className={styles["row"]}>
+            <Dropdown
+              items={numbers}
+              filterFun={(filterText) =>
+                numbers.filter((i) =>
+                  i.toString().startsWith(filterText)
+                )
+              }
+              onSelect={(el) => console.log(el)}
+              selected={numbers[12]}
+            />
+          </div>
+        </div>
+        
+        <div className={styles["example"]}>
+          <div className={styles["example-info"]}>
+            <h3 className={styles["example-title"]}>Render item</h3>
+            <h4 className={styles["example-prop"]}>renderItem (({`<T>`}) {`=>`} ReactNode) (default: (el: {`<T>`}) {`=>`} el)</h4>
+            <h4 className={styles["example-note"]}>** This is the function to return the item UI component to be rendered in the dropdown.</h4>
+          </div>
+          <p className={styles["example-value"]}>Eg: (el) {`=>`} el.name</p>
+          <div className={styles["row"]}>
+            <Dropdown
+              items={objs}
+              filterFun={(filterText) =>
+                objs.filter((i) =>
+                  i.name.startsWith(filterText.toLowerCase())
+                )
+              }
+              onSelect={(el) => console.log(el)}
+              renderItem={(el) => el.name}
+              pickField={(el) => el.name}
+            />
+          </div>
+        </div>
+        
+        <div className={styles["example"]}>
+          <div className={styles["example-info"]}>
+            <h3 className={styles["example-title"]}>Pick field</h3>
+            <h4 className={styles["example-prop"]}>pickField (({`<T>`}) {`=>`} ReactNode) (default: (el: {`<T>`}) {`=>`} el)</h4>
+            <h4 className={styles["example-note"]}>** This is the function to return the item value to be displayed in the selected badge.</h4>
+          </div>
+          <p className={styles["example-value"]}>Eg: (el) {`=>`} el.lastname</p>
+          <div className={styles["row"]}>
+            <Dropdown
+              items={objs}
+              filterFun={(filterText) =>
+                objs.filter((i) =>
+                  i.name.startsWith(filterText.toLowerCase())
+                )
+              }
+              onSelect={(el) => console.log(el)}
+              renderItem={(el) => el.name}
+              pickField={(el) => el.lastname}
+            />
+          </div>
+        </div>
+        
+        <div className={styles["example"]}>
+          <div className={styles["example-info"]}>
+            <h3 className={styles["example-title"]}>Color</h3>
+            <h4 className={styles["example-prop"]}>color (default, info, warning, danger and success) (default: default)</h4>
+          </div>
+          <div className={styles["column"]}>
+            <p className={styles["example-value"]}>default</p>
+            <Dropdown
+              items={numbers}
+              color="default"
+              filterFun={(filterText) =>
+                numbers.filter((i) =>
+                  i.toString().startsWith(filterText)
+                )
+              }
+              onSelect={(el) => console.log(el)}
+              selected={numbers[12]}
+            />
+            <p className={styles["example-value"]}>danger</p>
+            <Dropdown
+              items={numbers}
+              color="danger"
+              filterFun={(filterText) =>
+                numbers.filter((i) =>
+                  i.toString().startsWith(filterText)
+                )
+              }
+              onSelect={(el) => console.log(el)}
+              selected={numbers[12]}
+            />
+            <p className={styles["example-value"]}>info</p>
+            <Dropdown
+              items={numbers}
+              color="info"
+              filterFun={(filterText) =>
+                numbers.filter((i) =>
+                  i.toString().startsWith(filterText)
+                )
+              }
+              onSelect={(el) => console.log(el)}
+              selected={numbers[12]}
+            />
+            <p className={styles["example-value"]}>success</p>
+            <Dropdown
+              items={numbers}
+              color="success"
+              filterFun={(filterText) =>
+                numbers.filter((i) =>
+                  i.toString().startsWith(filterText)
+                )
+              }
+              onSelect={(el) => console.log(el)}
+              selected={numbers[12]}
+            />
+            <p className={styles["example-value"]}>warning</p>
+            <Dropdown
+              items={numbers}
+              color="warning"
+              filterFun={(filterText) =>
+                numbers.filter((i) =>
+                  i.toString().startsWith(filterText)
+                )
+              }
+              onSelect={(el) => console.log(el)}
+              selected={numbers[12]}
+            />
+          </div>
+        </div>
 
         <div className={styles["try-yourself"]}>
           <h1 className={styles["try-title"]}>Try yourself</h1>
