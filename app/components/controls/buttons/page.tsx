@@ -2,8 +2,8 @@
 
 import { useRouter } from "next/navigation";
 import PageComponent from "../../../../shared/page/page";
-import styles from "../../page.module.sass";
 import { concatStyles } from "../../../../utils/styles.utils";
+import styles from "../../page.module.sass";
 
 export default function Page() {
   const router = useRouter();

@@ -1,13 +1,16 @@
 'use client';
 import { MutableRefObject, forwardRef } from 'react';
-import styles from './button.module.sass';
 import { concatStyles } from '../../../../utils/styles.utils';
+import styles from './button.module.sass';
+
+export type ButtonColor = 'primary' | 'secondary' | 'success' | 'warning' | 'cancel' | 'white';
+export type ButtonType = 'filled' | 'border' | 'empty';
 
 type ButtonProps = {
   children: string,
-  color?: 'primary' | 'secondary' | 'success' | 'warning' | 'cancel' | 'white',
-  type?: 'filled' | 'border' | 'empty',
   onClick: (e: React.MouseEvent<HTMLElement>) => void,
+  color?: ButtonColor,
+  type?: ButtonType,
 }
 
 const Button = forwardRef(({children, color = 'primary', type = 'border', onClick} : ButtonProps, ref: MutableRefObject<any>) => {
