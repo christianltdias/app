@@ -1,4 +1,4 @@
-import { ReactNode, useRef, useState } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import styles from "./dropdown.common.module.sass";
 import Badge, { BadgeColors } from "../../../../badge/badge";
 import { concatStyles } from "../../../../../utils/styles.utils";
@@ -26,12 +26,17 @@ export default function Dropdown<T>({
   const [selectedItem, setSelectedItem] = useState<T>(selected);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isClosing, setIsClosing] = useState<boolean>(false);
+  const [position, setPosition] = useState<'up' | 'down'>('down');
 
-  const inputRef = useRef<HTMLInputElement>(null);
+  useEffect(() => {
+    calculatePosition();
+  }, [isOpen]);
+
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const handleDropdown = (action: boolean) => {
-    if (isClosing && inputRef.current) {
-      inputRef.current.blur();
+    if (isClosing && dropdownRef.current) {
+      dropdownRef.current.blur();
       return;
     }
     if (action === false && !isClosing) {
@@ -51,8 +56,22 @@ export default function Dropdown<T>({
     onSelect(el)
   }
 
+  const calculatePosition = (): void => {
+    if (dropdownRef.current) {
+      const dropdownRect = dropdownRef.current.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+      console.log(dropdownRect, viewportHeight)
+      if (dropdownRect.bottom + 250 > viewportHeight) {
+        setPosition('up');
+      } else {
+        setPosition('down');
+      }
+    }
+  }
+
   return (
     <div
+      ref={dropdownRef}
       className={concatStyles(
         styles["input-wrapper"],
         isOpen ? styles[color] : ""
@@ -67,7 +86,6 @@ export default function Dropdown<T>({
         </div>
       )}
       <input
-        ref={inputRef}
         type="text"
         placeholder="Search..."
         onChange={(str) => setFilteredItems(filterFun(str.target.value))}
@@ -78,6 +96,7 @@ export default function Dropdown<T>({
         <div
           className={concatStyles(
             styles["drop-wrapper"],
+            styles[position],
             isClosing && isOpen ? styles["isClosing"] : ""
           )}
         >
