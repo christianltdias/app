@@ -46,7 +46,7 @@ export default function Dropdown<T>({
   };
 
   const handleSelection = (el: T) => {
-    if(el === selected) return;
+    if(el === selected)
     setSelectedItem(el)
     onSelect(el)
   }

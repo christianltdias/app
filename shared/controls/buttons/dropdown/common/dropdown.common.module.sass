@@ -15,6 +15,7 @@ $border-color: #b1b1b1
   cursor: text
   display: flex
   box-sizing: border-box
+  position: relative
 
   @each $name, $color in $badge-colors
     &.#{$name}
@@ -34,7 +35,7 @@ $border-color: #b1b1b1
   
 
 .drop-wrapper
-  z-index: 999
+  z-index: 9
   position: absolute
   transform: translateY(50px)
   background-color: white
