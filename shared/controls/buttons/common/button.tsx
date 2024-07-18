@@ -4,9 +4,7 @@ import { concatStyles } from '../../../../utils/styles.utils';
 import styles from './button.module.sass';
 import { ButtonColors } from '../../../../types/global.types';
 
-export type ButtonColor = 'primary' | 'secondary' | 'success' | 'warning' | 'cancel' | 'white';
 export type ButtonType = 'filled' | 'border' | 'empty';
-
 type ButtonProps = {
   children: string,
   onClick: (e: React.MouseEvent<HTMLElement>) => void,

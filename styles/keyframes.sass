@@ -1,30 +1,3 @@
-@mixin background-opacity-color($name, $color, $min-opacity: 0, $max-opacity: .3)
-  @keyframes #{$name}
-    0%
-      background-color: rgba($color, $min-opacity)
-    
-    100% 
-      background-color: rgba($color, $max-opacity)
-      
-@mixin background-from-color-to-color($name, $from-color, $to-color)
-  @keyframes #{$name}
-    0%
-      background-color: $from-color
-    
-    100% 
-      background-color: $to-color
-
-      
-@mixin border-from-color-to-color($name, $from-color, $to-color)
-  @keyframes #{$name}
-    0%
-      border-color: $from-color
-      color: $from-color
-    
-    100% 
-      border-color: $to-color
-      color: $to-color
-
 @mixin switch-animation-to($name, $color)
   @keyframes #{$name}
     0%

@@ -3,9 +3,7 @@
 @import '../../../../styles/mixins'
 
 @mixin setBgColorAndHover($name, $baseColor)
-  $button-color: $baseColor
-  @if $baseColor != white
-    $button-color: darken($baseColor, 15%)
+  $button-color: darken($baseColor, 15%)
   
   border: $button-border-thickness solid $button-color
   background-color: $button-color
@@ -13,17 +11,31 @@
   
   &:hover    
     &.filled
-      @include animate(background-smooth-#{$name}, $button-animation-duration)
+      $darker-color: darken($button-color, 20%)
+      background-color: $darker-color
       
-    &.border,&.empty
-      @include animate(border-smooth-#{$name}, $button-animation-duration)
+    &.border
+      $darker-color: darken($button-color, 20%)
+      border-color: $darker-color
+      color: $darker-color
+    
+    &.empty
+      $darker-color: darken($button-color, 20%)
+      color: $darker-color
 
   &:active   
     &.filled
-      @include animate(background-hard-#{$name}, $button-animation-duration)
+      $lighten-color: lighten($button-color, 10%)
+      background-color: $lighten-color
 
-    &.border,&.empty
-      @include animate(border-hard-#{$name}, $button-animation-duration)
+    &.border
+      $lighten-color: lighten($button-color, 10%)
+      border-color: $lighten-color
+      color: $lighten-color
+      
+    &.empty
+      $lighten-color: lighten($button-color, 10%)
+      color: $lighten-color
 
 .container
   box-sizing: content-box
@@ -35,19 +47,9 @@
   user-select: none
   font-size: 14px
   font-weight: bold
+  transition: all .5s
 
-  @each $name, $color in $button-colors
-    @if $color == white
-      @include background-opacity-color($name: border-smooth-#{$name}, $color: #ffffff, $min-opacity: 0, $max-opacity: .3)
-      @include background-opacity-color($name: border-hard-#{$name}, $color: #ffffff, $min-opacity: .3, $max-opacity: .6)
-    @else
-      $lighten-color: lighten($color, 20%)
-      $darker-color: darken($color, 20%) 
-      @include background-from-color-to-color($name: background-smooth-#{$name}, $from-color: $color, $to-color: $lighten-color)
-      @include background-from-color-to-color($name: background-hard-#{$name}, $from-color: $lighten-color, $to-color: $darker-color)
-      @include border-from-color-to-color($name: border-smooth-#{$name}, $from-color: $color, $to-color: $lighten-color)
-      @include border-from-color-to-color($name: border-hard-#{$name}, $from-color: $lighten-color, $to-color: $darker-color)
-      
+  @each $name, $color in $common-colors
     &.#{$name}
       +setBgColorAndHover($name, $color)
 
@@ -62,3 +64,16 @@
     border: none
     padding: 12px 27px
     background-color: transparent
+
+  &.white 
+    color: white
+    background-color: transparent
+    border: none
+
+    &:hover
+      background-color: rgba(white, .3)
+
+    &:active
+      background-color: rgba(white, .5)
+      
+      

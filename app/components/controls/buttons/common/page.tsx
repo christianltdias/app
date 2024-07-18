@@ -1,19 +1,21 @@
 "use client";
 
 import { useState } from "react";
-import Button, { ButtonColor, ButtonType } from "../../../../../shared/controls/buttons/common/button";
+import Button, { ButtonType } from "../../../../../shared/controls/buttons/common/button";
 import PageComponent from "../../../../../shared/page/page";
 import Dropdown from "../../../../../shared/controls/buttons/dropdown/common/dropdown.common";
 import Input from "../../../../../shared/controls/inputs/text/input";
 import styles from "../../../page.module.sass"
+import { ButtonColors } from "../../../../../types/global.types";
 
 export default function Page() {
-  const [color, setColor] = useState<ButtonColor>("primary");
+  const colors: ButtonColors[] = ["danger", "gray", "info", "success", "warning", "white"]
+  const types: ButtonType[] = ["border", "empty", "filled"]
+
+  const [color, setColor] = useState<ButtonColors>(colors[2]);
   const [type, setType] = useState<ButtonType>("border");
   const [text, setText] = useState<string>("try yourself");
 
-  const colors: ButtonColor[] = ["primary", "secondary", "cancel", "success", "warning", "white"]
-  const types: ButtonType[] = ["border", "empty", "filled"]
   
   return (
     <PageComponent title="Controls">
@@ -122,7 +124,7 @@ export default function Page() {
                   )
                 }
                 onSelect={(el) => setColor(el)}
-                selected={colors[0]}
+                selected={color}
               />
               <Dropdown
                 items={types}
@@ -132,7 +134,7 @@ export default function Page() {
                   )
                 }
                 onSelect={(el) => setType(el)}
-                selected={types[0]}
+                selected={type}
               />
               <Input
                 label="Button text"

@@ -1,4 +1,5 @@
 @import '../../../../styles/variables'
+@import '../../../../styles/mixins'
 
 $size-bezel: .5rem
 $color-background: red
@@ -26,7 +27,7 @@ $color-background: red
       opacity: .6
 
       &.error
-        color: $input-error-color 
+        color: get-color('danger')
     
     .input_field 
       box-sizing: border-box
@@ -51,10 +52,10 @@ $color-background: red
           opacity: 1
 
           &.error
-            color: $input-error-color 
+            color: get-color('danger')
           
   .input_error
-    color: $input-error-color
+    color: get-color('danger')
     font-size: 8pt
       
     
