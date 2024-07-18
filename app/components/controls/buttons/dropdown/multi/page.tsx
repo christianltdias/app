@@ -4,7 +4,7 @@ import { useState } from "react";
 import { BadgeColors } from "../../../../../../shared/badge/badge";
 import PageComponent from "../../../../../../shared/page/page";
 import styles from "../../../../page.module.sass"
-import MultiSelectDropdown from "../../../../../../shared/controls/buttons/dropdown/multi/multidropdown.common";
+import MultiSelectDropdown from "../../../../../../shared/controls/buttons/dropdown/multi/dropdown.multi";
 
 export default function Page() {
   const [color, setColor] = useState<BadgeColors>("default");

@@ -1,12 +1,10 @@
 @import '../../../../styles/variables'
 
-.container 
+.checkbox-container 
   display: flex
   flex-direction: row
   justify-content: flex-start
   align-content: center
-  width: 16px
-  height: 16px
 
   @each $name, $color in $input-colors
     .#{$name}[type="checkbox"] 

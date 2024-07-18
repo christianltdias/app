@@ -26,9 +26,10 @@ export default function Dropdown<T>({
   const [selectedItem, setSelectedItem] = useState<T | undefined>(selected);
   const [isOpen, setIsOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
+
   const [position, setPosition] = useState<'up' | 'down'>('down');
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const menuHeight = 250; // Height of the dropdown menu
+  const menuHeight = 250;
 
   const handleDropdown = useCallback((action: boolean) => {
     if (isClosing) {

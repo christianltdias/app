@@ -2,12 +2,11 @@ import { ReactNode } from "react";
 import Image from "next/image";
 import { concatStyles } from "../../utils/styles.utils";
 import styles from "./badge.module.sass";
-
-export type BadgeColors = 'info' | 'success' | 'warning' | 'danger' | 'default'
+import { CommonColors } from "../../types/global.types";
 
 type BadgeProps = {
   children: string | ReactNode;
-  color?: BadgeColors; 
+  color?: CommonColors; 
   onDelete?: () => void;
 };
 

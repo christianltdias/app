@@ -1,13 +1,15 @@
-import { ChangeEvent, ReactNode, useRef, useState } from "react";
+import { ChangeEvent, ReactNode, useCallback, useEffect, useRef, useState } from "react";
 import Badge, { BadgeColors } from "../../../../badge/badge";
 import { concatStyles } from "../../../../../utils/styles.utils";
-import styles from "./multidropdown.common.module.sass";
 import NumberBadge from "../../../../badge/numberbadge";
 import CheckBox from "../../../inputs/checkbox/checkbox";
+import styles from "./dropdown.multi.module.sass";
 
 type DropdownProps<T> = {
   items: T[];
   filterFun: (filterElement: string) => T[];
+  onSelect: (el: T) => void;
+  selectedItems?: T[];
   pickField?: (obj: T) => (Partial<T> & ReactNode) | ReactNode;
   renderItem?: (obj: T) => ReactNode;
   color?: BadgeColors;
@@ -24,7 +26,10 @@ export default function MultiSelectDropdown<T>({
   const [selectedItems, setSelectedItems] = useState<T[]>([]);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isClosing, setIsClosing] = useState<boolean>(false);
-  const [value, setValue] = useState<string>("");
+  const [value, setValue] = useState<string>('');
+  const [position, setPosition] = useState<'up' | 'down'>('down');
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const menuHeight = 250;
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -76,15 +81,27 @@ export default function MultiSelectDropdown<T>({
 
   const listItems = value === "!!" ? selectedItems : filteredItems;
 
+  const calculatePosition = useCallback(() => {
+    if (dropdownRef.current) {
+      const dropdownRect = dropdownRef.current.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+      setPosition(dropdownRect.bottom + menuHeight > viewportHeight ? 'up' : 'down');
+    }
+  }, [menuHeight]);
+
+  useEffect(() => {
+    if (isOpen) {
+      calculatePosition();
+    }
+  }, [isOpen, calculatePosition]);
+
   return (
     <div
-      className={concatStyles(
-        styles["input-wrapper"],
-        isOpen ? styles[color] : ""
-      )}
+      ref={dropdownRef}
+      className={concatStyles(styles["input-wrapper"], isOpen && styles[color])}
       onFocus={(e) => e.stopPropagation()}
     >
-      {selectedItems.length > 0 && (
+      {(selectedItems && selectedItems.length > 0) && (
         <div className={styles["badge-container"]}>
           <Badge onDelete={() => removeItem(selectedItems[0])} color={color}>
             {pickField(selectedItems[0])}

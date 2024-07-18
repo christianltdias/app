@@ -28,7 +28,7 @@ export default function CheckBox({
   }
 
   return (
-    <div className={styles["container"]}>
+    <div className={styles["checkbox-container"]}>
       <input
         className={styles[color]}
         id={id}

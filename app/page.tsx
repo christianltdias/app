@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import PageComponent from "../shared/page/page";
 import { useAppDispatch } from "../store/store";
 import Dropdown from "../shared/controls/buttons/dropdown/common/dropdown.common";
-import MultiSelectDropdown from "../shared/controls/buttons/dropdown/multi/multidropdown.common";
+import MultiSelectDropdown from "../shared/controls/buttons/dropdown/multi/dropdown.multi";
 
 type Test = {
   name: string,

@@ -9,13 +9,16 @@ $main-background-color: #f2f9fa
 $text-color: #555
 $disabled-color: #c0c0c0
 
+$common-colors: ("gray": #9aa4ad, "success": #A5F0CF, "danger": #F4C6C6, "warning": #FDE686, "info": #C7E7FE)
+$button-colors: map-merge($common-colors, ("white": #ffffff))
+
 //buttons
 $button-primary: #4984f1
 $button-secondary: #5ac6ed
 $button-success: #47df3f
 $button-warning: #eea840
 $button-cancel: #fa6363
-$button-colors: ("primary": $button-primary, "secondary": $button-secondary, "success": $button-success, "warning": $button-warning, "cancel": $button-cancel, "white": white)
+// $button-colors: ("primary": $button-primary, "secondary": $button-secondary, "success": $button-success, "warning": $button-warning, "cancel": $button-cancel, "white": white)
 
 $button-border-thickness: 2px
 $button-animation-duration: .5s
@@ -51,4 +54,3 @@ $scroll-thumb-color: rgb(50, 101, 168)
 $scroll-thumb-background: rgba(231, 231, 231, 0.671)
 
 // badge
-$badge-colors: ("default": #DEDDE3, "success": #A5F0CF, "danger": #F4C6C6, "warning": #FDE686, "info": #C7E7FE)

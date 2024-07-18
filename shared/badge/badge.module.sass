@@ -17,19 +17,19 @@
   align-items: center
 
   &.default
-    @include addBadgeColor($color: map.get($badge-colors, "default"), $filter: brightness(0) saturate(100%) invert(33%) sepia(9%) saturate(986%) hue-rotate(209deg) brightness(93%) contrast(82%))
+    @include addBadgeColor($color: map.get($common-colors, "gray"), $filter: brightness(0) saturate(100%) invert(33%) sepia(9%) saturate(986%) hue-rotate(209deg) brightness(93%) contrast(82%))
 
   &.danger
-    @include addBadgeColor($color: map.get($badge-colors, "danger"), $filter: brightness(0) saturate(100%) invert(12%) sepia(68%) saturate(3506%) hue-rotate(349deg) brightness(109%) contrast(89%))
+    @include addBadgeColor($color: map.get($common-colors, "danger"), $filter: brightness(0) saturate(100%) invert(12%) sepia(68%) saturate(3506%) hue-rotate(349deg) brightness(109%) contrast(89%))
 
   &.warning
-    @include addBadgeColor($color: map.get($badge-colors, "warning"), $filter: brightness(0) saturate(100%) invert(29%) sepia(94%) saturate(1349%) hue-rotate(37deg) brightness(98%) contrast(98%))
+    @include addBadgeColor($color: map.get($common-colors, "warning"), $filter: brightness(0) saturate(100%) invert(29%) sepia(94%) saturate(1349%) hue-rotate(37deg) brightness(98%) contrast(98%))
 
   &.info
-    @include addBadgeColor($color: map.get($badge-colors, "info"), $filter: brightness(0) saturate(100%) invert(32%) sepia(77%) saturate(1149%) hue-rotate(178deg) brightness(94%) contrast(105%))
+    @include addBadgeColor($color: map.get($common-colors, "info"), $filter: brightness(0) saturate(100%) invert(32%) sepia(77%) saturate(1149%) hue-rotate(178deg) brightness(94%) contrast(105%))
 
   &.success
-    @include addBadgeColor($color: map.get($badge-colors, "success"), $filter: brightness(0) saturate(100%) invert(26%) sepia(91%) saturate(1680%) hue-rotate(137deg) brightness(93%) contrast(84%))
+    @include addBadgeColor($color: map.get($common-colors, "success"), $filter: brightness(0) saturate(100%) invert(26%) sepia(91%) saturate(1680%) hue-rotate(137deg) brightness(93%) contrast(84%))
     
   .badge
     padding: 0 12px
@@ -62,7 +62,7 @@
   &.clickable
     cursor: pointer
 
-  @each $name, $color in $badge-colors
+  @each $name, $color in $common-colors
     &.#{$name}
       background-color: $color
       color: darken($color, 50%)
