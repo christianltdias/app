@@ -119,6 +119,7 @@ export default function MultiSelectDropdown<T>({
         ref={inputRef}
         type="text"
         value={value}
+        className={styles["main-input"]}
         placeholder="Search..."
         onChange={handleOnChange}
         onFocus={() => handleDropdown(true)}

@@ -1,11 +1,12 @@
 import { useId } from "react";
 import styles from "./switch.module.sass";
+import { CommonColors } from "../../../../types/global.types";
 
 export type SwitchProps = {
-  children: string;
   value: boolean;
   onChange: (e: boolean) => void;
-  color?: "default" | "error" | "warning" | "green" | "purple";
+  children?: string;
+  color?: CommonColors;
   disabled?: boolean;
   colored?: boolean;
 };
