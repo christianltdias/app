@@ -1,12 +1,12 @@
 import { useId } from "react";
 import styles from "./checkbox.module.sass";
-import { InputColors } from "../../../../types/input.types";
+import { CommonColors } from "../../../../types/global.types";
 
 type CheckBoxProps = {
-  children?: string;
   value: boolean;
   onChange: (e: boolean) => void;
-  color?: InputColors;
+  children?: string;
+  color?: CommonColors;
   disabled?: boolean;
   colored?: boolean;
 };
@@ -15,7 +15,7 @@ export default function CheckBox({
   children,
   value,
   onChange,
-  color = "default",
+  color = "info",
   disabled = false,
   colored = false,
 }: CheckBoxProps) {

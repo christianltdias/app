@@ -10,7 +10,7 @@ type BadgeProps = {
   onDelete?: () => void;
 };
 
-export default function Badge({ children, onDelete, color='default' }: BadgeProps) {
+export default function Badge({ children, onDelete, color='gray' }: BadgeProps) {
   return (
     <div className={concatStyles(styles["badge-container"], styles[color])}>
       <span className={styles["badge"]}>{children}</span>

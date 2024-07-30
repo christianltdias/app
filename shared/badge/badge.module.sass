@@ -8,6 +8,9 @@
     img
       filter: $filter
 
+      &:hover
+        opacity: .8
+
 .badge-container
   width: fit-content
   height: 25px
@@ -16,7 +19,7 @@
   color: $text-color
   align-items: center
 
-  &.default
+  &.gray
     @include addBadgeColor($color: map.get($common-colors, "gray"), $filter: brightness(0) saturate(100%) invert(33%) sepia(9%) saturate(986%) hue-rotate(209deg) brightness(93%) contrast(82%))
 
   &.danger

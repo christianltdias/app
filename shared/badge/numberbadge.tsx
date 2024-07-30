@@ -1,21 +1,19 @@
-
-import { ReactNode } from "react";
 import styles from "./badge.module.sass";
 import { concatStyles } from "../../utils/styles.utils";
-
-export type BadgeColors = 'info' | 'success' | 'warning' | 'danger' | 'default'
+import { CommonColors } from "../../types/global.types";
 
 type NumberBadgeProps = {
-  number: string | ReactNode;
+  children: number;
   onClick?: () => void; 
-  includeOperator?: boolean; 
-  color?: BadgeColors;
+  color?: CommonColors;
 };
 
-export default function NumberBadge({ number, onClick, includeOperator=true, color='default' }: NumberBadgeProps) {
+export default function NumberBadge({ children, onClick, color='gray' }: NumberBadgeProps) {
+  const isAboveLimit = children > 99
+  const number = isAboveLimit ? 99 : children
   return (
     <div className={concatStyles(styles["numberbadge-container"], styles[color], onClick ? styles['clickable'] : '')} onClick={onClick}>
-      <span className={styles["badge"]}>{includeOperator ? '+' : ''}{number}</span>
+      <span className={styles["badge"]}>{isAboveLimit ? '+' : ''}{number}</span>
     </div>
   );
 }

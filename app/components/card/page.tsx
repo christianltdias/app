@@ -88,10 +88,10 @@ export default function Page() {
                         marginTop: "15px",
                       }}
                     >
-                      <Button color="primary" onClick={() => alert("ok")}>
+                      <Button color="info" onClick={() => alert("ok")}>
                         Ok
                       </Button>
-                      <Button color="cancel" onClick={() => alert("close")}>
+                      <Button color="danger" onClick={() => alert("close")}>
                         Close
                       </Button>
                     </div>

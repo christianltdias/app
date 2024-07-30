@@ -1,7 +1,8 @@
 import React, { ReactNode, useEffect, useRef, useState, useCallback } from "react";
 import styles from "./dropdown.common.module.sass";
-import Badge, { BadgeColors } from "../../../../badge/badge";
+import Badge from "../../../../badge/badge";
 import { concatStyles } from "../../../../../utils/styles.utils";
+import { CommonColors } from "../../../../../types/global.types";
 
 type DropdownProps<T> = {
   items: T[];
@@ -10,7 +11,7 @@ type DropdownProps<T> = {
   selected?: T;
   pickField?: (obj: T) => (Partial<T> & ReactNode) | ReactNode;
   renderItem?: (obj: T) => ReactNode;
-  color?: BadgeColors;
+  color?: CommonColors;
 };
 
 export default function Dropdown<T>({
@@ -20,7 +21,7 @@ export default function Dropdown<T>({
   selected,
   renderItem,
   pickField = (el) => `${el}`,
-  color = "default",
+  color = "gray",
 }: DropdownProps<T>) {
   const [filteredItems, setFilteredItems] = useState<T[]>(items);
   const [selectedItem, setSelectedItem] = useState<T | undefined>(selected);
