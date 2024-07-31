@@ -1,14 +1,14 @@
 @import '../../../../styles/variables'
-@import '../../../../styles/keyframes'
-@import '../../../../styles/mixins'
+// @import '../../../../styles/keyframes'
+// @import '../../../../styles/mixins'
 
-@each $name, $color in $input-colors
-  @include switch-animation-to(to-#{$name}, $color)
-  @include switch-animation-from(from-#{$name}, $color)
+// @each $name, $color in $input-colors
+//   @include switch-animation-to(to-#{$name}, $color)
+//   @include switch-animation-from(from-#{$name}, $color)
 
   
-@include switch-animation-to('to-white', #fff)
-@include switch-animation-from('from-white', $disabled-color)
+// @include switch-animation-to('to-white', #fff)
+// @include switch-animation-from('from-white', $disabled-color)
 
 .container 
   display: flex
@@ -25,39 +25,45 @@
       width: 32px
       height: 16px
       border-radius: 20px
-      border: 1px solid $color
+      border: 1px solid darken($color, 20%) 
       outline: none
       cursor: pointer
       position: relative
+      transition: all .5s
 
       &::before
         content: "\2B24"
         font-size: 12px
         position: absolute
         bottom: 1px
+        transition: all .5s
 
       + label
         font-size: 16px
         display: flex
         align-self: center
         padding-left: 0.5rem
+        transition: color .5s
 
         &.colored
-          color: $color
+          color: darken($color, 20%)
           font-weight: bold
 
       &:not(:disabled)
         &:hover
           background-color: rgb($color, .2)
+          box-shadow: 0 0 4px 1px $color
 
         &:checked
-          background-color: $color
+          background-color: darken($color, 20%)
 
           &::before
-            @include animate(to-#{$name}, .3s)
+            color: white
+            left: 18px
 
         &:not(checked)::before
-          @include animate(from-#{$name}, .3s)
+          color: darken($color, 20%)
+          left: 3px
 
       &:disabled
         border-color: $disabled-color
@@ -66,10 +72,12 @@
           background-color: $disabled-color
           
           &::before
-            @include animate(to-white, .3s)
+            color: white
+            left: 18px
         
         &:not(checked)::before
-          @include animate(from-white, .3s)
+          color: $disabled-color
+          left: 3px
           
         + label
           color: $disabled-color

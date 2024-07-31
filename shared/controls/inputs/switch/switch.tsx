@@ -15,7 +15,7 @@ export default function Switch({
   children,
   value,
   onChange,
-  color = "default",
+  color = "info",
   disabled = false,
   colored = false,
 }: SwitchProps) {
