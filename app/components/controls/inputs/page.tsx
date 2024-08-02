@@ -82,7 +82,7 @@ export default function Page() {
                 className={styles["example-link"]}
                 onClick={() => router.push("/components/controls/inputs/text")}
               >
-                Text
+                Text Input
               </span>
             </h3>
             <h4 className={styles["example-prop"]}>TO DO</h4>

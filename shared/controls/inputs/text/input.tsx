@@ -2,9 +2,9 @@ import styles from "./input.module.sass";
 
 type InputProps = {
   label: string;
+  onChange: (text: string) => void;
   type?: "text" | "password";
   value?: string;
-  onChange: (text: string) => void;
   error?: string;
 };
 

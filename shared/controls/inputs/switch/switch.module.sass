@@ -67,6 +67,9 @@
 
       &:disabled
         border-color: $disabled-color
+
+        &:hover
+          cursor: not-allowed
         
         &:checked
           background-color: $disabled-color
@@ -81,3 +84,6 @@
           
         + label
           color: $disabled-color
+          
+          &:hover
+            cursor: not-allowed
