@@ -1,15 +1,22 @@
-//olors
-$primary-color: #4c74d9
-$secondary-color: #5ac6ed
-$success-color: #74ea6e
-$warning-color: #fabb3c
-$highlight-color: #ffeba7
-$error-color: #fc5252
 $main-background-color: #f2f9fa
 $text-color: #555
 $disabled-color: #c0c0c0
 
-$common-colors: ("gray": #9aa4ad, "success": #A5F0CF, "danger": #F4C6C6, "warning": #FDE686, "info": #C7E7FE)
+$gray-color: #9aa4ad
+$success-color: #A5F0CF
+$danger-color: #F4C6C6
+$warning-color: #FDE686
+$info-color: #C7E7FE
+
+$gray-dark-color: darken($gray-color, 20%)
+$success-dark-color: darken($success-color, 20%)
+$danger-dark-color: darken($danger-color, 20%)
+$warning-dark-color: darken($warning-color, 20%)
+$info-dark-color: darken($info-color, 20%)
+
+
+$common-colors: ("gray": $gray-color, "success": $success-color, "danger": $danger-color, "warning": $warning-color, "info": $info-color)
+$darken-colors: ("gray": $gray-dark-color, "success": $success-dark-color, "danger": $danger-dark-color, "warning": $warning-dark-color, "info": $info-dark-color)
 $button-colors: map-merge($common-colors, ("white": #ffffff))
 
 // buttons
@@ -17,14 +24,14 @@ $button-border-thickness: 2px
 $button-animation-duration: .5s
 
 //breadcrumb
-$breadcrumb-root-item-color: $secondary-color
-$breadcrumb-item-color: $secondary-color
+$breadcrumb-root-item-color: $info-dark-color
+$breadcrumb-item-color: $info-dark-color
 
 //modal
-$modal-header-info-color: $secondary-color
+$modal-header-info-color: $info-color
 $modal-header-default-color: darken($main-background-color, 50%)
 $modal-header-alert-color: $warning-color
-$modal-header-error-color: $error-color
+$modal-header-error-color: $danger-color
 $modal-header-success-color: $success-color
 $modal-header-text-color: $main-background-color
 
@@ -40,9 +47,3 @@ $tooltip-background-color: rgba(0,0,0,.8)
 
 // drag and drop
 $drag-cell-hover-color: rgba(230, 230, 230, 0.589)
-
-// scroll bar 
-$scroll-thumb-color: rgb(50, 101, 168)
-$scroll-thumb-background: rgba(231, 231, 231, 0.671)
-
-// badge

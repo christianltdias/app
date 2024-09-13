@@ -3,9 +3,13 @@
 @mixin animate($animation,$duration, $method: forwards, $times: 1)
     animation: $animation $duration $method $times
 
-@function get-color($color-name)
-  @if map-has-key($common-colors, $color-name) 
-    @return map-get($common-colors, $color-name)
+@function get-color($color-name, $scale: 0)
+  $lib: $common-colors
+  @if $scale == 1
+    $lib: $darken-colors
+
+  @if map-has-key($lib, $color-name) 
+    @return map-get($lib, $color-name)
   @else 
     @error "Color #{$color-name} not found in the color map."
   

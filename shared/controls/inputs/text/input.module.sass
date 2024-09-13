@@ -5,8 +5,7 @@ $size-bezel: .5rem
 $color-background: red
 
 .input_container
-  margin: .5azsrem 0
-  width: fit-content
+  margin: .5rem 0
 
   .input
     margin: 0
@@ -25,18 +24,28 @@ $color-background: red
       line-height: 1.2
       font-size: 10pt
       opacity: .6
+      display: flex
+      align-items: center
+
+      .input_info
+        opacity: 0
+        margin-left: 7.5px
+        transition: all 120ms ease-in
 
       &.error
-        color: get-color('danger')
+        color: get-color('danger', 1)
     
     .input_field 
       box-sizing: border-box
       display: block
       width: 100%
       border: none
-      border-bottom: 2px solid $input-border-color
       padding: calc($size-bezel * 1.5) $size-bezel
       color: $input-text-color
+      
+      @each $name, $color in $darken-colors
+        &.#{$name}
+          border-bottom: 2px solid rgba($color, .4)
       
       &.error
         border-bottom: 2px solid $input-error-border-color
@@ -48,14 +57,19 @@ $color-background: red
       &:not(:placeholder-shown) 
         & + .input_label 
           transform: translate(.2rem, -70%) scale(.9)
-          color: $primary-color
           opacity: 1
 
+          @each $name, $color in $darken-colors
+            &.#{$name}
+              color: $color 
           &.error
-            color: get-color('danger')
+            color: get-color('danger', 1)
+                
+          .input_info
+            opacity: 1
           
   .input_error
-    color: get-color('danger')
+    color: get-color('danger', 1)
     font-size: 8pt
       
     
